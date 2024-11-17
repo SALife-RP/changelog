@@ -38,6 +38,7 @@
 
 <body>
     <div id="content"></div>
+    <div id="server-info"></div>
 
     <script>
         async function loadChangelog() {
@@ -52,6 +53,29 @@
             }
         }
 
+        async function loadServerInfo() {
+            try {
+                // Replace with your actual FiveM server endpoint
+                const response = await fetch('http://168.75.184.7:30120/info.json');
+                const serverData = await response.json();
+
+                const serverInfoHtml = `
+                    <div class="server-stats">
+                        <h2>Server Information</h2>
+                        <p>Players Online: ${serverData.players}/${serverData.maxPlayers}</p>
+                        <p>Server Name: ${serverData.hostname}</p>
+                        <p>Game Type: ${serverData.gametype}</p>
+                    </div>
+                `;
+
+                document.getElementById('server-info').innerHTML = serverInfoHtml;
+            } catch (error) {
+                document.getElementById('server-info').innerHTML =
+                    '<p>Unable to load server information.</p>';
+                console.error('Error loading server info:', error);
+            }
+        }
+
         // Initialize marked with GitHub Flavored Markdown
         marked.setOptions({
             gfm: true,
@@ -59,9 +83,23 @@
             headerIds: true
         });
 
-        // Load the changelog when the page loads
+        // Load both the changelog and server info when the page loads
         loadChangelog();
+        loadServerInfo();
+
+        // Refresh server info every 30 seconds
+        setInterval(loadServerInfo, 30000);
     </script>
+
+    <style>
+        .server-stats {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </body>
 
 </html>

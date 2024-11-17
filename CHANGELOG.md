@@ -2,6 +2,20 @@
 
 All notable changes to the SALife project will be documented here.
 
+## [0.1.5] - 2024-11-17
+
+### 🆕 New Features
+
+- **mission:** New on start func for mission steps
+
+### 📜 Missions
+
+- **smuggling:** Implement vehicle-based smuggling missions
+
+### 🔖 Changelog
+
+- Add items and mission commit types
+
 ## [0.1.3] - 2024-11-17
 
 ### 🔖 Changelog
@@ -55,6 +69,15 @@ All notable changes to the SALife project will be documented here.
 - Docs
 - Documentation
 - Docs
+
+### 📜 Missions
+
+- Mission content and config
+- Mission fixes and junk
+- Mission/npc updates
+- Mission objective tracker blip fix, support for on-screen waypoint display
+- Mission tracker updates, blips improvements, mission settings
+- Mission settings, tracking/active mission, radial menu for missions, ability to set missions as tracked
 
 ### 🔧 Bug Fixes
 

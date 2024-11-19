@@ -2,6 +2,22 @@
 
 All notable changes to the SALife project will be documented here.
 
+## [0.1.6] - 2024-11-19
+
+### 🆕 New Features
+
+- **names:** Add network entity existence check
+
+### 📜 Script Updates
+
+- **core:** Add skills system to server configuration
+- **core:** Add skills system to server configuration
+
+### 🗺️ Map Changes
+
+- **cayoperico:** Cayo perico island will now be available on startup
+- **cayoperico:** Add cayo perico seemless loading system
+
 ## [0.1.5] - 2024-11-17
 
 ### 🆕 New Features

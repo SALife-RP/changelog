@@ -1,55 +1,55 @@
-# :tada: __**SALife Launch Feature Showcase**__ :tada:
+# 🎉 **SALife Launch Feature Showcase** 🎉
 
 > *Welcome to the next generation of FiveM roleplay*
 
-## :video_game: __Core Systems__
+## 🎮 **Core Systems**
 
-### :closed_lock_with_key: __Account & Character Management__
+### 🔐 **Account & Character Management**
 
 - `Advanced Connection Logic` with multi-character support
 - Seamless character creation and selection
 - Persistent character data across server restarts
 
-### :house_with_garden: __Revolutionary Housing System__
+### 🏠 **Revolutionary Housing System**
 
-- __Dynamic Apartment Generation__
+- **Dynamic Apartment Generation**
   - Every new character gets their own unique living space
-  - Start your journey at the infamous __Davis Estates__ (*"The Dump"*)
+  - Start your journey at the infamous **Davis Estates** (*"The Dump"*)
   - Multiple apartment tiers for progression
-- :chair: __Custom Furniture System__
+- 🪑 **Custom Furniture System**
   - Design your space with unlimited creativity
   - Place & persist items anywhere in your property
   - Support for custom prop objects and decorations
 
-### :red_car: __Advanced Vehicle Mechanics__
+### 🚗 **Advanced Vehicle Mechanics**
 
-- __Proprietary RTH (Real-Time Handling)__
+- **Proprietary RTH (Real-Time Handling)**
   - Class-based performance system (D → X tier)
   - Specialized handling for bikes and trucks
   - Natural RPM progression (no curb boosting!)
-- __Dynamic Features__
+- **Dynamic Features**
   - Realistic drafting system for races/pursuits
   - Persistent vehicle parking
   - Full-featured modification shop
-- :convenience_store: __Physical Car Dealerships__
+- 🏪 **Physical Car Dealerships**
   - Browse and test vehicles in-person
   - Finance or buy outright
 
-## :police_officer: __Law Enforcement Revolution__
+## 👮 **Law Enforcement Revolution**
 
-### :oncoming_police_car: __Custom Police Systems__
+### 🚔 **Custom Police Systems**
 
 - *Entirely in-house designed police fleet*
-- __Revolutionary Lighting System__
+- **Revolutionary Lighting System**
   - Proprietary replacement for ELS and Non-ELS
   - Web-based pattern customization
   - Full control over visual effects
   - Intense and realistic environmental effects from each light
 
-### :mobile_phone: __Advanced Police Tools__
+### 📱 **Advanced Police Tools**
 
 - Modern MDT & Dispatch system
-- __AI-Powered Legal System__
+- **AI-Powered Legal System**
   - Dynamic judge personalities
   - Automated case processing
   - Real-time defense attorneys
@@ -58,51 +58,51 @@
   - Complete training missions
   - Automated qualification system
 
-## :dizzy: __Player Experience__
+## 💫 **Player Experience**
 
-### :video_game: __Community-Driven Moderation__
+### 🎮 **Community-Driven Moderation**
 
 - *No traditional staff commands*
 - Player-powered moderation tools
 - `/votekick` and reporting systems
 
-### :bar_chart: __Streamlined Economics__
+### 📊 **Streamlined Economics**
 
-- __Dual Account System__
+- **Dual Account System**
   - Cash account
   - Debt tracking
 - Real-time HUD display
 - Automatic debt collection
 - *Targeted income rate: $1,000/hour*
 
-### :mobile_phone: __Communication Systems__
+### 📱 **Communication Systems**
 
-- __Mailbox Network__
+- **Mailbox Network**
   - Hourly paychecks
   - Offline messaging
   - Item transfers
-- __Social Phone__
+- **Social Phone**
   - Pure communication focus
   - No feature dependencies
-- __Enhanced Radio__
+- **Enhanced Radio**
   - Custom animations
   - Automatic channel management
   - Unique grouping system
 
-## :dart: __Activities & Missions__
+## 🎯 **Activities & Missions**
 
-### :briefcase: __Legal Jobs__
+### 💼 **Legal Jobs**
 
-- :taxi: __Taxi Operations__
+- 🚕 **Taxi Operations**
   - Standard fares
   - VIP opportunities
   - *Criminal activity potential*
-- :package: __Delivery Services__
+- 📦 **Delivery Services**
   - Post-Op van missions
   - Bobcat security runs
   - Cash transport jobs
 
-### :supervillain: __Criminal Activities__
+### 🦹 **Criminal Activities**
 
 - Lost MC gang initiations
 - Local pickpocketing
@@ -111,27 +111,27 @@
 - Criminal integration into Bobcat and Taxi jobs
 - *More activities coming soon!*
 
-## :star2: __World Features__
+## ⭐ **World Features**
 
-### :map: __Enhanced Environment__
+### 🗺️ **Enhanced Environment**
 
-- __Custom Mapping__
+- **Custom Mapping**
   - Dynamic day/night cycles
   - Adaptive minimap
   - Smart lighting systems
-- __Persistent Effects__
+- **Persistent Effects**
   - Realistic fire propagation
   - Dynamic smoke systems
   - Environmental hazards
 
-### :bust_in_silhouette: __Player Identification__
+### 👤 **Player Identification**
 
 - SA:MP style overhead names
 - Distance-based scaling
 - Line-of-sight requirements
 - Integrated title system
 
-### :running_shirt_with_sash: __Customization__
+### 👕 **Customization**
 
 - Extensive clothing options
 - Custom EUP integration
@@ -139,7 +139,7 @@
 
 ---
 
-> :loudspeaker: __Coming Soon__
+> 📢 **Coming Soon**
 >
 > - Additional apartment tiers
 > - Expanded mission content

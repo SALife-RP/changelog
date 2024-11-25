@@ -11,7 +11,7 @@
 - Seamless character creation and selection
 - Persistent character data across server restarts
 
-### 🏠 **Revolutionary Housing System**
+### 🏠 **Detailed Housing System**
 
 - **Dynamic Apartment Generation**
   - Every new character gets their own unique living space

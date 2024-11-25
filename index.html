@@ -13,32 +13,31 @@
             --primary-dark: #4f32aa;
             --primary-light: #8361e2;
             /* Secondary Colors */
-            --secondary: #ffffff80;
-            --secondary-solid: #ffffff;
-            --secondary-dark: #ffffff40;
+            --secondary: #1a1a1a;
+            --secondary-solid: #252525;
+            --secondary-dark: #151515;
             /* Accent Colors */
             --accent: #C8a2c8;
             --accent-dark: #796279;
             --accent-light: #d8b3d8;
             /* Text Colors */
             --text: #ffffff;
-            --text-secondary: #e0e0e0;
-            --text-muted: #a0a0a0;
+            --text-secondary: #cccccc;
+            --text-muted: #999999;
             /* Status Colors */
             --success: #00e676;
             --warning: #ffab40;
             --error: #ff5252;
             /* Background Gradients */
-            --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            --gradient-primary: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%);
             --gradient-accent: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
-            --gradient-secondary: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%);
             /* Shadows */
-            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
             /* Overlays */
-            --overlay-dark: rgba(0, 0, 0, 0.5);
-            --overlay-light: rgba(255, 255, 255, 0.1);
+            --overlay-dark: rgba(0, 0, 0, 0.7);
+            --overlay-light: rgba(255, 255, 255, 0.05);
         }
 
         body {
@@ -47,22 +46,24 @@
             max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
-            background: var(--gradient-secondary);
+            background: var(--gradient-primary);
             color: var(--text);
         }
 
         #content {
-            background-color: var(--overlay-light);
+            background-color: var(--secondary);
             padding: 30px;
             border-radius: 8px;
             box-shadow: var(--shadow-md);
+            border: 1px solid var(--overlay-light);
         }
 
         pre {
-            background-color: #2d2d2d;
+            background-color: var(--secondary-dark);
             padding: 16px;
             border-radius: 6px;
             overflow-x: auto;
+            border: 1px solid var(--overlay-light);
         }
 
         code {
@@ -105,7 +106,7 @@
         .server-stats {
             margin-top: 20px;
             padding: 20px;
-            background-color: var(--overlay-light);
+            background-color: var(--secondary);
             border-radius: 8px;
             box-shadow: var(--shadow-md);
             border: 1px solid var(--overlay-light);
@@ -170,7 +171,7 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: var(--primary-dark);
+            background: var(--secondary-dark);
         }
 
         ::-webkit-scrollbar-thumb {

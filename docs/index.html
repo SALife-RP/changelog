@@ -1,0 +1,4 @@
+function switchContent(view) { currentView = view; const buttons = document.querySelectorAll('.nav-button');
+buttons.forEach(button => button.classList.remove('active')); event.target.classList.add('active'); if (view ===
+'features') { loadContent('./FEATURES.md');
+// Note the ./ prefix } else { loadContent('./CHANGELOG.md'); // Note the ./ prefix } }

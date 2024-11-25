@@ -1,6 +1,1 @@
-This folder contains a git repo that generates a github pages site.
-The site contains the primary website for SALife (gta rp server on fivem).
-The color palette as follows:
-- Primary: #6741d9
-- Secondary: #ffffff80
-- Accent: #00ff99
+This folder contains a git repo that generates a github pages site. The site contains the primary website for SALife (gta rp server on fivem). The color palette as follows: Base Colors: Primary: #6741d9 (Purple) Primary Dark: #4f32aa (Deep Purple) Primary Light: #8361e2 (Light Purple) Secondary Colors: Secondary: #1a1a1a (Almost Black) Secondary Solid: #252525 (Dark Gray) Secondary Dark: #151515 (Darker Gray) Accent Colors: Accent: #C8a2c8 (Lavender) Accent Dark: #796279 (Dark Lavender) Accent Light: #d8b3d8 (Light Lavender) Text Colors: Text: #ffffff (White) Text Secondary: #cccccc (Light Gray) Text Muted: #999999 (Medium Gray) Status Colors: Success: #00e676 (Green) Warning: #ffab40 (Orange) Error: #ff5252 (Red) Gradients: Primary Gradient: linear-gradient(135deg, #1a1a1a 0%, #151515 100%) Accent Gradient: linear-gradient(135deg, #C8a2c8 0%, #796279 100%) Shadows: Shadow Small: 0 2px 4px rgba(0, 0, 0, 0.3) Shadow Medium: 0 4px 6px rgba(0, 0, 0, 0.4) Shadow Large: 0 10px 15px rgba(0, 0, 0, 0.5) Overlays: Dark Overlay: rgba(0, 0, 0, 0.7) Light Overlay: rgba(255, 255, 255, 0.05)

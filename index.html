@@ -31,6 +31,7 @@
             /* Background Gradients */
             --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             --gradient-accent: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            --gradient-secondary: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%);
             /* Shadows */
             --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
             --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -46,7 +47,7 @@
             max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
-            background: var(--gradient-primary);
+            background: var(--gradient-secondary);
             color: var(--text);
         }
 
@@ -221,7 +222,7 @@
                 // Process image tags
                 const processedContent = parsedContent.replace(
                     /@image\((.*?)\)/g,
-                    '<img class="feature-image" src="images/$1" alt="Feature Image" loading="lazy">'
+                    '<img class="feature-image" src="assets/images/$1" alt="Feature Image" loading="lazy">'
                 );
 
                 document.getElementById('content').innerHTML = processedContent;

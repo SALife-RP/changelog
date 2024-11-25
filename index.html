@@ -227,10 +227,10 @@
                         return `
                             <img
                                 class="feature-image"
-                                src="assets/images/${imagePath}"
+                                src="images/${imagePath}"
                                 alt="Feature Image"
                                 loading="lazy"
-                                onerror="this.onerror=null; this.src='assets/images/placeholder.png';"
+                                onerror="this.onerror=null; this.src='images/placeholder.png';"
                             >
                         `;
                     }
@@ -241,7 +241,7 @@
                 // Add lightbox functionality to images
                 document.querySelectorAll('.feature-image').forEach(img => {
                     img.onclick = function () {
-                        if (this.src !== 'assets/images/placeholder.png') {
+                        if (this.src !== 'images/logo.png') {
                             this.requestFullscreen();
                         }
                     };

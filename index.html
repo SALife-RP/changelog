@@ -4,58 +4,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Changelog</title>
+    <title>SALife Features & Changelog</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
+        :root {
+            /* Base Colors */
+            --primary: #6741d9;
+            --primary-dark: #4f32aa;
+            --primary-light: #8361e2;
+            /* Secondary Colors */
+            --secondary: #ffffff80;
+            --secondary-solid: #ffffff;
+            --secondary-dark: #ffffff40;
+            /* Accent Colors */
+            --accent: #C8a2c8;
+            --accent-dark: #796279;
+            --accent-light: #d8b3d8;
+            /* Text Colors */
+            --text: #ffffff;
+            --text-secondary: #e0e0e0;
+            --text-muted: #a0a0a0;
+            /* Status Colors */
+            --success: #00e676;
+            --warning: #ffab40;
+            --error: #ff5252;
+            /* Background Gradients */
+            --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            --gradient-accent: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            /* Shadows */
+            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            /* Overlays */
+            --overlay-dark: rgba(0, 0, 0, 0.5);
+            --overlay-light: rgba(255, 255, 255, 0.1);
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #f5f5f5;
+            background: var(--gradient-primary);
+            color: var(--text);
         }
-        
+
         #content {
-            background-color: white;
+            background-color: var(--overlay-light);
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-md);
         }
-        
+
         pre {
-            background-color: #f6f8fa;
+            background-color: #2d2d2d;
             padding: 16px;
             border-radius: 6px;
             overflow-x: auto;
         }
-        
+
         code {
             font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            color: var(--text-secondary);
+        }
+
+        .nav-buttons {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .nav-button {
+            padding: 12px 24px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 4px;
+            background-color: var(--accent);
+            color: var(--primary-dark);
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-button:hover {
+            background-color: var(--accent-light);
+            box-shadow: var(--shadow-md);
+        }
+
+        .nav-button.active {
+            background-color: var(--accent-dark);
+            color: var(--text);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .server-stats {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: var(--overlay-light);
+            border-radius: 8px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--overlay-light);
+        }
+
+        /* Image styling */
+
+        .feature-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .image-gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .image-gallery img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Header styling */
+
+        h1,
+        h2,
+        h3 {
+            color: var(--accent);
+            margin-top: 1.5em;
+            text-shadow: 0 2px 4px var(--overlay-dark);
+        }
+
+        /* Link styling */
+
+        a {
+            color: var(--accent-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        a:hover {
+            color: var(--accent);
+        }
+
+        /* Custom scrollbar */
+
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--primary-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 5px;
+            border: 2px solid var(--primary-dark);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-light);
+        }
+
+        /* Add glass effect for containers */
+
+        .glass-effect {
+            background: var(--overlay-light);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--overlay-light);
+        }
+
+        /* Add subtle transitions */
+
+        .nav-button,
+        a,
+        .feature-image {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
     </style>
 </head>
 
 <body>
+    <div class="nav-buttons">
+        <button class="nav-button active" onclick="switchContent('features')">Features</button>
+        <button class="nav-button" onclick="switchContent('changelog')">Changelog</button>
+    </div>
     <div id="content"></div>
     <div id="server-info"></div>
 
     <script>
-        async function loadChangelog() {
+        let currentView = 'features';
+
+        async function loadContent(filename) {
             try {
-                const response = await fetch('CHANGELOG.md');
+                const response = await fetch(filename);
                 const text = await response.text();
-                document.getElementById('content').innerHTML = marked.parse(text);
+                const parsedContent = marked.parse(text);
+
+                // Process image tags
+                const processedContent = parsedContent.replace(
+                    /@image\((.*?)\)/g,
+                    '<img class="feature-image" src="images/$1" alt="Feature Image" loading="lazy">'
+                );
+
+                document.getElementById('content').innerHTML = processedContent;
+
+                // Add lightbox functionality to images
+                document.querySelectorAll('.feature-image').forEach(img => {
+                    img.onclick = function () {
+                        this.requestFullscreen();
+                    };
+                });
             } catch (error) {
                 document.getElementById('content').innerHTML =
-                    '<h1>Error</h1><p>Failed to load changelog. Please try again later.</p>';
-                console.error('Error loading changelog:', error);
+                    '<h1>Error</h1><p>Failed to load content. Please try again later.</p>';
+                console.error('Error loading content:', error);
+            }
+        }
+
+        function switchContent(view) {
+            currentView = view;
+            const buttons = document.querySelectorAll('.nav-button');
+            buttons.forEach(button => button.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if (view === 'features') {
+                loadContent('FEATURES.md');
+            } else {
+                loadContent('CHANGELOG.md');
             }
         }
 
         async function loadServerInfo() {
             try {
-                // Replace with your actual FiveM server endpoint
                 const response = await fetch('http://168.75.184.7:30120/info.json');
                 const serverData = await response.json();
 
@@ -83,23 +281,13 @@
             headerIds: true
         });
 
-        // Load both the changelog and server info when the page loads
-        loadChangelog();
+        // Load features by default and server info when the page loads
+        loadContent('FEATURES.md');
         loadServerInfo();
 
         // Refresh server info every 30 seconds
         setInterval(loadServerInfo, 30000);
     </script>
-
-    <style>
-        .server-stats {
-            margin-top: 20px;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-    </style>
 </body>
 
 </html>

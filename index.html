@@ -220,10 +220,20 @@
                 const text = await response.text();
                 const parsedContent = marked.parse(text);
 
-                // Process image tags
+                // Process image tags with error handling
                 const processedContent = parsedContent.replace(
                     /@image\((.*?)\)/g,
-                    '<img class="feature-image" src="assets/images/$1" alt="Feature Image" loading="lazy">'
+                    (match, imagePath) => {
+                        return `
+                            <img
+                                class="feature-image"
+                                src="assets/images/${imagePath}"
+                                alt="Feature Image"
+                                loading="lazy"
+                                onerror="this.onerror=null; this.src='assets/images/placeholder.png';"
+                            >
+                        `;
+                    }
                 );
 
                 document.getElementById('content').innerHTML = processedContent;
@@ -231,7 +241,9 @@
                 // Add lightbox functionality to images
                 document.querySelectorAll('.feature-image').forEach(img => {
                     img.onclick = function () {
-                        this.requestFullscreen();
+                        if (this.src !== 'assets/images/placeholder.png') {
+                            this.requestFullscreen();
+                        }
                     };
                 });
             } catch (error) {

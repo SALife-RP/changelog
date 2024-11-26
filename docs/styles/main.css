@@ -17,8 +17,8 @@
     --text-secondary: #cccccc;
     --text-muted: #999999;
     /* Status Colors */
-    --success: #00e676;
-    --warning: #ffab40;
+    --success: #02c064;
+    --warning: #e89d3a;
     --error: #ff5252;
     /* Background Gradients */
     --gradient-primary: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-dark) 100%);

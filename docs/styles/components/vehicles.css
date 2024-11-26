@@ -1,0 +1,266 @@
+/* Vehicle Container */
+.vehicles-container {
+    margin-top: 4vh;
+    padding: 2vh 2vw;
+    background: var(--secondary-dark);
+    border-radius: 8px;
+    border: 1px solid var(--overlay-light);
+}
+
+/* Vehicle Controls */
+.vehicles-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.vehicles-search {
+    margin: 20px 0;
+}
+
+.vehicles-search input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--overlay-light);
+    border-radius: 4px;
+    background: var(--secondary);
+    color: var(--text);
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.vehicles-search input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary-dark);
+}
+
+.vehicles-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: center;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 20vw;
+}
+
+.filter-group label {
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.filter-group select {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid var(--overlay-light);
+    border-radius: 4px;
+    background: var(--secondary);
+    color: var(--text);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-group select:hover {
+    border-color: var(--primary);
+}
+
+.filter-group select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px var(--primary-dark);
+}
+
+/* Vehicle Category */
+.vehicle-category {
+    margin-bottom: 30px;
+}
+
+.vehicle-category h3 {
+    color: var(--primary);
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--overlay-light);
+}
+
+/* Vehicle Grid */
+.vehicles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Vehicle Card */
+.vehicle-card {
+    background: var(--secondary);
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid var(--overlay-light);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.vehicle-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.vehicle-image {
+    width: 100%;
+    height: 20vh;
+    margin-bottom: 2vh;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--secondary-dark);
+}
+
+.vehicle-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.vehicle-card:hover .vehicle-image img {
+    transform: scale(1.05);
+}
+
+.vehicle-card h4 {
+    color: var(--primary);
+    margin: 0 0 10px 0;
+    font-size: 1.1em;
+}
+
+.vehicle-details {
+    font-size: 0.9em;
+    flex-grow: 1;
+}
+
+.vehicle-details p {
+    margin: 5px 0;
+    color: var(--text-secondary);
+}
+
+.vehicle-details strong {
+    color: var(--text);
+}
+
+/* Change Request Button */
+.change-request-btn {
+    margin-top: 15px;
+    padding: 8px 16px;
+    background-color: var(--primary);
+    color: var(--text);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.change-request-btn:hover {
+    background-color: var(--primary-light);
+    transform: translateY(-2px);
+}
+
+.change-request-btn:active {
+    transform: translateY(0);
+}
+
+/* Emergency Vehicle Indicator */
+.vehicle-details p:last-child {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background: var(--error);
+    border-radius: 4px;
+    display: inline-block;
+}
+
+/* Vehicle Limit Badge */
+.vehicle-details p strong:contains("Limit") + span {
+    background: var(--warning);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 0.9em;
+    margin-left: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .vehicles-grid {
+        grid-template-columns: repeat(auto-fill, minmax(40vw, 1fr));
+        padding: 10px;
+        gap: 15px;
+    }
+
+    .vehicle-image {
+        height: 25vh;
+    }
+
+    .filter-group {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filter-group label {
+        margin-bottom: 5px;
+    }
+
+    .vehicles-filters {
+        flex-direction: column;
+    }
+}
+
+@media (min-width: 1920px) {
+    .vehicle-image {
+        height: 15vh;
+    }
+
+    .vehicles-grid {
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    }
+
+    .filter-group {
+        min-width: 15vw;
+    }
+}
+
+/* Loading State */
+.vehicles-container.loading {
+    position: relative;
+    min-height: 200px;
+}
+
+.vehicles-container.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--overlay-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    color: var(--text);
+}
+
+/* Empty State */
+.vehicles-grid:empty::after {
+    content: 'No vehicles found';
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: var(--text-muted);
+    font-style: italic;
+} 

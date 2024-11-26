@@ -44,9 +44,9 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             line-height: 1.6;
-            max-width: 1000px;
+            max-width: 90vw;
             margin: 0 auto;
-            padding: 20px;
+            padding: 2vh 2vw;
             background: var(--gradient-primary);
             color: var(--text);
         }
@@ -78,14 +78,14 @@
         }
 
         .nav-button {
-            padding: 12px 24px;
-            margin: 0 10px;
+            padding: 1.2vh 2vw;
+            margin: 0 1vw;
             border: none;
             border-radius: 4px;
             background-color: var(--primary);
             color: var(--primary-dark);
             cursor: pointer;
-            font-size: 16px;
+            font-size: 1.6vh;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             text-transform: uppercase;
             font-weight: bold;
@@ -131,15 +131,15 @@
 
         .image-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(30vw, 1fr));
+            gap: 2vw;
             margin: 20px auto;
             max-width: 90%;
         }
 
         .image-gallery img {
             width: 100%;
-            height: 200px;
+            height: 20vh;
             object-fit: cover;
             border-radius: 8px;
             transition: transform 0.3s ease;
@@ -210,7 +210,7 @@
         }
 
         .server-info-container {
-            padding: 20px;
+            padding: 2vh 2vw;
         }
 
         .server-stats-grid {
@@ -273,13 +273,14 @@
 
         .vehicles-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(25vw, 1fr));
+            gap: 2vw;
+            margin-top: 2vh;
         }
 
         .vehicle-card {
             background: var(--secondary-dark);
-            padding: 20px;
+            padding: 1.5vh 1.5vw;
             border-radius: 8px;
             text-align: center;
             border: 1px solid var(--overlay-light);
@@ -295,8 +296,8 @@
         }
 
         .vehicles-container {
-            margin-top: 40px;
-            padding: 20px;
+            margin-top: 4vh;
+            padding: 2vh 2vw;
             background: var(--secondary-dark);
             border-radius: 8px;
             border: 1px solid var(--overlay-light);
@@ -376,7 +377,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            min-width: 200px;
+            min-width: 20vw;
         }
 
         .filter-group label {
@@ -406,12 +407,23 @@
         }
 
         @media (max-width: 768px) {
-            .filter-group {
-                width: 100%;
+            body {
+                max-width: 95vw;
+                padding: 1vh 1vw;
             }
 
-            .filter-group select {
-                width: 100%;
+            .modal-content {
+                width: 95vw;
+                max-width: none;
+                margin: 10vh auto;
+            }
+
+            .vehicles-grid {
+                grid-template-columns: repeat(auto-fill, minmax(40vw, 1fr));
+            }
+
+            .filter-group {
+                width: 90vw;
             }
         }
 
@@ -444,10 +456,10 @@
         .modal-content {
             position: relative;
             background-color: var(--secondary);
-            margin: 15% auto;
-            padding: 20px;
-            width: 80%;
-            max-width: 600px;
+            margin: 15vh auto;
+            padding: 2vh 2vw;
+            width: 90vw;
+            max-width: 60vw;
             border-radius: 8px;
             box-shadow: var(--shadow-lg);
         }
@@ -483,19 +495,19 @@
             border-radius: 4px;
             background: var(--secondary-dark);
             color: var(--text);
-            min-height: 100px;
+            min-height: 15vh;
             resize: vertical;
         }
 
         .form-actions {
             display: flex;
             justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 1vw;
+            margin-top: 2vh;
         }
 
         .form-actions button {
-            padding: 8px 16px;
+            padding: 1vh 2vw;
             border: none;
             border-radius: 4px;
             cursor: pointer;
@@ -553,10 +565,10 @@
                             <div class="image-container">
                                 <img
                                     class="feature-image"
-                                    src="images/${imagePath}"
+                                    src="assets/images/${imagePath}"
                                     alt="Feature Image"
                                     loading="lazy"
-                                    onerror="this.onerror=null; this.src='images/placeholder.png';"
+                                    onerror="this.onerror=null; this.src='assets/images/placeholder.png';"
                                 >
                             </div>
                         `;
@@ -568,7 +580,7 @@
                 // Add lightbox functionality to images
                 document.querySelectorAll('.feature-image').forEach(img => {
                     img.onclick = function () {
-                        if (this.src !== 'images/logo.png') {
+                        if (this.src !== 'assets/images/logo.png') {
                             this.requestFullscreen();
                         }
                     };

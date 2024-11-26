@@ -697,6 +697,8 @@
         let pendingAction = null;
         let currentPage = 1;
         const charactersPerPage = 14;
+        let sortedIdentities = null;
+        let sortedVehicles = null;
 
         async function loadContent(filename) {
             try {
@@ -905,6 +907,15 @@
                                 </div>
                                 <div class="vehicles-filters">
                                     <div class="filter-group">
+                                        <label>Sort by:</label>
+                                        <select id="sortVehicles" onchange="sortVehicles(this.value)">
+                                            <option value="name">Name (A-Z)</option>
+                                            <option value="price">Price (Low to High)</option>
+                                            <option value="price-desc">Price (High to Low)</option>
+                                            <option value="manufacturer">Manufacturer (A-Z)</option>
+                                        </select>
+                                    </div>
+                                    <div class="filter-group">
                                         <label>Manufacturer:</label>
                                         <select onchange="filterByCategory('manufacturer', this.value)">
                                             <option value="all">All Manufacturers</option>
@@ -934,15 +945,6 @@
                         .join('')}
                                         </select>
                                     </div>
-                                    <div class="filter-group">
-                                        <label>Sort by:</label>
-                                        <select id="sortVehicles" onchange="sortVehicles(this.value)">
-                                            <option value="name">Name (A-Z)</option>
-                                            <option value="price">Price (Low to High)</option>
-                                            <option value="price-desc">Price (High to Low)</option>
-                                            <option value="manufacturer">Manufacturer</option>
-                                        </select>
-                                    </div>
                                 </div>
                             </div>
                             ${vehiclesHtml}
@@ -967,7 +969,6 @@
             }
         }
 
-        // Replace the sortVehicles function with this updated version
         function sortVehicles(sortBy) {
             const vehiclesContainer = document.querySelector('.vehicles-container');
             const categories = vehiclesContainer.querySelectorAll('.vehicle-category');
@@ -978,32 +979,84 @@
 
                 vehicles.sort((a, b) => {
                     switch (sortBy) {
-                        case 'price':
-                            const priceA = parseInt(a.dataset.price) || 0;
-                            const priceB = parseInt(b.dataset.price) || 0;
+                        case 'price': {
+                            // Find the price text and extract the number
+                            const priceTextA = a.textContent.match(/Price:\s*\$?([\d,]+)/);
+                            const priceTextB = b.textContent.match(/Price:\s*\$?([\d,]+)/);
+                            const priceA = parseInt(priceTextA ? priceTextA[1].replace(/,/g, '') : '0');
+                            const priceB = parseInt(priceTextB ? priceTextB[1].replace(/,/g, '') : '0');
                             return priceA - priceB;
-                        case 'price-desc':
-                            const priceDescA = parseInt(a.dataset.price) || 0;
-                            const priceDescB = parseInt(b.dataset.price) || 0;
-                            return priceDescB - priceDescA;
-                        case 'name':
-                            const nameA = a.querySelector('h4')?.textContent.toLowerCase() || '';
-                            const nameB = b.querySelector('h4')?.textContent.toLowerCase() || '';
+                        }
+                        case 'price-desc': {
+                            const priceTextA = a.textContent.match(/Price:\s*\$?([\d,]+)/);
+                            const priceTextB = b.textContent.match(/Price:\s*\$?([\d,]+)/);
+                            const priceA = parseInt(priceTextA ? priceTextA[1].replace(/,/g, '') : '0');
+                            const priceB = parseInt(priceTextB ? priceTextB[1].replace(/,/g, '') : '0');
+                            return priceB - priceA;
+                        }
+                        case 'name': {
+                            const nameA = a.querySelector('h4')?.textContent?.toLowerCase() || '';
+                            const nameB = b.querySelector('h4')?.textContent?.toLowerCase() || '';
                             return nameA.localeCompare(nameB);
-                        case 'manufacturer':
-                            const mfgA = a.dataset.manufacturer?.toLowerCase() || '';
-                            const mfgB = b.dataset.manufacturer?.toLowerCase() || '';
+                        }
+                        case 'manufacturer': {
+                            // Find manufacturer text and extract the value
+                            const mfgTextA = a.textContent.match(/Manufacturer:\s*([^$\n]+)/);
+                            const mfgTextB = b.textContent.match(/Manufacturer:\s*([^$\n]+)/);
+                            const mfgA = (mfgTextA ? mfgTextA[1].trim() : '').toLowerCase();
+                            const mfgB = (mfgTextB ? mfgTextB[1].trim() : '').toLowerCase();
                             return mfgA.localeCompare(mfgB);
+                        }
                         default:
                             return 0;
                     }
                 });
 
-                vehicles.forEach(vehicle => vehiclesGrid.appendChild(vehicle));
+                // Clear and repopulate the grid
+                const fragment = document.createDocumentFragment();
+                vehicles.forEach(vehicle => fragment.appendChild(vehicle));
+                vehiclesGrid.innerHTML = '';
+                vehiclesGrid.appendChild(fragment);
             });
         }
 
-        // Replace the filterByCategory function with this updated version
+        function addContainsSelector() {
+            if (!jQuery.expr[':'].contains) {
+                jQuery.expr[':'].contains = function (a, i, m) {
+                    return jQuery(a).text().toUpperCase()
+                        .indexOf(m[3].toUpperCase()) >= 0;
+                };
+            }
+        }
+
+        function filterVehicles() {
+            const searchTerm = document.getElementById('vehicleSearch').value.toLowerCase();
+            const vehicleCards = document.querySelectorAll('.vehicle-card');
+            const allCategories = document.querySelectorAll('.vehicle-category');
+
+            vehicleCards.forEach(card => {
+                const vehicleText = card.textContent.toLowerCase();
+                if (vehicleText.includes(searchTerm)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Hide empty categories
+            allCategories.forEach(category => {
+                const visibleCards = Array.from(category.querySelectorAll('.vehicle-card'))
+                    .filter(card => card.style.display !== 'none');
+                category.style.display = visibleCards.length === 0 ? 'none' : '';
+            });
+
+            // Maintain sort order after filtering
+            const currentSort = document.getElementById('sortVehicles').value;
+            if (currentSort !== 'name') {
+                sortVehicles(currentSort);
+            }
+        }
+
         function filterByCategory(categoryType, value) {
             const vehicleCards = document.querySelectorAll('.vehicle-card');
             const allCategories = document.querySelectorAll('.vehicle-category');
@@ -1019,34 +1072,6 @@
             vehicleCards.forEach(card => {
                 const cardValue = card.dataset[categoryType]?.toLowerCase();
                 if (cardValue === value.toLowerCase()) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            // Hide empty categories
-            allCategories.forEach(category => {
-                const visibleCards = category.querySelectorAll('.vehicle-card[style="display: none;"]');
-                if (visibleCards.length === category.querySelectorAll('.vehicle-card').length) {
-                    category.style.display = 'none';
-                } else {
-                    category.style.display = '';
-                }
-            });
-        }
-
-        // Replace the filterVehicles function with this updated version
-        function filterVehicles() {
-            const searchTerm = document.getElementById('vehicleSearch').value.toLowerCase();
-            const vehicleCards = document.querySelectorAll('.vehicle-card');
-            const allCategories = document.querySelectorAll('.vehicle-category');
-
-            vehicleCards.forEach(card => {
-                const vehicleName = card.querySelector('h4')?.textContent.toLowerCase() || '';
-                const vehicleDetails = card.querySelector('.vehicle-details')?.textContent.toLowerCase() || '';
-
-                if (vehicleName.includes(searchTerm) || vehicleDetails.includes(searchTerm)) {
                     card.style.display = '';
                 } else {
                     card.style.display = 'none';
@@ -1155,48 +1180,22 @@
             try {
                 console.log('Generating characters HTML');
                 let identities;
-                try {
-                    // Parse the data
-                    const parsed = JSON.parse(identitiesData || '{}');
-                    // Convert object to array
-                    identities = Object.values(parsed);
-                } catch (e) {
-                    console.error('Error parsing identities:', e);
-                    identities = [];
+
+                // Use sortedIdentities if available, otherwise parse the data
+                if (sortedIdentities) {
+                    identities = sortedIdentities;
+                } else {
+                    try {
+                        const parsed = JSON.parse(identitiesData || '{}');
+                        identities = Object.values(parsed);
+                    } catch (e) {
+                        console.error('Error parsing identities:', e);
+                        identities = [];
+                    }
                 }
 
-                // Filter and sort the characters
-                const [field, direction] = sortBy.split('-');
-                const isDesc = direction === 'desc';
-
-                const validCharacters = identities
-                    .filter(character => character !== null)
-                    .sort((a, b) => {
-                        if (!a || !b) return 0;
-
-                        let comparison = 0;
-                        switch (field) {
-                            case 'userId':
-                                comparison = parseInt(a.user_id || 0) - parseInt(b.user_id || 0);
-                                break;
-                            case 'name':
-                                const nameA = `${a.firstname || ''} ${a.name || ''}`.trim().toLowerCase();
-                                const nameB = `${b.firstname || ''} ${b.name || ''}`.trim().toLowerCase();
-                                comparison = nameA.localeCompare(nameB);
-                                break;
-                            case 'age':
-                                comparison = parseInt(a.age || 0) - parseInt(b.age || 0);
-                                break;
-                            case 'registration':
-                                const regA = (a.registration || '').toLowerCase();
-                                const regB = (b.registration || '').toLowerCase();
-                                comparison = regA.localeCompare(regB);
-                                break;
-                            default:
-                                return 0;
-                        }
-                        return isDesc ? -comparison : comparison;
-                    });
+                // Filter out invalid entries
+                const validCharacters = identities.filter(character => character !== null);
 
                 const totalPages = Math.ceil(validCharacters.length / charactersPerPage);
                 const startIndex = (currentPage - 1) * charactersPerPage;
@@ -1271,33 +1270,44 @@
             if (!identitiesData) return;
 
             try {
-                // Parse the full dataset
-                let identities = JSON.parse(identitiesData);
-                if (!Array.isArray(identities)) {
-                    identities = JSON.parse(identities);
+                // Parse the data properly
+                let identities;
+                try {
+                    identities = JSON.parse(identitiesData);
+                    // If it's a string, parse it again (in case of double encoding)
+                    if (typeof identities === 'string') {
+                        identities = JSON.parse(identities);
+                    }
+                    // Ensure we have an array
+                    identities = Array.isArray(identities) ? identities : Object.values(identities);
+                } catch (e) {
+                    console.error('Error parsing identities in filter:', e);
+                    return;
                 }
 
-                // Filter the full dataset
+                // Filter the characters
                 const filteredCharacters = identities.filter(character => {
                     if (!character) return false;
 
-                    const fullName = `${character.firstname || ''} ${character.name || ''}`.toLowerCase();
-                    const details = [
-                        fullName,
+                    const searchableFields = [
+                        `${character.firstname || ''} ${character.name || ''}`,
                         character.registration || '',
                         character.phone || '',
                         character.job || '',
                         character.nationality || '',
                         character.user_id?.toString() || ''
-                    ].join(' ').toLowerCase();
+                    ];
 
-                    return details.includes(searchTerm);
+                    return searchableFields.some(field =>
+                        field.toLowerCase().includes(searchTerm)
+                    );
                 });
 
                 // Reset to first page
                 currentPage = 1;
+                sortedIdentities = filteredCharacters;
 
-                // Only update the characters grid, not the entire container
+                // Update the display
                 const charactersContent = generateCharactersHtml(JSON.stringify(filteredCharacters));
                 const gridContainer = container.querySelector('.characters-grid');
                 const paginationContainer = container.querySelector('.pagination-controls');
@@ -1306,7 +1316,6 @@
                     const newContent = document.createElement('div');
                     newContent.innerHTML = charactersContent;
 
-                    // Replace only the grid and pagination
                     gridContainer.replaceWith(newContent.querySelector('.characters-grid'));
                     paginationContainer.replaceWith(newContent.querySelector('.pagination-controls'));
                 }
@@ -1323,14 +1332,64 @@
             if (!identitiesData) return;
 
             try {
-                // Parse and convert to array
-                const parsed = JSON.parse(identitiesData);
-                const identities = Object.values(parsed);
+                // Parse the data properly
+                let identities;
+                try {
+                    identities = JSON.parse(identitiesData);
+                    // If it's a string, parse it again (in case of double encoding)
+                    if (typeof identities === 'string') {
+                        identities = JSON.parse(identities);
+                    }
+                    // Ensure we have an array
+                    identities = Array.isArray(identities) ? identities : Object.values(identities);
+                } catch (e) {
+                    console.error('Error parsing identities in sort:', e);
+                    return;
+                }
 
-                // Reset to first page and update the container content
+                // Create a new array for sorting
+                sortedIdentities = [...identities].filter(char =>
+                    char !== null &&
+                    char.user_id &&
+                    (char.firstname || char.name)
+                );
+
+                // Sort the array
+                const [field, direction] = sortBy.split('-');
+                const isDesc = direction === 'desc';
+
+                sortedIdentities.sort((a, b) => {
+                    let comparison = 0;
+                    switch (field) {
+                        case 'userId':
+                            comparison = (parseInt(a.user_id) || 0) - (parseInt(b.user_id) || 0);
+                            break;
+                        case 'name':
+                            const nameA = `${a.firstname || ''} ${a.name || ''}`.trim().toLowerCase();
+                            const nameB = `${b.firstname || ''} ${b.name || ''}`.trim().toLowerCase();
+                            comparison = nameA.localeCompare(nameB);
+                            break;
+                        case 'age':
+                            comparison = (parseInt(a.age) || 0) - (parseInt(b.age) || 0);
+                            break;
+                        case 'registration':
+                            const regA = (a.registration || '').toLowerCase();
+                            const regB = (b.registration || '').toLowerCase();
+                            comparison = regA.localeCompare(regB);
+                            break;
+                        default:
+                            comparison = 0;
+                    }
+                    return isDesc ? -comparison : comparison;
+                });
+
+                // Reset to first page
                 currentPage = 1;
 
-                // Update the container content with sorted data
+                // Update the display using the sorted data
+                const charactersContent = generateCharactersHtml(JSON.stringify(sortedIdentities));
+
+                // Preserve the original data while updating the display
                 container.innerHTML = `
                     <h2>Characters</h2>
                     <div class="characters-controls">
@@ -1353,11 +1412,12 @@
                             </div>
                         </div>
                     </div>
-                    ${generateCharactersHtml(JSON.stringify(identities), sortBy)}
+                    ${charactersContent}
                 `;
 
-                // Store the data as an array
-                container.dataset.identities = JSON.stringify(identities);
+                // Restore the original dataset
+                container.dataset.identities = identitiesData;
+
             } catch (error) {
                 console.error('Error sorting characters:', error);
             }

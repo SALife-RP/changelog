@@ -32,7 +32,7 @@ async function loadContent(filename) {
             return;
         }
 
-        const response = await fetch(filename + '.md');
+        const response = await fetch(`./${filename}.md`);
         const text = await response.text();
         const parsedContent = marked.parse(text);
 

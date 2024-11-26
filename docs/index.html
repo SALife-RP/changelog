@@ -680,9 +680,6 @@
 
                 document.getElementById('content').innerHTML = processedContent;
 
-                // Add comment buttons after content loads
-                addCommentButtons();
-
                 // Add lightbox functionality to images
                 document.querySelectorAll('.feature-image').forEach(img => {
                     img.onclick = function () {
@@ -848,7 +845,7 @@
                                     </div>
                                 </div>
                             </div>
-                            ${generateCharactersHtml(serverData.vars.identities_table)}
+                            ${generateCharactersHtml(serverData.vars.identities_table, 'userId-desc')}
                         </div>
 
                         <div class="vehicles-container">
@@ -1105,156 +1102,6 @@
             document.getElementById('changeRequestForm').reset();
         }
 
-        // Update the addCommentButtons function to be more selective
-        function addCommentButtons() {
-            // Select only direct li and p elements that are content, not nested in other elements
-            const featureLines = document.querySelectorAll('#content > li, #content > p, #content > ul > li');
-            featureLines.forEach((line, index) => {
-                // Skip if line already has a comment button
-                if (line.querySelector('.comment-btn')) return;
-
-                // Skip lines that are just formatting or empty
-                if (!line.textContent.trim() ||
-                    line.textContent.startsWith('---') ||
-                    line.classList.contains('image-container')) return;
-
-                // Create unique ID for the line
-                line.id = `line-${index}`;
-
-                // Create comment button
-                const commentBtn = document.createElement('button');
-                commentBtn.innerHTML = '💬';
-                commentBtn.className = 'comment-btn';
-                commentBtn.onclick = () => openCommentDialog(line.id, line.textContent);
-
-                // Add button after line content
-                line.appendChild(commentBtn);
-            });
-        }
-
-        // Handle comment submission
-        async function openCommentDialog(lineId, lineContent) {
-            showUserInfoModal(async (userInfo) => {
-                const comment = prompt('Add your comment about this line:');
-                if (!comment) return;
-
-                try {
-                    const response = await fetch('/.netlify/functions/send-comment', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            lineId,
-                            lineContent: lineContent.trim(),
-                            comment,
-                            page: currentView,
-                            userInfo
-                        })
-                    });
-
-                    if (!response.ok) throw new Error('Failed to send comment');
-
-                    alert('Comment sent successfully!');
-                } catch (error) {
-                    console.error('Error sending comment:', error);
-                    alert('Failed to send comment. Please try again.');
-                }
-            });
-        }
-
-        // Add styles for comment button
-        const styles = document.createElement('style');
-        styles.textContent = `
-            .comment-btn {
-                opacity: 0;
-                margin-left: 8px;
-                background: none;
-                border: none;
-                cursor: pointer;
-                font-size: 14px;
-                transition: opacity 0.2s;
-                vertical-align: middle;
-            }
-
-            li:hover .comment-btn,
-            p:hover .comment-btn {
-                opacity: 0.6;
-            }
-
-            .comment-btn:hover {
-                opacity: 1 !important;
-            }
-        `;
-        document.head.appendChild(styles);
-
-        function showUserInfoModal(callback) {
-            if (userInfo) {
-                callback(userInfo);
-                return;
-            }
-
-            pendingAction = callback;
-            const modal = document.getElementById('userInfoModal');
-            modal.style.display = 'block';
-        }
-
-        function closeUserInfoModal() {
-            const modal = document.getElementById('userInfoModal');
-            modal.style.display = 'none';
-            pendingAction = null;
-        }
-
-        // Add event listener for user info form
-        document.getElementById('userInfoForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            userInfo = {
-                discord: document.getElementById('discordName').value,
-                ingame: document.getElementById('ingameName').value
-            };
-
-            // Store in localStorage for persistence
-            localStorage.setItem('userInfo', JSON.stringify(userInfo));
-
-            closeUserInfoModal();
-
-            if (pendingAction) {
-                pendingAction(userInfo);
-                pendingAction = null;
-            }
-        });
-
-        // Add these to the initialization code
-        document.addEventListener('DOMContentLoaded', function () {
-            // Try to load saved user info
-            const savedUserInfo = localStorage.getItem('userInfo');
-            if (savedUserInfo) {
-                userInfo = JSON.parse(savedUserInfo);
-            }
-        });
-
-        // Add styles for the user info modal
-        const userInfoStyles = document.createElement('style');
-        userInfoStyles.textContent = `
-            .modal input[type="text"] {
-                width: 100%;
-                padding: 8px;
-                margin-bottom: 15px;
-                border: 1px solid var(--overlay-light);
-                border-radius: 4px;
-                background: var(--secondary-dark);
-                color: var(--text);
-            }
-
-            .modal input[type="text"]:focus {
-                outline: none;
-                border-color: var(--primary);
-                box-shadow: 0 0 0 2px var(--primary-dark);
-            }
-        `;
-        document.head.appendChild(userInfoStyles);
-
         function generateCharactersHtml(identitiesData, sortBy = 'userId-desc') {
             try {
                 console.log('Generating characters HTML');
@@ -1484,6 +1331,7 @@
             // Get all characters from the container's dataset
             const container = document.querySelector('.characters-container');
             const identitiesData = container?.dataset?.identities;
+            const currentSort = document.querySelector('#sortCharacters').value;
 
             if (!identitiesData) {
                 console.error('No identities data found');
@@ -1491,21 +1339,41 @@
             }
 
             try {
-                const identities = JSON.parse(identitiesData).filter(char => char !== null);
-                const totalPages = Math.ceil(identities.length / charactersPerPage);
+                // Parse the data and ensure it's an array
+                let identities;
+                try {
+                    identities = JSON.parse(identitiesData);
+                    // If it's not an array, try to parse it again (in case it's double-encoded)
+                    if (!Array.isArray(identities)) {
+                        identities = JSON.parse(identities);
+                    }
+                    // If still not an array, create an empty array
+                    if (!Array.isArray(identities)) {
+                        console.error('Invalid identities data format:', identities);
+                        identities = [];
+                    }
+                } catch (e) {
+                    console.error('Error parsing identities:', e);
+                    identities = [];
+                }
+
+                // Filter out null entries
+                const validIdentities = identities.filter(char => char !== null);
+                const totalPages = Math.ceil(validIdentities.length / charactersPerPage);
 
                 if (newPage >= 1 && newPage <= totalPages) {
                     currentPage = newPage;
-                    // Update only the characters content
-                    const charactersContent = generateCharactersHtml(identitiesData);
+                    // Update only the characters content with current sort
+                    const charactersContent = generateCharactersHtml(JSON.stringify(validIdentities), currentSort);
                     const controls = container.querySelector('.characters-controls');
                     container.innerHTML = `
                         <h2>Characters</h2>
                         ${controls.outerHTML}
                         ${charactersContent}
                     `;
-                    // Restore the dataset after updating innerHTML
-                    container.dataset.identities = identitiesData;
+                    // Restore the dataset and sort selection
+                    container.dataset.identities = JSON.stringify(validIdentities);
+                    document.querySelector('#sortCharacters').value = currentSort;
                 }
             } catch (error) {
                 console.error('Error updating page:', error);

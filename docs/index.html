@@ -8,26 +8,29 @@
     <!-- Primary Meta Tags -->
     <title>SALife Features & Changelog</title>
     <meta name="title" content="SALife - San Andreas Life">
-    <meta name="description" content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
+    <meta name="description"
+        content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
     <meta name="keywords" content="SALife, FiveM, GTA V, Roleplay, RP Server, San Andreas Life">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://playsalife.com/">
     <meta property="og:title" content="SALife - San Andreas Life">
-    <meta property="og:description" content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
+    <meta property="og:description"
+        content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
     <meta property="og:image" content="https://playsalife.com/assets/images/logo.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://playsalife.com/">
     <meta property="twitter:title" content="SALife - San Andreas Life">
-    <meta property="twitter:description" content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
+    <meta property="twitter:description"
+        content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
     <meta property="twitter:image" content="https://playsalife.com/assets/images/logo.png">
 
     <!-- Discord -->
     <meta name="discord:server" content="SALife">
-    <meta name="discord:invite" content="https://discord.gg/salife">
+    <meta name="discord:invite" content="https://discord.gg/8VAZb9fc">
 
     <!-- FiveM -->
     <meta name="fivem:server" content="SALife">
@@ -44,7 +47,7 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
     <style>
-         :root {
+        :root {
             /* Base Colors */
             --primary: #6741d9;
             --primary-dark: #4f32aa;
@@ -148,6 +151,7 @@
             box-shadow: var(--shadow-md);
             border: 1px solid var(--overlay-light);
         }
+
         /* Image styling */
 
         .feature-image {
@@ -183,6 +187,7 @@
         .image-gallery img:hover {
             transform: scale(1.05);
         }
+
         /* Header styling */
 
         h1,
@@ -192,6 +197,7 @@
             margin-top: 1.5em;
             text-shadow: 0 2px 4px var(--overlay-dark);
         }
+
         /* Link styling */
 
         a {
@@ -203,26 +209,28 @@
         a:hover {
             color: var(--accent);
         }
+
         /* Custom scrollbar */
 
-         ::-webkit-scrollbar {
+        ::-webkit-scrollbar {
             width: 10px;
             height: 10px;
         }
 
-         ::-webkit-scrollbar-track {
+        ::-webkit-scrollbar-track {
             background: var(--secondary-dark);
         }
 
-         ::-webkit-scrollbar-thumb {
+        ::-webkit-scrollbar-thumb {
             background: var(--accent);
             border-radius: 5px;
             border: 2px solid var(--primary-dark);
         }
 
-         ::-webkit-scrollbar-thumb:hover {
+        ::-webkit-scrollbar-thumb:hover {
             background: var(--accent-light);
         }
+
         /* Add glass effect for containers */
 
         .glass-effect {
@@ -231,6 +239,7 @@
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid var(--overlay-light);
         }
+
         /* Add subtle transitions */
 
         .nav-button,
@@ -441,14 +450,17 @@
                 max-width: 95vw;
                 padding: 1vh 1vw;
             }
+
             .modal-content {
                 width: 95vw;
                 max-width: none;
                 margin: 10vh auto;
             }
+
             .vehicles-grid {
                 grid-template-columns: repeat(auto-fill, minmax(40vw, 1fr));
             }
+
             .filter-group {
                 width: 90vw;
             }
@@ -659,6 +671,7 @@
                 height: 15vh;
             }
         }
+
         /* .nav-button[onclick*="window.open"] {
             background-color: var(--accent);
             color: var(--text);
@@ -720,7 +733,7 @@
 
                 // Add lightbox functionality to images
                 document.querySelectorAll('.feature-image').forEach(img => {
-                    img.onclick = function() {
+                    img.onclick = function () {
                         if (this.src !== 'assets/images/logo.png') {
                             this.requestFullscreen();
                         }
@@ -857,7 +870,7 @@
                             <h2>Connection Information</h2>
                             <div class="connection-details">
                                 <p><strong>Server:</strong> <code>connect cfx.re/join/zjepzy</code></p>
-                                <p><strong>Discord:</strong> <a href="https://discord.gg/salife" target="_blank">Join our Community</a></p>
+                                <p><strong>Discord:</strong> <a href="https://discord.gg/8VAZb9fc" target="_blank">Join our Community</a></p>
                             </div>
                         </div>
 
@@ -949,7 +962,7 @@
                         <h1>Server Information</h1>
                         <div class="error-message">
                             <p>Unable to load server information.</p>
-                            <p>Please join our <a href="https://discord.gg/salife" target="_blank">Discord</a> for server status.</p>
+                            <p>Please join our <a href="https://discord.gg/8VAZb9fc" target="_blank">Discord</a> for server status.</p>
                         </div>
                     </div>
                 `;
@@ -1485,7 +1498,8 @@
             <form id="changeRequestForm" onsubmit="submitVehicleChange(event)">
                 <div class="form-group">
                     <label for="changeReason">Reason for Change:</label>
-                    <textarea id="changeReason" required placeholder="Please explain why this vehicle needs changes..."></textarea>
+                    <textarea id="changeReason" required
+                        placeholder="Please explain why this vehicle needs changes..."></textarea>
                 </div>
                 <div class="form-group">
                     <label for="suggestedChange">Suggested Change:</label>

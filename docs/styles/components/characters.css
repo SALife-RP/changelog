@@ -59,7 +59,29 @@
 
 /* Character Card */
 
-.character-card {
+.profile-container .character-card {
+    background: #2a2a2a;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.profile-container .character-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.profile-container .character-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-right: 1rem;
+}
+
+.characters-container .character-card {
     background: var(--secondary);
     padding: 15px;
     border-radius: 8px;
@@ -67,6 +89,22 @@
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: column;
+}
+
+.characters-container .character-image {
+    width: 100%;
+    height: 20vh;
+    margin-bottom: 2vh;
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--secondary-dark);
+}
+
+.characters-container .character-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
 }
 
 .character-card:hover {

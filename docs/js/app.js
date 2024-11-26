@@ -178,6 +178,8 @@ async function refreshGameData() {
         if (!response.ok) throw new Error('Failed to refresh game data');
 
         const data = await response.json();
+        console.log('Refreshed game data:', data); // Debug log
+
         gameData = data;
 
         // Update localStorage with new game data
@@ -185,9 +187,9 @@ async function refreshGameData() {
         userData.game_data = data;
         localStorage.setItem('user_data', JSON.stringify(userData));
 
-        // If we're on the server info page, refresh the character display
-        if (currentView === 'server') {
-            displayCharacterInfo();
+        // If we're on the profile page, refresh the display
+        if (currentView === 'profile') {
+            loadPlayerProfile();
         }
     } catch (error) {
         console.error('Error refreshing game data:', error);
@@ -207,30 +209,24 @@ function displayCharacterInfo() {
     html += '<h2>Your Characters</h2>';
 
     gameData.characters.forEach((char, index) => {
-                if (!char.identity) {
-                    html += `
-                <div class="character-card">
-                    <div class="character-header">
-                        <div class="character-title">
-                            <h3>Unknown Character</h3>
-                            <span class="character-details">No data available</span>
-                        </div>
-                    </div>
-                </div>
-            `;
-                    return;
-                }
+                // Debug log to see what data we're receiving
+                console.log('Character data:', char);
+
+                const identity = char.identity || {};
+                const money = char.money || { wallet: 0, bank: 0, debt: 0 };
+                const vehicles = char.vehicles || [];
 
                 html += `
             <div class="character-card">
                 <div class="character-header">
-                    <img src="${char.identity.mdt_image || 'assets/images/placeholder.png'}"
+                    <img src="${identity.mdt_image || 'assets/images/placeholder.png'}"
                          alt="Character Image"
-                         class="character-image">
+                         class="character-image"
+                         onerror="this.src='assets/images/placeholder.png'">
                     <div class="character-title">
-                        <h3>${char.identity.firstname} ${char.identity.name}</h3>
+                        <h3>${identity.firstname || 'Unknown'} ${identity.name || ''}</h3>
                         <span class="character-details">
-                            Age: ${char.identity.age} | Sex: ${char.identity.sex}
+                            ${identity.age ? `Age: ${identity.age}` : ''} ${identity.sex ? `| Sex: ${identity.sex}` : ''}
                         </span>
                     </div>
                 </div>
@@ -238,48 +234,51 @@ function displayCharacterInfo() {
                 <div class="character-stats">
                     <div class="stat">
                         <span class="stat-label">Phone:</span>
-                        <span class="stat-value">${char.identity.phone}</span>
+                        <span class="stat-value">${identity.phone || 'N/A'}</span>
                     </div>
                     <div class="stat">
                         <span class="stat-label">Job:</span>
-                        <span class="stat-value">${char.identity.job} (Rank ${char.identity.jobrank})</span>
+                        <span class="stat-value">${identity.job || 'Unemployed'} ${identity.jobrank ? `(Rank ${identity.jobrank})` : ''}</span>
                     </div>
                     <div class="stat">
                         <span class="stat-label">Nationality:</span>
-                        <span class="stat-value">${char.identity.nationality}</span>
+                        <span class="stat-value">${identity.nationality || 'Unknown'}</span>
                     </div>
                     <div class="stat money-stat">
                         <span class="stat-label">Wallet:</span>
-                        <span class="stat-value">$${char.money?.wallet?.toLocaleString() || 0}</span>
+                        <span class="stat-value">$${(money.wallet || 0).toLocaleString()}</span>
                     </div>
                     <div class="stat money-stat">
                         <span class="stat-label">Bank:</span>
-                        <span class="stat-value">$${char.money?.bank?.toLocaleString() || 0}</span>
+                        <span class="stat-value">$${(money.bank || 0).toLocaleString()}</span>
                     </div>
                 </div>
 
-                <div class="character-vehicles">
-                    <h4>Vehicles</h4>
-                    <div class="vehicles-grid">
-                        ${char.vehicles?.map(vehicle => `
-                            <div class="vehicle-card">
-                                <img src="${vehicle.mdt_image || 'assets/images/placeholder.png'}"
-                                     alt="Vehicle Image"
-                                     class="vehicle-image">
-                                <div class="vehicle-info">
-                                    <span class="vehicle-name">${vehicle.vehicle.toUpperCase()}</span>
-                                    <span class="vehicle-plate">${vehicle.vehicle_plate}</span>
-                                    <span class="vehicle-vin">VIN: ${vehicle.vehicle_vin}</span>
-                                    <div class="vehicle-stats">
-                                        <span>Insurance: ${vehicle.insurance}%</span>
-                                        <span>Lives: ${vehicle.lives}</span>
-                                        <span>Odometer: ${vehicle.odometer.toLocaleString()} mi</span>
+                ${vehicles.length > 0 ? `
+                    <div class="character-vehicles">
+                        <h4>Vehicles (${vehicles.length})</h4>
+                        <div class="vehicles-grid">
+                            ${vehicles.map(vehicle => `
+                                <div class="vehicle-card">
+                                    <img src="${vehicle.mdt_image || 'assets/images/placeholder.png'}"
+                                         alt="Vehicle Image"
+                                         class="vehicle-image"
+                                         onerror="this.src='assets/images/placeholder.png'">
+                                    <div class="vehicle-info">
+                                        <span class="vehicle-name">${vehicle.vehicle?.toUpperCase() || 'Unknown Vehicle'}</span>
+                                        <span class="vehicle-plate">${vehicle.vehicle_plate || 'No Plate'}</span>
+                                        <span class="vehicle-vin">VIN: ${vehicle.vehicle_vin || 'Unknown'}</span>
+                                        <div class="vehicle-stats">
+                                            <span>Insurance: ${vehicle.insurance || 0}%</span>
+                                            <span>Lives: ${vehicle.lives || 0}</span>
+                                            <span>Odometer: ${(vehicle.odometer || 0).toLocaleString()} mi</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        `).join('') || 'No vehicles owned'}
+                            `).join('')}
+                        </div>
                     </div>
-                </div>
+                ` : '<div class="no-vehicles">No vehicles owned</div>'}
             </div>
         `;
     });

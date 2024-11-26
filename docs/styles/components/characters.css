@@ -327,3 +327,71 @@
     padding: 0.25rem 0.5rem;
     border-radius: 3px;
 }
+
+
+/* Add these styles */
+
+.profile-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: var(--secondary);
+    border-radius: 8px;
+}
+
+.discord-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.discord-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 2px solid var(--primary);
+}
+
+.discord-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.discord-details h2 {
+    margin: 0;
+    color: var(--text);
+}
+
+.discord-tag {
+    color: var(--text-secondary);
+}
+
+.refresh-button {
+    padding: 0.5rem 1rem;
+    background: var(--primary);
+    border: none;
+    border-radius: 4px;
+    color: var(--text);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.refresh-button:hover {
+    background: var(--primary-light);
+}
+
+.login-prompt {
+    text-align: center;
+    padding: 2rem;
+    background: var(--secondary);
+    border-radius: 8px;
+    margin-top: 2rem;
+}

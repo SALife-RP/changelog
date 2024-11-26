@@ -83,6 +83,9 @@ function switchContent(view) {
         case 'server':
             loadContent('server');
             break;
+        case 'profile':
+            loadPlayerProfile();
+            break;
     }
 }
 
@@ -114,25 +117,15 @@ async function loadServerInfo() {
 }
 
 function generateServerInfoHtml(serverData) {
-    let html = `
+    return `
         <div class="server-info-container">
             <h1>Server Information</h1>
             ${generateServerStats(serverData)}
             ${generateConnectionInfo()}
-    `;
-
-    // Add character info if user is logged in
-    if (currentUser && gameData) {
-        html += displayCharacterInfo();
-    }
-
-    html += `
             ${window.characterManager.generateContainer()}
             ${window.vehicleManager.generateContainer()}
         </div>
     `;
-
-    return html;
 }
 
 function generateServerStats(serverData) {
@@ -202,15 +195,31 @@ async function refreshGameData() {
 }
 
 function displayCharacterInfo() {
-    if (!gameData || !gameData.characters) {
-        return '<div class="no-characters">No character data available</div>';
+    if (!gameData) {
+        return '<div class="no-characters">Loading player data...</div>';
+    }
+
+    if (!gameData.characters || gameData.characters.length === 0) {
+        return '<div class="no-characters">No characters found</div>';
     }
 
     let html = '<div class="characters-section">';
     html += '<h2>Your Characters</h2>';
 
     gameData.characters.forEach((char, index) => {
-                if (!char.identity) return;
+                if (!char.identity) {
+                    html += `
+                <div class="character-card">
+                    <div class="character-header">
+                        <div class="character-title">
+                            <h3>Unknown Character</h3>
+                            <span class="character-details">No data available</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+                    return;
+                }
 
                 html += `
             <div class="character-card">
@@ -442,4 +451,45 @@ async function handleAuthCallback() {
             window.location.replace('/?auth_error=1');
         }
     }
+}
+
+// Add this function to handle player profile display
+async function loadPlayerProfile() {
+    if (!currentUser) {
+        document.getElementById('content').innerHTML = `
+            <div class="profile-container">
+                <h1>Player Profile</h1>
+                <div class="login-prompt">
+                    <p>Please login with Discord to view your profile.</p>
+                    <button class="nav-button" onclick="handleAuth()">Login with Discord</button>
+                </div>
+            </div>
+        `;
+        return;
+    }
+
+    // Refresh game data before displaying
+    await refreshGameData();
+
+    document.getElementById('content').innerHTML = `
+        <div class="profile-container">
+            <h1>Player Profile</h1>
+            <div class="profile-header">
+                <div class="discord-info">
+                    <img src="https://cdn.discordapp.com/avatars/${currentUser.id}/${currentUser.avatar}.png"
+                         alt="Discord Avatar"
+                         class="discord-avatar"
+                         onerror="this.src='assets/images/placeholder.png'">
+                    <div class="discord-details">
+                        <h2>${currentUser.username}</h2>
+                        <span class="discord-tag">#${currentUser.discriminator}</span>
+                    </div>
+                </div>
+                <button onclick="refreshGameData()" class="refresh-button">
+                    Refresh Data
+                </button>
+            </div>
+            ${displayCharacterInfo()}
+        </div>
+    `;
 }

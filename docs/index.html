@@ -8,21 +8,24 @@
     <!-- Primary Meta Tags -->
     <title>SALife</title>
     <meta name="title" content="SALife - PlaySALife - San Andreas Life">
-    <meta name="description" content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
+    <meta name="description"
+        content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
     <meta name="keywords" content="SALife, FiveM, GTA V, Roleplay, RP Server, San Andreas Life">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://playsalife.com/">
     <meta property="og:title" content="SALife - San Andreas Life">
-    <meta property="og:description" content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
+    <meta property="og:description"
+        content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
     <meta property="og:image" content="https://playsalife.com/assets/images/logo.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://playsalife.com/">
     <meta property="twitter:title" content="SALife - San Andreas Life">
-    <meta property="twitter:description" content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
+    <meta property="twitter:description"
+        content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
     <meta property="twitter:image" content="https://playsalife.com/assets/images/logo.png">
 
     <!-- Discord -->
@@ -47,15 +50,15 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script>
-        // Inline configuration with direct values
         window.appConfig = {
-            DISCORD_CLIENT_ID: '612428144133013575', // Replace with your actual Discord Client ID
-            DISCORD_REDIRECT_URI: `${window.location.origin}/auth/discord/callback`,
+            DISCORD_CLIENT_ID: '612428144133013575',
+            DISCORD_REDIRECT_URI: 'http://localhost:8888/auth/discord/callback/index.html',
             AUTH_ENDPOINT: 'https://discord.com/api/oauth2/authorize',
-            TOKEN_ENDPOINT: '/.netlify/functions/auth-discord'
+            TOKEN_ENDPOINT: '/.netlify/functions/auth-discord',
+            OAUTH_SCOPES: 'identify'
         };
     </script>
-    <base href="/">
+    <base href="http://localhost:8888/">
 
     <style>
         .loading-screen {
@@ -72,11 +75,11 @@
             flex-direction: column;
             color: white;
         }
-        
+
         .loading-screen.active {
             display: flex;
         }
-        
+
         .loading-spinner {
             width: 50px;
             height: 50px;
@@ -86,14 +89,59 @@
             animation: spin 1s linear infinite;
             margin-bottom: 20px;
         }
-        
+
         @keyframes spin {
             0% {
                 transform: rotate(0deg);
             }
+
             100% {
                 transform: rotate(360deg);
             }
+        }
+
+        .modal {
+            display: none;
+            /* Hide by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            /* Dark overlay */
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: #252525;
+            /* Secondary Solid color */
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #4f32aa;
+            /* Primary Dark color */
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+            /* Shadow Medium */
+            position: relative;
+            color: #ffffff;
+            /* Text color */
+        }
+
+        .close {
+            color: #999999;
+            /* Text Muted color */
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #ffffff;
+            /* Text color */
         }
     </style>
 </head>
@@ -127,7 +175,8 @@
             <form id="changeRequestForm" onsubmit="submitVehicleChange(event)">
                 <div class="form-group">
                     <label for="changeReason">Reason for Change:</label>
-                    <textarea id="changeReason" required placeholder="Please explain why this vehicle needs changes..."></textarea>
+                    <textarea id="changeReason" required
+                        placeholder="Please explain why this vehicle needs changes..."></textarea>
                 </div>
                 <div class="form-group">
                     <label for="suggestedChange">Suggested Change:</label>
@@ -163,12 +212,16 @@
     </div>
 
     <!-- Scripts -->
-    <script src="js/vehicles.js"></script>
-    <script src="js/characters.js"></script>
-    <script src="js/app.js"></script>
+    <script src="./js/vehicles.js"></script>
+    <script src="./js/characters.js"></script>
+    <script src="./js/app.js"></script>
 
     <!-- Modal Functions -->
     <script>
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
         function closeModal() {
             document.getElementById('changeRequestModal').style.display = 'none';
             document.getElementById('changeRequestForm').reset();
@@ -178,6 +231,29 @@
             document.getElementById('userInfoModal').style.display = 'none';
             document.getElementById('userInfoForm').reset();
         }
+
+        // Update the window click handler
+        window.onclick = function (event) {
+            const modals = document.getElementsByClassName('modal');
+            for (let modal of modals) {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                    const forms = modal.getElementsByTagName('form');
+                    for (let form of forms) {
+                        form.reset();
+                    }
+                }
+            }
+        };
+
+        // Add event listener for when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            // Ensure modals are hidden on page load
+            const modals = document.getElementsByClassName('modal');
+            for (let modal of modals) {
+                modal.style.display = 'none';
+            }
+        });
 
         async function submitVehicleChange(event) {
             event.preventDefault();
@@ -238,19 +314,12 @@
         }
 
         // Handle escape key for modals
-        document.addEventListener('keydown', function(event) {
+        document.addEventListener('keydown', function (event) {
             if (event.key === 'Escape') {
                 closeModal();
                 closeUserInfoModal();
             }
         });
-
-        // Close modals when clicking outside
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
-            }
-        };
     </script>
 
     <div id="loadingScreen" class="loading-screen">

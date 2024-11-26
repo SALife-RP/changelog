@@ -1,16 +1,19 @@
 {
-    "name": "salife_changelog",
+    "name": "salife-changelog",
     "version": "1.0.0",
-    "description": "SALife Changelog and Features Site",
+    "description": "SALife Changelog Website",
     "main": "index.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "dev": "live-server docs --port=8888 --host=localhost",
+        "start": "live-server docs --port=8888 --host=localhost"
     },
     "dependencies": {
         "mysql2": "^3.6.5",
         "node-fetch": "^2.7.0"
     },
-    "devDependencies": {},
+    "devDependencies": {
+        "live-server": "^1.2.2"
+    },
     "keywords": [],
     "author": "",
     "license": "ISC"

@@ -58,7 +58,7 @@ async function loadContent(filename) {
 
         // Add lightbox functionality to images
         document.querySelectorAll('.feature-image').forEach(img => {
-            img.onclick = function() {
+            img.onclick = function () {
                 if (this.src !== 'assets/images/logo.png') {
                     this.requestFullscreen();
                 }
@@ -248,14 +248,14 @@ function displayCharacterInfo() {
     html += '<h2>Your Characters</h2>';
 
     gameData.characters.forEach((char, index) => {
-                // Debug log to see what data we're receiving
-                console.log('Character data:', char);
+        // Debug log to see what data we're receiving
+        console.log('Character data:', char);
 
-                const identity = char.identity || {};
-                const money = char.money || { wallet: 0, bank: 0, debt: 0 };
-                const vehicles = char.vehicles || [];
+        const identity = char.identity || {};
+        const money = char.money || { wallet: 0, bank: 0, debt: 0 };
+        const vehicles = char.vehicles || [];
 
-                html += `
+        html += `
             <div class="character-card">
                 <div class="character-header">
                     <img src="${identity.mdt_image || 'assets/images/placeholder.png'}"
@@ -428,7 +428,6 @@ function handleAuth() {
         alert('An error occurred during authentication. Please try again later.');
     }
 }
-
 function handleLogout() {
     localStorage.removeItem('auth_token');
     localStorage.removeItem('user_data');

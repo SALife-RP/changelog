@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Processing Auth...</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #6741d9;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="spinner"></div>
+        <h1>Processing authentication...</h1>
+    </div>
+
+    <script>
+        (function () {
+            function handleCallback() {
+                try {
+                    // Get the full URL to debug
+                    console.log('Full callback URL:', window.location.href);
+
+                    const params = new URLSearchParams(window.location.search);
+                    const code = params.get('code');
+                    const error = params.get('error');
+
+                    console.log('Auth callback params:', {
+                        code,
+                        error,
+                        raw_search: window.location.search
+                    });
+
+                    if (error) {
+                        console.error('Discord auth error:', error);
+                        window.location.replace('/?auth_error=' + encodeURIComponent(error));
+                        return;
+                    }
+
+                    if (!code) {
+                        console.error('No auth code found in URL');
+                        window.location.replace('/?auth_error=no_code');
+                        return;
+                    }
+
+                    // Mock user for local development
+                    const mockUser = {
+                        id: '123456789',
+                        username: 'LocalDev',
+                        discriminator: '0000',
+                        avatar: null,
+                        game_data: {
+                            characters: [{
+                                identity: {
+                                    firstname: 'Test',
+                                    name: 'Character',
+                                    phone: '555-0123'
+                                }
+                            }]
+                        }
+                    };
+
+                    localStorage.setItem('auth_token', JSON.stringify({
+                        access_token: 'mock_token_' + Date.now(),
+                        token_type: 'Bearer',
+                        expires_in: 604800
+                    }));
+
+                    localStorage.setItem('user_data', JSON.stringify(mockUser));
+
+                    // Redirect to home using replace
+                    window.location.replace('/');
+                } catch (error) {
+                    console.error('Auth callback error:', error);
+                    window.location.replace('/?auth_error=' + encodeURIComponent(error.message));
+                }
+            }
+
+            // Execute immediately
+            handleCallback();
+        })();
+    </script>
+</body>
+
+</html>

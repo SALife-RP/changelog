@@ -1,7 +1,6 @@
 const fetch = require('node-fetch');
 
 exports.handler = async(event, context) => {
-    // Only allow POST requests
     if (event.httpMethod !== 'POST') {
         return {
             statusCode: 405,
@@ -19,10 +18,14 @@ exports.handler = async(event, context) => {
             };
         }
 
-        console.log('Attempting token exchange with code:', code);
-        console.log('Using redirect URI:', process.env.DISCORD_REDIRECT_URI);
+        const redirectUri = process.env.DISCORD_REDIRECT_URI || 'https://playsalife.com/auth/discord/callback';
 
-        // Exchange the authorization code for an access token
+        console.log('Auth function debug:', {
+            clientId: process.env.DISCORD_CLIENT_ID,
+            redirectUri: redirectUri,
+            code: code.substring(0, 10) + '...'
+        });
+
         const tokenResponse = await fetch('https://discord.com/api/oauth2/token', {
             method: 'POST',
             headers: {
@@ -33,31 +36,31 @@ exports.handler = async(event, context) => {
                 client_secret: process.env.DISCORD_CLIENT_SECRET,
                 grant_type: 'authorization_code',
                 code: code,
-                redirect_uri: process.env.DISCORD_REDIRECT_URI,
+                redirect_uri: redirectUri,
                 scope: 'identify'
             })
         });
 
-        // Log the full token response for debugging
         const tokenResponseText = await tokenResponse.text();
-        console.log('Token Response:', tokenResponseText);
 
         if (!tokenResponse.ok) {
-            console.error('Discord token exchange error:', tokenResponseText);
+            console.error('Discord token exchange error:', {
+                status: tokenResponse.status,
+                response: tokenResponseText,
+                redirectUri: redirectUri
+            });
+
             return {
                 statusCode: 500,
                 body: JSON.stringify({
                     error: 'Failed to exchange authorization code',
-                    details: tokenResponseText,
-                    redirect_uri: process.env.DISCORD_REDIRECT_URI,
-                    client_id: process.env.DISCORD_CLIENT_ID
+                    details: tokenResponseText
                 })
             };
         }
 
         const tokenData = JSON.parse(tokenResponseText);
 
-        // Use the access token to get the user's information
         const userResponse = await fetch('https://discord.com/api/users/@me', {
             headers: {
                 Authorization: `Bearer ${tokenData.access_token}`
@@ -79,9 +82,8 @@ exports.handler = async(event, context) => {
         const userData = await userResponse.json();
         console.log('User data retrieved:', userData);
 
-        // Create a JWT token for the user
         const token = {
-            exp: Math.floor(Date.now() / 1000) + (60 * 60), // 1 hour expiration
+            exp: Math.floor(Date.now() / 1000) + (60 * 60),
             data: {
                 user_id: userData.id,
                 username: userData.username,
@@ -92,7 +94,6 @@ exports.handler = async(event, context) => {
             }
         };
 
-        // Return the user data and token
         return {
             statusCode: 200,
             headers: {
@@ -116,8 +117,7 @@ exports.handler = async(event, context) => {
             statusCode: 500,
             body: JSON.stringify({
                 error: 'Internal server error',
-                details: error.message,
-                stack: error.stack
+                details: error.message
             })
         };
     }

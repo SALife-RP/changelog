@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Light Pattern Creator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+        <div id="toolbar">
+            <input type="text" id="pattern-name" placeholder="Pattern Name">
+            <input type="number" id="tick-rate" value="250" min="50" max="1000" placeholder="Tick Rate (ms)">
+            <select id="lightbar-selector">
+                <option value="integrity44">Integrity 44"</option>
+                <option value="integrity51">Integrity 51"</option>
+                <option value="freedom">Freedom</option>
+            </select>
+            <button id="add-stage">Add Stage</button>
+            <button id="save-pattern">Save Pattern</button>
+            <div id="color-selector"></div>
+        </div>
+        <h1>Emergency Light Pattern Creator</h1>
+        <div id="pattern-creator">
+            <div id="stages-container"></div>
+        </div>
+        <div id="pattern-preview">
+            <h2>Pattern Preview</h2>
+            <div id="preview-container"></div>
+            <div id="stage-preview-container"></div>
+            <center>
+                <button id="play-preview">Play Full Preview</button>
+                <button id="load-pattern">Load Pattern</button>
+            </center>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

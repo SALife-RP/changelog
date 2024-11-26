@@ -175,14 +175,27 @@ function submitUserInfo(event) {
 
 // Authentication handlers
 function handleAuth() {
-    const params = new URLSearchParams({
-        client_id: window.appConfig.DISCORD_CLIENT_ID,
-        redirect_uri: window.appConfig.DISCORD_REDIRECT_URI,
-        response_type: 'code',
-        scope: 'identify',
-    });
+    try {
+        if (!window.appConfig) {
+            console.error('App configuration is not loaded');
+            alert('Error: Unable to load configuration. Please try again later.');
+            return;
+        }
 
-    window.location.href = `${window.appConfig.AUTH_ENDPOINT}?${params.toString()}`;
+        const params = new URLSearchParams({
+            client_id: window.appConfig.DISCORD_CLIENT_ID,
+            redirect_uri: window.appConfig.DISCORD_REDIRECT_URI,
+            response_type: 'code',
+            scope: 'identify',
+        });
+
+        const authUrl = `${window.appConfig.AUTH_ENDPOINT}?${params.toString()}`;
+        console.log('Redirecting to:', authUrl); // Debug log
+        window.location.href = authUrl;
+    } catch (error) {
+        console.error('Auth error:', error);
+        alert('An error occurred during authentication. Please try again later.');
+    }
 }
 
 function handleLogout() {

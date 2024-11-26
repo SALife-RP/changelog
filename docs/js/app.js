@@ -10,6 +10,10 @@ let sortedVehicles = null;
 let currentUser = null;
 let gameData = null;
 
+// Add a refresh cooldown
+let lastRefresh = 0;
+const REFRESH_COOLDOWN = 5000; // 5 seconds cooldown
+
 // Add these functions at the top level
 function showLoadingScreen() {
     document.getElementById('loadingScreen').classList.add('active');
@@ -164,6 +168,15 @@ function generateConnectionInfo() {
 async function refreshGameData() {
     if (!currentUser || !currentUser.id) return;
 
+    // Check if enough time has passed since last refresh
+    const now = Date.now();
+    if (now - lastRefresh < REFRESH_COOLDOWN) {
+        console.log('Refresh cooldown active, skipping refresh');
+        return;
+    }
+
+    lastRefresh = now;
+
     try {
         const response = await fetch('/.netlify/functions/refresh-game-data', {
             method: 'POST',
@@ -189,32 +202,37 @@ async function refreshGameData() {
 
             // Only update the display if we're on the profile page
             if (currentView === 'profile') {
-                document.getElementById('content').innerHTML = `
-                    <div class="profile-container">
-                        <h1>Player Profile</h1>
-                        <div class="profile-header">
-                            <div class="discord-info">
-                                <img src="https://cdn.discordapp.com/avatars/${currentUser.id}/${currentUser.avatar}.png"
-                                     alt="Discord Avatar"
-                                     class="discord-avatar"
-                                     onerror="this.src='assets/images/placeholder.png'">
-                                <div class="discord-details">
-                                    <h2>${currentUser.username}</h2>
-                                    <span class="discord-tag">#${currentUser.discriminator}</span>
-                                </div>
-                            </div>
-                            <button onclick="refreshGameData()" class="refresh-button">
-                                Refresh Data
-                            </button>
-                        </div>
-                        ${displayCharacterInfo()}
-                    </div>
-                `;
+                updateProfileDisplay();
             }
         }
     } catch (error) {
         console.error('Error refreshing game data:', error);
     }
+}
+
+function updateProfileDisplay() {
+    document.getElementById('content').innerHTML = `
+        <div class="profile-container">
+            <h1>Player Profile</h1>
+            <div class="profile-header">
+                <div class="discord-info">
+                    <img src="https://cdn.discordapp.com/avatars/${currentUser.id}/${currentUser.avatar}.png"
+                         alt="Discord Avatar"
+                         class="discord-avatar"
+                         onerror="this.src='assets/images/placeholder.png'"
+                         loading="lazy">
+                    <div class="discord-details">
+                        <h2>${currentUser.username}</h2>
+                        <span class="discord-tag">#${currentUser.discriminator}</span>
+                    </div>
+                </div>
+                <button onclick="refreshGameData()" class="refresh-button">
+                    Refresh Data
+                </button>
+            </div>
+            ${displayCharacterInfo()}
+        </div>
+    `;
 }
 
 function displayCharacterInfo() {
@@ -243,7 +261,8 @@ function displayCharacterInfo() {
                     <img src="${identity.mdt_image || 'assets/images/placeholder.png'}"
                          alt="Character Image"
                          class="character-image"
-                         onerror="this.src='assets/images/placeholder.png'">
+                         onerror="this.src='assets/images/placeholder.png'"
+                         loading="lazy">
                     <div class="character-title">
                         <h3>${identity.firstname || 'Unknown'} ${identity.name || ''}</h3>
                         <span class="character-details">
@@ -284,7 +303,8 @@ function displayCharacterInfo() {
                                     <img src="${vehicle.mdt_image || 'assets/images/placeholder.png'}"
                                          alt="Vehicle Image"
                                          class="vehicle-image"
-                                         onerror="this.src='assets/images/placeholder.png'">
+                                         onerror="this.src='assets/images/placeholder.png'"
+                                         loading="lazy">
                                     <div class="vehicle-info">
                                         <span class="vehicle-name">${vehicle.vehicle?.toUpperCase() || 'Unknown Vehicle'}</span>
                                         <span class="vehicle-plate">${vehicle.vehicle_plate || 'No Plate'}</span>
@@ -348,17 +368,21 @@ document.addEventListener('DOMContentLoaded', async () => {
 function getUserInfo() {
     if (currentUser) {
         return {
-            discord: currentUser.user_metadata.full_name,
-            ingame: localStorage.getItem('ingameName') || ''
+            discord: currentUser.username,
+            ingame: currentUser.game_data?.characters?.[0]?.identity?.firstname || ''
         };
     }
     return null;
 }
 
 function submitUserInfo(event) {
-    event.preventDefault();
-    const ingameName = document.getElementById('ingameName').value;
-    localStorage.setItem('ingameName', ingameName);
+    if (event) event.preventDefault();
+    if (!currentUser) return;
+
+    const ingameName = document.getElementById('ingameName')?.value;
+    if (ingameName) {
+        localStorage.setItem('ingameName', ingameName);
+    }
 
     closeUserInfoModal();
     if (pendingAction) {
@@ -419,7 +443,11 @@ function updateAuthUI() {
     if (currentUser) {
         loginButton.style.display = 'none';
         logoutButton.style.display = 'inline-block';
-        refreshGameData(); // Refresh game data when auth state changes
+
+        // Only refresh game data if we don't have it yet
+        if (!gameData && currentView === 'profile') {
+            refreshGameData();
+        }
     } else {
         loginButton.style.display = 'inline-block';
         logoutButton.style.display = 'none';

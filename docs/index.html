@@ -1364,19 +1364,56 @@
         }
 
         function filterCharacters() {
+            const container = document.querySelector('.characters-container');
+            const identitiesData = container?.dataset?.identities;
             const searchTerm = document.getElementById('characterSearch').value.toLowerCase();
-            const characterCards = document.querySelectorAll('.character-card');
 
-            characterCards.forEach(card => {
-                const characterName = card.querySelector('h4').textContent.toLowerCase();
-                const characterDetails = card.querySelector('.character-details').textContent.toLowerCase();
+            if (!identitiesData) return;
 
-                if (characterName.includes(searchTerm) || characterDetails.includes(searchTerm)) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
+            try {
+                // Parse the full dataset
+                let identities = JSON.parse(identitiesData);
+                if (!Array.isArray(identities)) {
+                    identities = JSON.parse(identities);
                 }
-            });
+
+                // Filter the full dataset
+                const filteredCharacters = identities.filter(character => {
+                    if (!character) return false;
+
+                    const fullName = `${character.firstname || ''} ${character.name || ''}`.toLowerCase();
+                    const details = [
+                        fullName,
+                        character.registration || '',
+                        character.phone || '',
+                        character.job || '',
+                        character.nationality || '',
+                        character.user_id?.toString() || ''
+                    ].join(' ').toLowerCase();
+
+                    return details.includes(searchTerm);
+                });
+
+                // Reset to first page
+                currentPage = 1;
+
+                // Only update the characters grid, not the entire container
+                const charactersContent = generateCharactersHtml(JSON.stringify(filteredCharacters));
+                const gridContainer = container.querySelector('.characters-grid');
+                const paginationContainer = container.querySelector('.pagination-controls');
+
+                if (gridContainer && paginationContainer) {
+                    const newContent = document.createElement('div');
+                    newContent.innerHTML = charactersContent;
+
+                    // Replace only the grid and pagination
+                    gridContainer.replaceWith(newContent.querySelector('.characters-grid'));
+                    paginationContainer.replaceWith(newContent.querySelector('.pagination-controls'));
+                }
+
+            } catch (error) {
+                console.error('Error filtering characters:', error);
+            }
         }
 
         function sortCharacters(sortBy) {

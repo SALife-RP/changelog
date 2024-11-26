@@ -178,18 +178,39 @@ async function refreshGameData() {
         if (!response.ok) throw new Error('Failed to refresh game data');
 
         const data = await response.json();
-        console.log('Refreshed game data:', data); // Debug log
+        console.log('Refreshed game data:', data);
 
-        gameData = data;
+        if (data) {
+            gameData = data;
+            // Update localStorage with new game data
+            const userData = JSON.parse(localStorage.getItem('user_data'));
+            userData.game_data = data;
+            localStorage.setItem('user_data', JSON.stringify(userData));
 
-        // Update localStorage with new game data
-        const userData = JSON.parse(localStorage.getItem('user_data'));
-        userData.game_data = data;
-        localStorage.setItem('user_data', JSON.stringify(userData));
-
-        // If we're on the profile page, refresh the display
-        if (currentView === 'profile') {
-            loadPlayerProfile();
+            // Only update the display if we're on the profile page
+            if (currentView === 'profile') {
+                document.getElementById('content').innerHTML = `
+                    <div class="profile-container">
+                        <h1>Player Profile</h1>
+                        <div class="profile-header">
+                            <div class="discord-info">
+                                <img src="https://cdn.discordapp.com/avatars/${currentUser.id}/${currentUser.avatar}.png"
+                                     alt="Discord Avatar"
+                                     class="discord-avatar"
+                                     onerror="this.src='assets/images/placeholder.png'">
+                                <div class="discord-details">
+                                    <h2>${currentUser.username}</h2>
+                                    <span class="discord-tag">#${currentUser.discriminator}</span>
+                                </div>
+                            </div>
+                            <button onclick="refreshGameData()" class="refresh-button">
+                                Refresh Data
+                            </button>
+                        </div>
+                        ${displayCharacterInfo()}
+                    </div>
+                `;
+            }
         }
     } catch (error) {
         console.error('Error refreshing game data:', error);
@@ -309,16 +330,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (token && userData) {
         try {
             currentUser = JSON.parse(userData);
+            // Load game data from stored user data
+            if (currentUser.game_data) {
+                gameData = currentUser.game_data;
+            }
             updateAuthUI();
         } catch (error) {
             console.error('Error parsing stored auth data:', error);
             handleLogout();
         }
-    }
-
-    // If user is logged in, refresh game data
-    if (currentUser && currentUser.id) {
-        await refreshGameData();
     }
 
     // Load initial content
@@ -467,8 +487,23 @@ async function loadPlayerProfile() {
         return;
     }
 
-    // Refresh game data before displaying
-    await refreshGameData();
+    // Show loading state
+    document.getElementById('content').innerHTML = `
+        <div class="profile-container">
+            <h1>Player Profile</h1>
+            <div class="loading-spinner"></div>
+        </div>
+    `;
+
+    // Only refresh if we don't have data
+    if (!gameData) {
+        await refreshGameData();
+    }
+
+    // Get the game data from user data if available
+    if (!gameData && currentUser.game_data) {
+        gameData = currentUser.game_data;
+    }
 
     document.getElementById('content').innerHTML = `
         <div class="profile-container">

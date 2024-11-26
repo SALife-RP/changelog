@@ -16,6 +16,10 @@ For more information about server rules and features, visit our [Discord](https:
 
 ### 🆕 New Features
 
+- **connect:** Discord requirement to create account/login
+
+- Add vehicle limit data for access to the playsalife.com website
+
 - Early character creation system to allow players to create characters ahead of launch
 
 - **config:** Add indestructable_props resource
@@ -36,6 +40,8 @@ For more information about server rules and features, visit our [Discord](https:
 
 ### 📜 Script Updates
 
+- **vimage:** Update vehicle image creator for use with the new website
+
 - **modlights:** Fix bug with keybinds when not in vehicle
 
 - **modlights:** Refactor siren system and optimize performance
@@ -55,6 +61,12 @@ For more information about server rules and features, visit our [Discord](https:
 - **hud:** Refactor HUD visibility and status management
 
 ### 🔧 Bug Fixes
+
+- **connect:** Search for appropriate discord roles from community discord for connection
+
+- **connect:** Add discord check to existing account also
+
+- Discord links
 
 - **survival:** Fix bug causing death on spawn-in
 

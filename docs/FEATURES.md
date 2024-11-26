@@ -143,6 +143,9 @@
 ## 🌐 **New Website Integration**
 - **[playsalife.com](https://playsalife.com)**: A dedicated website that connects players to game information, updates, and community resources.
 
+## 🛠️ **Early Access Character Customization**
+- **Pre-Launch Account Creation**: Players can connect early to create an account and customize one character before the official launch.
+
 ---
 
 > 📢 **Coming Soon**

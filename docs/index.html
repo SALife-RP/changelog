@@ -52,13 +52,13 @@
     <script>
         window.appConfig = {
             DISCORD_CLIENT_ID: '612428144133013575',
-            DISCORD_REDIRECT_URI: 'http://localhost:8888/auth/discord/callback/index.html',
+            DISCORD_REDIRECT_URI: `${window.location.origin}/auth/discord/callback`,
             AUTH_ENDPOINT: 'https://discord.com/api/oauth2/authorize',
             TOKEN_ENDPOINT: '/.netlify/functions/auth-discord',
             OAUTH_SCOPES: 'identify'
         };
     </script>
-    <base href="http://localhost:8888/">
+    <base href=`${window.location.origin}/`>
 
     <style>
         .loading-screen {

@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+const { getUserByDiscordId } = require('./utils/db');
 
 exports.handler = async(event, context) => {
     if (event.httpMethod !== 'POST') {
@@ -80,7 +81,10 @@ exports.handler = async(event, context) => {
         }
 
         const userData = await userResponse.json();
-        console.log('User data retrieved:', userData);
+        console.log('Discord user data retrieved:', userData);
+
+        const gameData = await getUserByDiscordId(userData.id);
+        console.log('Game data retrieved:', gameData);
 
         const token = {
             exp: Math.floor(Date.now() / 1000) + (60 * 60),
@@ -90,7 +94,8 @@ exports.handler = async(event, context) => {
                 discriminator: userData.discriminator,
                 avatar: userData.avatar,
                 access_token: tokenData.access_token,
-                refresh_token: tokenData.refresh_token
+                refresh_token: tokenData.refresh_token,
+                game_data: gameData
             }
         };
 
@@ -106,7 +111,8 @@ exports.handler = async(event, context) => {
                     username: userData.username,
                     discriminator: userData.discriminator,
                     avatar: userData.avatar,
-                    tag: `${userData.username}#${userData.discriminator}`
+                    tag: `${userData.username}#${userData.discriminator}`,
+                    game_data: gameData
                 }
             })
         };

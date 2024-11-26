@@ -1,7 +1,17 @@
 {
-    "name": "salife-changelog",
+    "name": "salife_changelog",
     "version": "1.0.0",
+    "description": "SALife Changelog and Features Site",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
     "dependencies": {
-        "node-fetch": "^2.6.1"
-    }
+        "mysql2": "^3.6.5",
+        "node-fetch": "^2.7.0"
+    },
+    "devDependencies": {},
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
 }

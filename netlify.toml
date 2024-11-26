@@ -17,6 +17,10 @@
   DISCORD_CLIENT_ID = "Your Discord Client ID"
   DISCORD_CLIENT_SECRET = "Your Discord Client Secret"
   DISCORD_REDIRECT_URI = "https://playsalife.com/auth/discord/callback"
+  DB_HOST = "Your MariaDB Host"
+  DB_USER = "Your Database User"
+  DB_PASSWORD = "Your Database Password"
+  DB_NAME = "Your Database Name"
 
 [context.production.environment]
   NODE_ENV = "production"

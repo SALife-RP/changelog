@@ -9,3 +9,5 @@ Thumbs.db
 # Build files
 node_modules/
 dist/
+.env
+.env.local

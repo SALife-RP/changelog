@@ -545,6 +545,8 @@
     <script>
         let currentView = 'features';
         let currentVehicle = null;
+        let userInfo = null;
+        let pendingAction = null;
 
         async function loadContent(filename) {
             try {
@@ -998,31 +1000,33 @@
 
         // Handle comment submission
         async function openCommentDialog(lineId, lineContent) {
-            const comment = prompt('Add your comment about this line:');
-            if (!comment) return;
+            showUserInfoModal(async (userInfo) => {
+                const comment = prompt('Add your comment about this line:');
+                if (!comment) return;
 
-            try {
-                // Send to Discord webhook
-                const response = await fetch('/.netlify/functions/send-comment', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        lineId,
-                        lineContent: lineContent.trim(),
-                        comment,
-                        page: currentView
-                    })
-                });
+                try {
+                    const response = await fetch('/.netlify/functions/send-comment', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            lineId,
+                            lineContent: lineContent.trim(),
+                            comment,
+                            page: currentView,
+                            userInfo
+                        })
+                    });
 
-                if (!response.ok) throw new Error('Failed to send comment');
+                    if (!response.ok) throw new Error('Failed to send comment');
 
-                alert('Comment sent successfully!');
-            } catch (error) {
-                console.error('Error sending comment:', error);
-                alert('Failed to send comment. Please try again.');
-            }
+                    alert('Comment sent successfully!');
+                } catch (error) {
+                    console.error('Error sending comment:', error);
+                    alert('Failed to send comment. Please try again.');
+                }
+            });
         }
 
         // Add styles for comment button
@@ -1049,6 +1053,73 @@
             }
         `;
         document.head.appendChild(styles);
+
+        function showUserInfoModal(callback) {
+            if (userInfo) {
+                callback(userInfo);
+                return;
+            }
+
+            pendingAction = callback;
+            const modal = document.getElementById('userInfoModal');
+            modal.style.display = 'block';
+        }
+
+        function closeUserInfoModal() {
+            const modal = document.getElementById('userInfoModal');
+            modal.style.display = 'none';
+            pendingAction = null;
+        }
+
+        // Add event listener for user info form
+        document.getElementById('userInfoForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            userInfo = {
+                discord: document.getElementById('discordName').value,
+                ingame: document.getElementById('ingameName').value
+            };
+
+            // Store in localStorage for persistence
+            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+
+            closeUserInfoModal();
+
+            if (pendingAction) {
+                pendingAction(userInfo);
+                pendingAction = null;
+            }
+        });
+
+        // Add these to the initialization code
+        document.addEventListener('DOMContentLoaded', function () {
+            // Try to load saved user info
+            const savedUserInfo = localStorage.getItem('userInfo');
+            if (savedUserInfo) {
+                userInfo = JSON.parse(savedUserInfo);
+            }
+        });
+
+        // Add styles for the user info modal
+        const userInfoStyles = document.createElement('style');
+        userInfoStyles.textContent = `
+            .modal input[type="text"] {
+                width: 100%;
+                padding: 8px;
+                margin-bottom: 15px;
+                border: 1px solid var(--overlay-light);
+                border-radius: 4px;
+                background: var(--secondary-dark);
+                color: var(--text);
+            }
+
+            .modal input[type="text"]:focus {
+                outline: none;
+                border-color: var(--primary);
+                box-shadow: 0 0 0 2px var(--primary-dark);
+            }
+        `;
+        document.head.appendChild(userInfoStyles);
     </script>
 
     <!-- Add this modal HTML before the closing body tag -->
@@ -1070,6 +1141,27 @@
                 <div class="form-actions">
                     <button type="button" onclick="closeModal()">Cancel</button>
                     <button type="submit">Submit Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add this modal for user info before the change request modal -->
+    <div id="userInfoModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeUserInfoModal()">&times;</span>
+            <h2>Identify Yourself</h2>
+            <form id="userInfoForm">
+                <div class="form-group">
+                    <label for="discordName">Discord Username:</label>
+                    <input type="text" id="discordName" placeholder="Your Discord username" required>
+                </div>
+                <div class="form-group">
+                    <label for="ingameName">In-Game Name:</label>
+                    <input type="text" id="ingameName" placeholder="Your character name" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit">Continue</button>
                 </div>
             </form>
         </div>

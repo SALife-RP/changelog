@@ -1,29 +1,31 @@
 const fetch = require('node-fetch');
 
 exports.handler = async function (event, context) {
-    // Verify request method
     if (event.httpMethod !== 'POST') {
         return { statusCode: 405, body: 'Method Not Allowed' };
     }
 
     try {
-        const { lineId, lineContent, comment, page } = JSON.parse(event.body);
+        const { lineId, lineContent, comment, page, userInfo } = JSON.parse(event.body);
 
-        // Discord webhook URL from environment variable
         const webhookUrl = process.env.DISCORD_CHANGELOG_WEBHOOK_URL;
         if (!webhookUrl) {
             throw new Error('Discord webhook URL not configured');
         }
 
-        // Format message for Discord
         const message = {
             embeds: [{
                 title: `Comment on ${page === 'features' ? 'Feature' : 'Changelog'}`,
                 description: 'A new comment has been added',
                 color: page === 'features' ? 0x00ff00 : 0x0099ff,
                 fields: [{
+                    name: 'Submitted By',
+                    value: `Discord: ${userInfo.discord || 'Not provided'}\nIn-Game Name: ${userInfo.ingame || 'Not provided'}`,
+                    inline: false
+                },
+                {
                     name: 'Line Content',
-                    value: lineContent.substring(0, 1024), // Discord field limit
+                    value: lineContent.substring(0, 1024),
                     inline: false
                 },
                 {
@@ -41,7 +43,6 @@ exports.handler = async function (event, context) {
             }]
         };
 
-        // Send to Discord
         const response = await fetch(webhookUrl, {
             method: 'POST',
             headers: {

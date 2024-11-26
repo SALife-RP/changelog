@@ -40,7 +40,10 @@ exports.handler = async(event, context) => {
             console.error('Discord token exchange error:', error);
             return {
                 statusCode: 500,
-                body: JSON.stringify({ error: 'Failed to exchange authorization code' })
+                body: JSON.stringify({
+                    error: 'Failed to exchange authorization code',
+                    details: error
+                })
             };
         }
 

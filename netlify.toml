@@ -4,7 +4,7 @@
 
 [[redirects]]
   from = "/auth/discord/callback"
-  to = "/"
+  to = "/index.html"
   status = 200
   force = true
 
@@ -16,7 +16,7 @@
 [template.environment]
   DISCORD_CLIENT_ID = "Your Discord Client ID"
   DISCORD_CLIENT_SECRET = "Your Discord Client Secret"
-  DISCORD_REDIRECT_URI = "https://your-site.netlify.app/auth/discord/callback"
+  DISCORD_REDIRECT_URI = "https://playsalife.com/auth/discord/callback"
 
 [context.production.environment]
   NODE_ENV = "production"

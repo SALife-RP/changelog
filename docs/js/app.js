@@ -148,6 +148,33 @@ function generateConnectionInfo() {
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
+    // Check for auth error
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('auth_error')) {
+        alert('Authentication failed. Please try again.');
+    }
+
+    // Check for auth callback
+    if (window.location.pathname.includes('/auth/discord/callback')) {
+        handleAuthCallback();
+        return; // Don't load content yet
+    }
+
+    // Check authentication status
+    const token = localStorage.getItem('auth_token');
+    const userData = localStorage.getItem('user_data');
+
+    if (token && userData) {
+        try {
+            currentUser = JSON.parse(userData);
+            updateAuthUI();
+        } catch (error) {
+            console.error('Error parsing stored auth data:', error);
+            handleLogout();
+        }
+    }
+
+    // Load initial content
     loadContent('FEATURES');
 });
 
@@ -235,6 +262,8 @@ async function handleAuthCallback() {
 
     if (code) {
         try {
+            console.log('Processing auth callback with code:', code); // Debug log
+
             const response = await fetch(window.appConfig.TOKEN_ENDPOINT, {
                 method: 'POST',
                 headers: {
@@ -242,6 +271,12 @@ async function handleAuthCallback() {
                 },
                 body: JSON.stringify({ code }),
             });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Token endpoint error:', errorText);
+                throw new Error('Failed to authenticate with Discord');
+            }
 
             const data = await response.json();
 
@@ -251,38 +286,15 @@ async function handleAuthCallback() {
                 currentUser = data.user;
                 updateAuthUI();
 
-                // Redirect back to home page
-                window.location.href = '/';
+                // Redirect to home and force reload
+                window.location.replace('/');
             } else {
                 throw new Error('Invalid authentication response');
             }
         } catch (error) {
             console.error('Authentication error:', error);
-            window.location.href = '/';
+            // Redirect to home with error parameter
+            window.location.replace('/?auth_error=1');
         }
     }
 }
-
-// Check authentication status on page load
-document.addEventListener('DOMContentLoaded', () => {
-    const token = localStorage.getItem('auth_token');
-    const userData = localStorage.getItem('user_data');
-
-    if (token && userData) {
-        try {
-            currentUser = JSON.parse(userData);
-            updateAuthUI();
-        } catch (error) {
-            console.error('Error parsing stored auth data:', error);
-            handleLogout();
-        }
-    }
-
-    // Handle OAuth callback if on callback page
-    if (window.location.pathname === '/auth/discord/callback') {
-        handleAuthCallback();
-    }
-
-    // Load initial content
-    loadContent('FEATURES');
-});

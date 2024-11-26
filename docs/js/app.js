@@ -9,6 +9,17 @@ let sortedIdentities = null;
 let sortedVehicles = null;
 let currentUser = null;
 
+// Add these functions at the top level
+function showLoadingScreen() {
+    document.getElementById('loadingScreen').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function hideLoadingScreen() {
+    document.getElementById('loadingScreen').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
 async function loadContent(filename) {
     try {
         if (filename === 'server') {
@@ -148,16 +159,17 @@ function generateConnectionInfo() {
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
+    // Show loading screen if we're on the callback page
+    if (window.location.pathname.includes('/auth/discord/callback')) {
+        showLoadingScreen();
+        handleAuthCallback();
+        return;
+    }
+
     // Check for auth error
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('auth_error')) {
         alert('Authentication failed. Please try again.');
-    }
-
-    // Check for auth callback
-    if (window.location.pathname.includes('/auth/discord/callback')) {
-        handleAuthCallback();
-        return; // Don't load content yet
     }
 
     // Check authentication status
@@ -215,7 +227,6 @@ function handleAuth() {
             return;
         }
 
-        // Make sure scope is properly set
         const scope = window.appConfig.OAUTH_SCOPES || 'identify';
 
         const params = new URLSearchParams({
@@ -227,10 +238,14 @@ function handleAuth() {
         });
 
         const authUrl = `${window.appConfig.AUTH_ENDPOINT}?${params.toString()}`;
-        console.log('Auth URL:', authUrl); // Debug log
+        console.log('Auth URL:', authUrl);
+
+        // Show loading screen before redirect
+        showLoadingScreen();
         window.location.href = authUrl;
     } catch (error) {
         console.error('Auth error:', error);
+        hideLoadingScreen();
         alert('An error occurred during authentication. Please try again later.');
     }
 }
@@ -262,7 +277,7 @@ async function handleAuthCallback() {
 
     if (code) {
         try {
-            console.log('Processing auth callback with code:', code); // Debug log
+            console.log('Processing auth callback with code:', code);
 
             const response = await fetch(window.appConfig.TOKEN_ENDPOINT, {
                 method: 'POST',
@@ -286,14 +301,15 @@ async function handleAuthCallback() {
                 currentUser = data.user;
                 updateAuthUI();
 
-                // Redirect to home and force reload
+                // Redirect to home with loading screen
+                showLoadingScreen();
                 window.location.replace('/');
             } else {
                 throw new Error('Invalid authentication response');
             }
         } catch (error) {
             console.error('Authentication error:', error);
-            // Redirect to home with error parameter
+            showLoadingScreen();
             window.location.replace('/?auth_error=1');
         }
     }

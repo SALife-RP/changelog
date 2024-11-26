@@ -357,6 +357,168 @@
         .vehicle-details strong {
             color: var(--text);
         }
+
+        .vehicles-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .vehicles-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 200px;
+        }
+
+        .filter-group label {
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
+        .filter-group select {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid var(--overlay-light);
+            border-radius: 4px;
+            background: var(--secondary);
+            color: var(--text);
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .filter-group select:hover {
+            border-color: var(--primary);
+        }
+
+        .filter-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px var(--primary-dark);
+        }
+
+        @media (max-width: 768px) {
+            .filter-group {
+                width: 100%;
+            }
+
+            .filter-group select {
+                width: 100%;
+            }
+        }
+
+        .change-request-btn {
+            margin-top: 15px;
+            padding: 8px 16px;
+            background-color: var(--primary);
+            color: var(--text);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .change-request-btn:hover {
+            background-color: var(--primary-light);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: relative;
+            background-color: var(--secondary);
+            margin: 15% auto;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: var(--text);
+        }
+
+        .form-group {
+            margin: 15px 0;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--text-secondary);
+        }
+
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--overlay-light);
+            border-radius: 4px;
+            background: var(--secondary-dark);
+            color: var(--text);
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .form-actions button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-actions button[type="submit"] {
+            background-color: var(--primary);
+            color: var(--text);
+        }
+
+        .form-actions button[type="button"] {
+            background-color: var(--secondary-dark);
+            color: var(--text-secondary);
+        }
+
+        .form-actions button:hover {
+            background-color: var(--primary-light);
+        }
+
+        .form-actions button[type="button"]:hover {
+            background-color: var(--secondary-solid);
+        }
     </style>
 </head>
 
@@ -370,6 +532,7 @@
 
     <script>
         let currentView = 'features';
+        let currentVehicle = null;
 
         async function loadContent(filename) {
             try {
@@ -484,7 +647,11 @@
                         const vtype = vehicle.vtype || "N/A";
 
                         return `
-                                        <div class="vehicle-card">
+                                        <div class="vehicle-card"
+                                            data-manufacturer="${manufacturer}"
+                                            data-class="${vehicleClass}"
+                                            data-vtype="${vtype}"
+                                            data-price="${price}">
                                             <h4>${name}</h4>
                                             <div class="vehicle-details">
                                                 <p><strong>Manufacturer:</strong> ${manufacturer}</p>
@@ -495,6 +662,13 @@
                                                 ${vehicle.limit ? `<p><strong>Limit:</strong> ${vehicle.limit}</p>` : ''}
                                                 ${vehicle.emergency ? '<p><strong>Emergency Vehicle</strong></p>' : ''}
                                             </div>
+                                            <button class="change-request-btn" onclick='openChangeRequest({
+                                                name: "${name}",
+                                                model: "${model}",
+                                                manufacturer: "${manufacturer}",
+                                                class: "${vehicleClass}",
+                                                price: ${price}
+                                            })'>Request Change</button>
                                         </div>
                                     `;
                     }).join('')}
@@ -536,8 +710,51 @@
 
                         <div class="vehicles-container">
                             <h2>Available Vehicles</h2>
-                            <div class="vehicles-search">
-                                <input type="text" id="vehicleSearch" placeholder="Search vehicles..." onkeyup="filterVehicles()">
+                            <div class="vehicles-controls">
+                                <div class="vehicles-search">
+                                    <input type="text" id="vehicleSearch" placeholder="Search vehicles..." onkeyup="filterVehicles()">
+                                </div>
+                                <div class="vehicles-filters">
+                                    <div class="filter-group">
+                                        <label>Manufacturer:</label>
+                                        <select onchange="filterByCategory('manufacturer', this.value)">
+                                            <option value="all">All Manufacturers</option>
+                                            ${[...new Set(Object.values(vehiclesData).map(v => v.manufacturer))]
+                        .sort()
+                        .map(mfg => `<option value="${mfg}">${mfg}</option>`)
+                        .join('')}
+                                        </select>
+                                    </div>
+                                    <div class="filter-group">
+                                        <label>Class:</label>
+                                        <select onchange="filterByCategory('class', this.value)">
+                                            <option value="all">All Classes</option>
+                                            ${[...new Set(Object.values(vehiclesData).map(v => v.class))]
+                        .sort()
+                        .map(cls => `<option value="${cls}">${cls}</option>`)
+                        .join('')}
+                                        </select>
+                                    </div>
+                                    <div class="filter-group">
+                                        <label>Vehicle Type:</label>
+                                        <select onchange="filterByCategory('vtype', this.value)">
+                                            <option value="all">All Types</option>
+                                            ${[...new Set(Object.values(vehiclesData).map(v => v.vtype))]
+                        .sort()
+                        .map(type => `<option value="${type}">${type}</option>`)
+                        .join('')}
+                                        </select>
+                                    </div>
+                                    <div class="filter-group">
+                                        <label>Sort by:</label>
+                                        <select id="sortVehicles" onchange="sortVehicles(this.value)">
+                                            <option value="name">Name (A-Z)</option>
+                                            <option value="price">Price (Low to High)</option>
+                                            <option value="price-desc">Price (High to Low)</option>
+                                            <option value="manufacturer">Manufacturer</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             ${vehiclesHtml}
                         </div>
@@ -559,19 +776,99 @@
             }
         }
 
-        // Add this function for vehicle search functionality
+        // Replace the sortVehicles function with this updated version
+        function sortVehicles(sortBy) {
+            const vehiclesContainer = document.querySelector('.vehicles-container');
+            const categories = vehiclesContainer.querySelectorAll('.vehicle-category');
+
+            categories.forEach(category => {
+                const vehiclesGrid = category.querySelector('.vehicles-grid');
+                const vehicles = Array.from(vehiclesGrid.querySelectorAll('.vehicle-card'));
+
+                vehicles.sort((a, b) => {
+                    switch (sortBy) {
+                        case 'price':
+                            const priceA = parseInt(a.dataset.price) || 0;
+                            const priceB = parseInt(b.dataset.price) || 0;
+                            return priceA - priceB;
+                        case 'price-desc':
+                            const priceDescA = parseInt(a.dataset.price) || 0;
+                            const priceDescB = parseInt(b.dataset.price) || 0;
+                            return priceDescB - priceDescA;
+                        case 'name':
+                            const nameA = a.querySelector('h4')?.textContent.toLowerCase() || '';
+                            const nameB = b.querySelector('h4')?.textContent.toLowerCase() || '';
+                            return nameA.localeCompare(nameB);
+                        case 'manufacturer':
+                            const mfgA = a.dataset.manufacturer?.toLowerCase() || '';
+                            const mfgB = b.dataset.manufacturer?.toLowerCase() || '';
+                            return mfgA.localeCompare(mfgB);
+                        default:
+                            return 0;
+                    }
+                });
+
+                vehicles.forEach(vehicle => vehiclesGrid.appendChild(vehicle));
+            });
+        }
+
+        // Replace the filterByCategory function with this updated version
+        function filterByCategory(categoryType, value) {
+            const vehicleCards = document.querySelectorAll('.vehicle-card');
+            const allCategories = document.querySelectorAll('.vehicle-category');
+
+            // Show all categories first
+            allCategories.forEach(cat => cat.style.display = '');
+
+            if (value === 'all') {
+                vehicleCards.forEach(card => card.style.display = '');
+                return;
+            }
+
+            vehicleCards.forEach(card => {
+                const cardValue = card.dataset[categoryType]?.toLowerCase();
+                if (cardValue === value.toLowerCase()) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Hide empty categories
+            allCategories.forEach(category => {
+                const visibleCards = category.querySelectorAll('.vehicle-card[style="display: none;"]');
+                if (visibleCards.length === category.querySelectorAll('.vehicle-card').length) {
+                    category.style.display = 'none';
+                } else {
+                    category.style.display = '';
+                }
+            });
+        }
+
+        // Replace the filterVehicles function with this updated version
         function filterVehicles() {
             const searchTerm = document.getElementById('vehicleSearch').value.toLowerCase();
             const vehicleCards = document.querySelectorAll('.vehicle-card');
+            const allCategories = document.querySelectorAll('.vehicle-category');
 
             vehicleCards.forEach(card => {
-                const vehicleName = card.querySelector('h4').textContent.toLowerCase();
-                const vehicleDetails = card.querySelector('.vehicle-details').textContent.toLowerCase();
+                const vehicleName = card.querySelector('h4')?.textContent.toLowerCase() || '';
+                const vehicleDetails = card.querySelector('.vehicle-details')?.textContent.toLowerCase() || '';
 
                 if (vehicleName.includes(searchTerm) || vehicleDetails.includes(searchTerm)) {
                     card.style.display = '';
                 } else {
                     card.style.display = 'none';
+                }
+            });
+
+            // Hide empty categories
+            allCategories.forEach(category => {
+                const visibleCards = category.querySelectorAll('.vehicle-card[style="display: none;"]');
+                if (visibleCards.length === category.querySelectorAll('.vehicle-card').length) {
+                    category.style.display = 'none';
+                } else {
+                    category.style.display = '';
                 }
             });
         }
@@ -585,7 +882,108 @@
                 loadServerInfo();
             }
         }, 30000);
+
+        // Replace the submitVehicleChange function
+        async function submitVehicleChange(event) {
+            event.preventDefault();
+            const form = event.target;
+            const changeReason = form.querySelector('#changeReason').value;
+            const suggestedChange = form.querySelector('#suggestedChange').value;
+
+            if (!changeReason || !suggestedChange) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            const submitButton = form.querySelector('button[type="submit"]');
+            submitButton.disabled = true;
+            submitButton.textContent = 'Submitting...';
+
+            try {
+                const response = await fetch('/.netlify/functions/submit-vehicle-change', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        vehicle: currentVehicle,
+                        reason: changeReason,
+                        suggestion: suggestedChange
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert('Change request submitted successfully!');
+                    closeModal();
+                } else {
+                    throw new Error(result.error || 'Failed to submit request');
+                }
+            } catch (error) {
+                console.error('Error submitting change request:', error);
+                alert('Failed to submit change request. Please try again later.');
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = 'Submit Request';
+            }
+        }
+
+        // Add event listener for response from client script
+        window.addEventListener('message', function (event) {
+            if (event.data.type === 'vehicleChangeResponse') {
+                const submitButton = document.querySelector('#changeRequestForm button[type="submit"]');
+                submitButton.disabled = false;
+                submitButton.textContent = 'Submit Request';
+
+                if (event.data.success) {
+                    alert('Change request submitted successfully!');
+                    closeModal();
+                } else {
+                    alert('Failed to submit change request. Please try again later.');
+                }
+            }
+        });
+
+        // Add this function to handle opening the modal
+        function openChangeRequest(vehicleData) {
+            currentVehicle = vehicleData;
+            const modal = document.getElementById('changeRequestModal');
+            modal.style.display = 'block';
+            document.getElementById('vehicleNameInModal').textContent = vehicleData.name;
+        }
+
+        // Add this function to close the modal
+        function closeModal() {
+            const modal = document.getElementById('changeRequestModal');
+            modal.style.display = 'none';
+            document.getElementById('changeRequestForm').reset();
+        }
     </script>
+
+    <!-- Add this modal HTML before the closing body tag -->
+    <div id="changeRequestModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Request Vehicle Change</h2>
+            <p>Vehicle: <span id="vehicleNameInModal"></span></p>
+            <form id="changeRequestForm" onsubmit="submitVehicleChange(event)">
+                <div class="form-group">
+                    <label for="changeReason">Reason for Change:</label>
+                    <textarea id="changeReason" required
+                        placeholder="Please explain why this vehicle needs changes..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="suggestedChange">Suggested Change:</label>
+                    <textarea id="suggestedChange" required placeholder="Describe your suggested changes..."></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" onclick="closeModal()">Cancel</button>
+                    <button type="submit">Submit Request</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>
 
 </html>

@@ -655,3 +655,60 @@ textarea:focus {
 .form-actions button[type="button"]:hover {
     background: var(--secondary-dark);
 }
+
+
+/* Character Cards Styling */
+
+.character-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.character-card {
+    background-color: #252525;
+    border: 1px solid #4f32aa;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+.character-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #6741d9;
+}
+
+.character-info {
+    flex: 1;
+}
+
+.character-info h3 {
+    color: #ffffff;
+    margin: 0 0 10px 0;
+}
+
+.character-info p {
+    color: #cccccc;
+    margin: 5px 0;
+}
+
+.error-message {
+    color: #ff5252;
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(255, 82, 82, 0.1);
+    border-radius: 8px;
+    margin: 20px;
+}
+
+.loading {
+    text-align: center;
+    color: #cccccc;
+    padding: 20px;
+}

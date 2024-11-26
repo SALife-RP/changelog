@@ -9,6 +9,7 @@ let sortedIdentities = null;
 let sortedVehicles = null;
 let currentUser = null;
 let gameData = null;
+let characterData = null;
 
 // Add a refresh cooldown
 let lastRefresh = 0;
@@ -553,4 +554,80 @@ async function loadPlayerProfile() {
             ${displayCharacterInfo()}
         </div>
     `;
+}
+
+// Update the character data loading function
+async function loadCharacterData(userData) {
+    try {
+        if (!userData || !userData.game_data || !userData.game_data.characters) {
+            console.warn('No character data available');
+            return;
+        }
+
+        characterData = userData.game_data.characters;
+
+        // Format the character data for display
+        const formattedCharacters = characterData.map(character => {
+            const identity = character.identity[0] || {};
+            return {
+                name: `${identity.firstname} ${identity.name}`,
+                job: identity.job || 'Unemployed',
+                jobRank: identity.jobrank || 1,
+                phone: identity.phone || 'No Phone',
+                registration: identity.registration || 'No Registration',
+                image: identity.mdt_image || 'default-avatar.png',
+                inventory: JSON.parse(identity.inventory || '[]'),
+                // Add other relevant character data here
+            };
+        });
+
+        // Update the UI with character data
+        const characterContainer = document.getElementById('character-container');
+        if (characterContainer) {
+            characterContainer.innerHTML = formattedCharacters.map(char => `
+                <div class="character-card">
+                    <img src="${char.image}" alt="${char.name}" class="character-avatar">
+                    <div class="character-info">
+                        <h3>${char.name}</h3>
+                        <p>Job: ${char.job} (Rank ${char.jobRank})</p>
+                        <p>Phone: ${char.phone}</p>
+                        <p>Registration: ${char.registration}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+    } catch (error) {
+        console.error('Error loading character data:', error);
+        // Show user-friendly error message
+        const characterContainer = document.getElementById('character-container');
+        if (characterContainer) {
+            characterContainer.innerHTML = `
+                <div class="error-message">
+                    Unable to load character data. Please try again later.
+                </div>
+            `;
+        }
+    }
+}
+
+// Update the profile section content
+function updateProfileContent(userData) {
+    const content = document.getElementById('content');
+    if (!content) return;
+
+    content.innerHTML = `
+        <div class="profile-section">
+            <h2>My Profile</h2>
+            <div class="user-info">
+                <img src="https://cdn.discordapp.com/avatars/${userData.id}/${userData.avatar}.png" alt="Discord Avatar" class="discord-avatar">
+                <h3>${userData.username}</h3>
+            </div>
+            <div id="character-container" class="character-container">
+                <div class="loading">Loading characters...</div>
+            </div>
+        </div>
+    `;
+
+    // Load character data after setting up the container
+    loadCharacterData(userData);
 }

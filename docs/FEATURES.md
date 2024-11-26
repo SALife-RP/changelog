@@ -1,7 +1,7 @@
 # 🎉 **SALife Launch Feature Showcase** 🎉
 
 > *Welcome to the next generation of FiveM roleplay*
-@image(logo.png)
+@image(logo.png, 20vw, 20vh)
 
 ## 🎮 **Core Systems**
 

@@ -672,16 +672,17 @@
                 const text = await response.text();
                 const parsedContent = marked.parse(text);
 
-                // Process image tags with error handling
+                // Process image tags with size support
                 const processedContent = parsedContent.replace(
-                    /@image\((.*?)\)/g,
-                    (match, imagePath) => {
+                    /@image\((.*?)(,\s*(\d+)vh)?(,\s*(\d+)vw)?\)/g,
+                    (match, imagePath, _, height = '40', __, width = '80') => {
                         return `
                             <div class="image-container">
                                 <img
                                     class="feature-image"
                                     src="assets/images/${imagePath}"
                                     alt="Feature Image"
+                                    style="height: ${height}vh; width: ${width}vw; object-fit: contain;"
                                     loading="lazy"
                                     onerror="this.onerror=null; this.src='assets/images/placeholder.png';"
                                 >

@@ -676,13 +676,15 @@
                 const processedContent = parsedContent.replace(
                     /@image\((.*?)(,\s*(\d+)vh)?(,\s*(\d+)vw)?\)/g,
                     (match, imagePath, _, height = '40', __, width = '80') => {
+                        // Remove any whitespace from the imagePath
+                        const cleanPath = imagePath.trim();
                         return `
                             <div class="image-container">
                                 <img
                                     class="feature-image"
-                                    src="assets/images/${imagePath}"
+                                    src="assets/images/${cleanPath}"
                                     alt="Feature Image"
-                                    style="height: ${height}vh; width: ${width}vw; object-fit: contain;"
+                                    style="max-height: ${height}vh; max-width: ${width}vw; width: auto; height: auto;"
                                     loading="lazy"
                                     onerror="this.onerror=null; this.src='assets/images/placeholder.png';"
                                 >
@@ -696,7 +698,7 @@
                 // Add lightbox functionality to images
                 document.querySelectorAll('.feature-image').forEach(img => {
                     img.onclick = function () {
-                        if (this.src !== 'assets/images/logo.png') {
+                        if (this.src.indexOf('placeholder.png') === -1) {
                             this.requestFullscreen();
                         }
                     };

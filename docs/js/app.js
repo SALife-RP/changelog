@@ -251,10 +251,45 @@ function displayCharacterInfo() {
     gameData.characters.forEach((char, index) => {
         // Debug log to see what data we're receiving
         console.log('Character data:', char);
-
+        // {
+        //     "identity": [
+        //         {
+        //             "user_id": 83,
+        //             "registration": "007XON",
+        //             "phone": "94112",
+        //             "firstname": "Lamar",
+        //             "name": "Davidson",
+        //             "age": 35,
+        //             "inventory": "[{\"slot\":1,\"count\":1,\"name\":\"phone\"}]",
+        //             "inventory2": null,
+        //             "health_state": null,
+        //             "special": "Normal",
+        //             "dob": "01/01/1989",
+        //             "sex": "male",
+        //             "mdt_image": "https://i.imgur.com/osAfgH2.png",
+        //             "job": "unemployed",
+        //             "jobrank": 1,
+        //             "nationality": "American"
+        //         }
+        //     ],
+        //         "money": [],
+        //             "vehicles": []
+        // }
         const identity = char.identity || {};
         const money = char.money || { wallet: 0, bank: 0, debt: 0 };
         const vehicles = char.vehicles || [];
+
+        console.log('Identity: ', identity);
+        console.log('Money: ', money);
+        console.log('Vehicles: ', vehicles);
+
+        console.log('Identity MDT Image: ', identity.mdt_image);
+        console.log('Identity name: ', identity.firstname);
+        console.log('Identity name: ', identity.name);
+
+        console.log('Identity sex: ', identity.sex);
+
+        console.log('Money: ', money)
 
         html += `
             <div class="character-card">

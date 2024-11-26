@@ -1,7 +1,7 @@
 // Configuration for Discord OAuth
-(function() {
+(function () {
     // const redirectUri = `${window.location.origin}/auth/discord/callback`;
-    const redirectUri = 'https://playsalife.com/auth/discord/callback';
+    const redirectUri = `${window.location.origin}/auth/discord/callback`;
     console.log('Configured redirect URI:', redirectUri); // Debug log
 
     // Only update config if it hasn't been set

@@ -19,6 +19,9 @@ exports.handler = async(event, context) => {
             };
         }
 
+        console.log('Attempting token exchange with code:', code);
+        console.log('Using redirect URI:', process.env.DISCORD_REDIRECT_URI);
+
         // Exchange the authorization code for an access token
         const tokenResponse = await fetch('https://discord.com/api/oauth2/token', {
             method: 'POST',
@@ -35,19 +38,24 @@ exports.handler = async(event, context) => {
             })
         });
 
+        // Log the full token response for debugging
+        const tokenResponseText = await tokenResponse.text();
+        console.log('Token Response:', tokenResponseText);
+
         if (!tokenResponse.ok) {
-            const error = await tokenResponse.text();
-            console.error('Discord token exchange error:', error);
+            console.error('Discord token exchange error:', tokenResponseText);
             return {
                 statusCode: 500,
                 body: JSON.stringify({
                     error: 'Failed to exchange authorization code',
-                    details: error
+                    details: tokenResponseText,
+                    redirect_uri: process.env.DISCORD_REDIRECT_URI,
+                    client_id: process.env.DISCORD_CLIENT_ID
                 })
             };
         }
 
-        const tokenData = await tokenResponse.json();
+        const tokenData = JSON.parse(tokenResponseText);
 
         // Use the access token to get the user's information
         const userResponse = await fetch('https://discord.com/api/users/@me', {
@@ -61,11 +69,15 @@ exports.handler = async(event, context) => {
             console.error('Discord user info error:', error);
             return {
                 statusCode: 500,
-                body: JSON.stringify({ error: 'Failed to fetch user information' })
+                body: JSON.stringify({
+                    error: 'Failed to fetch user information',
+                    details: error
+                })
             };
         }
 
         const userData = await userResponse.json();
+        console.log('User data retrieved:', userData);
 
         // Create a JWT token for the user
         const token = {
@@ -104,7 +116,8 @@ exports.handler = async(event, context) => {
             statusCode: 500,
             body: JSON.stringify({
                 error: 'Internal server error',
-                details: error.message
+                details: error.message,
+                stack: error.stack
             })
         };
     }

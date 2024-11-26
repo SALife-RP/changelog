@@ -140,6 +140,11 @@
 
 ---
 
+## 🌐 **New Website Integration**
+- **[playsalife.com](https://playsalife.com)**: A dedicated website that connects players to game information, updates, and community resources.
+
+---
+
 > 📢 **Coming Soon**
 >
 > - Additional apartment tiers

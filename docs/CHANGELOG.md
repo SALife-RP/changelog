@@ -4,7 +4,7 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
-## [0.1.8] - 2024-11-25
+## [0.1.9] - 2024-11-26
 
 ### ⚖️ Balance Changes
 
@@ -15,6 +15,8 @@ For more information about server rules and features, visit our [Discord](https:
 - **pickpocket:** Increase pouch gains
 
 ### 🆕 New Features
+
+- Early character creation system to allow players to create characters ahead of launch
 
 - **config:** Add indestructable_props resource
 
@@ -53,6 +55,8 @@ For more information about server rules and features, visit our [Discord](https:
 - **hud:** Refactor HUD visibility and status management
 
 ### 🔧 Bug Fixes
+
+- **survival:** Fix bug causing death on spawn-in
 
 - **prison:** CaseId spam fix
 

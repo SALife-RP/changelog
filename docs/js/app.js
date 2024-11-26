@@ -182,6 +182,12 @@ function handleAuth() {
             return;
         }
 
+        if (!window.appConfig.DISCORD_CLIENT_ID) {
+            console.error('Discord Client ID is not configured');
+            alert('Error: Discord configuration is missing. Please try again later.');
+            return;
+        }
+
         const params = new URLSearchParams({
             client_id: window.appConfig.DISCORD_CLIENT_ID,
             redirect_uri: window.appConfig.DISCORD_REDIRECT_URI,
@@ -190,7 +196,7 @@ function handleAuth() {
         });
 
         const authUrl = `${window.appConfig.AUTH_ENDPOINT}?${params.toString()}`;
-        console.log('Redirecting to:', authUrl); // Debug log
+        console.log('Auth URL:', authUrl); // Debug log
         window.location.href = authUrl;
     } catch (error) {
         console.error('Auth error:', error);

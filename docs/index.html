@@ -47,9 +47,9 @@
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <script>
-        // Inline configuration to avoid environment variable issues
+        // Inline configuration with direct values
         window.appConfig = {
-            DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
+            DISCORD_CLIENT_ID: '612428144133013575', // Replace with your actual Discord Client ID
             DISCORD_REDIRECT_URI: `${window.location.origin}/auth/discord/callback`,
             AUTH_ENDPOINT: 'https://discord.com/api/oauth2/authorize',
             TOKEN_ENDPOINT: '/.netlify/functions/auth-discord'

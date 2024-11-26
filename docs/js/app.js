@@ -188,11 +188,14 @@ function handleAuth() {
             return;
         }
 
+        // Make sure scope is properly set
+        const scope = window.appConfig.OAUTH_SCOPES || 'identify';
+
         const params = new URLSearchParams({
             client_id: window.appConfig.DISCORD_CLIENT_ID,
             redirect_uri: window.appConfig.DISCORD_REDIRECT_URI,
             response_type: 'code',
-            scope: window.appConfig.OAUTH_SCOPES,
+            scope: scope,
             prompt: 'consent'
         });
 

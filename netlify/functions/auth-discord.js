@@ -31,7 +31,7 @@ exports.handler = async(event, context) => {
                 grant_type: 'authorization_code',
                 code: code,
                 redirect_uri: process.env.DISCORD_REDIRECT_URI,
-                scope: 'identify email'
+                scope: 'identify'
             })
         });
 

@@ -7,6 +7,7 @@ let currentPage = 1;
 const charactersPerPage = 14;
 let sortedIdentities = null;
 let sortedVehicles = null;
+let currentUser = null;
 
 async function loadContent(filename) {
     try {
@@ -171,3 +172,94 @@ function submitUserInfo(event) {
         pendingAction = null;
     }
 }
+
+// Authentication handlers
+function handleAuth() {
+    const params = new URLSearchParams({
+        client_id: window.appConfig.DISCORD_CLIENT_ID,
+        redirect_uri: window.appConfig.DISCORD_REDIRECT_URI,
+        response_type: 'code',
+        scope: 'identify',
+    });
+
+    window.location.href = `${window.appConfig.AUTH_ENDPOINT}?${params.toString()}`;
+}
+
+function handleLogout() {
+    localStorage.removeItem('auth_token');
+    localStorage.removeItem('user_data');
+    currentUser = null;
+    updateAuthUI();
+}
+
+function updateAuthUI() {
+    const loginButton = document.querySelector('.login-button');
+    const logoutButton = document.querySelector('.logout-button');
+
+    if (currentUser) {
+        loginButton.style.display = 'none';
+        logoutButton.style.display = 'inline-block';
+    } else {
+        loginButton.style.display = 'inline-block';
+        logoutButton.style.display = 'none';
+    }
+}
+
+// Handle OAuth callback
+async function handleAuthCallback() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get('code');
+
+    if (code) {
+        try {
+            const response = await fetch(window.appConfig.TOKEN_ENDPOINT, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ code }),
+            });
+
+            const data = await response.json();
+
+            if (data.token && data.user) {
+                localStorage.setItem('auth_token', JSON.stringify(data.token));
+                localStorage.setItem('user_data', JSON.stringify(data.user));
+                currentUser = data.user;
+                updateAuthUI();
+
+                // Redirect back to home page
+                window.location.href = '/';
+            } else {
+                throw new Error('Invalid authentication response');
+            }
+        } catch (error) {
+            console.error('Authentication error:', error);
+            window.location.href = '/';
+        }
+    }
+}
+
+// Check authentication status on page load
+document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('auth_token');
+    const userData = localStorage.getItem('user_data');
+
+    if (token && userData) {
+        try {
+            currentUser = JSON.parse(userData);
+            updateAuthUI();
+        } catch (error) {
+            console.error('Error parsing stored auth data:', error);
+            handleLogout();
+        }
+    }
+
+    // Handle OAuth callback if on callback page
+    if (window.location.pathname === '/auth/discord/callback') {
+        handleAuthCallback();
+    }
+
+    // Load initial content
+    loadContent('FEATURES');
+});

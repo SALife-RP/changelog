@@ -3,16 +3,20 @@
   functions = "netlify/functions"
 
 [[redirects]]
-  from = "/.netlify/identity/*"
-  to = "/.netlify/identity/:splat"
+  from = "/auth/discord/callback"
+  to = "/"
   status = 200
+  force = true
 
 [[redirects]]
-  from = "/auth/discord/callback"
-  to = "/.netlify/functions/auth-discord"
+  from = "/*"
+  to = "/index.html"
   status = 200
 
 [template.environment]
   DISCORD_CLIENT_ID = "Your Discord Client ID"
   DISCORD_CLIENT_SECRET = "Your Discord Client Secret"
   DISCORD_REDIRECT_URI = "https://your-site.netlify.app/auth/discord/callback"
+
+[context.production.environment]
+  NODE_ENV = "production"

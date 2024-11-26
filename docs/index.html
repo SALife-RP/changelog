@@ -8,24 +8,21 @@
     <!-- Primary Meta Tags -->
     <title>SALife Features & Changelog</title>
     <meta name="title" content="SALife - San Andreas Life">
-    <meta name="description"
-        content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
+    <meta name="description" content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
     <meta name="keywords" content="SALife, FiveM, GTA V, Roleplay, RP Server, San Andreas Life">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://playsalife.com/">
     <meta property="og:title" content="SALife - San Andreas Life">
-    <meta property="og:description"
-        content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
+    <meta property="og:description" content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
     <meta property="og:image" content="https://playsalife.com/assets/images/logo.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://playsalife.com/">
     <meta property="twitter:title" content="SALife - San Andreas Life">
-    <meta property="twitter:description"
-        content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
+    <meta property="twitter:description" content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
     <meta property="twitter:image" content="https://playsalife.com/assets/images/logo.png">
 
     <!-- Discord -->
@@ -48,6 +45,7 @@
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script type="text/javascript" src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 
 <body>
@@ -57,6 +55,10 @@
         <button class="nav-button" onclick="switchContent('changelog')">Changelog</button>
         <button class="nav-button" onclick="switchContent('server')">Server Info</button>
         <button class="nav-button" onclick="window.open('editorweb/index.html', '_blank')">Lights</button>
+        <div id="auth-buttons">
+            <button class="nav-button login-button" onclick="handleAuth()">Login with Discord</button>
+            <button class="nav-button logout-button" style="display: none;" onclick="handleLogout()">Logout</button>
+        </div>
         <button class="nav-button discord" onclick="window.open('https://discord.gg/8VAZb9fc', '_blank')">
             Join Discord
         </button>

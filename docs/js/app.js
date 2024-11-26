@@ -49,7 +49,7 @@ async function loadContent(filename) {
         });
     } catch (error) {
         console.error('Error loading content:', error);
-        document.getElementById('content').innerHTML = 
+        document.getElementById('content').innerHTML =
             '<div class="error-message">Failed to load content. Please try again later.</div>';
     }
 }
@@ -60,7 +60,7 @@ function switchContent(view) {
     buttons.forEach(button => button.classList.remove('active'));
     event.target.classList.add('active');
 
-    switch(view) {
+    switch (view) {
         case 'features':
             loadContent('FEATURES');
             break;
@@ -148,4 +148,26 @@ function generateConnectionInfo() {
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
     loadContent('FEATURES');
-}); 
+});
+
+function getUserInfo() {
+    if (currentUser) {
+        return {
+            discord: currentUser.user_metadata.full_name,
+            ingame: localStorage.getItem('ingameName') || ''
+        };
+    }
+    return null;
+}
+
+function submitUserInfo(event) {
+    event.preventDefault();
+    const ingameName = document.getElementById('ingameName').value;
+    localStorage.setItem('ingameName', ingameName);
+
+    closeUserInfoModal();
+    if (pendingAction) {
+        pendingAction();
+        pendingAction = null;
+    }
+}

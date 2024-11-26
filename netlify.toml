@@ -1,8 +1,18 @@
 [build]
-  functions = "netlify/functions"
   publish = "docs"
+  functions = "netlify/functions"
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from = "/.netlify/identity/*"
+  to = "/.netlify/identity/:splat"
   status = 200
+
+[[redirects]]
+  from = "/auth/discord/callback"
+  to = "/.netlify/functions/auth-discord"
+  status = 200
+
+[template.environment]
+  DISCORD_CLIENT_ID = "Your Discord Client ID"
+  DISCORD_CLIENT_SECRET = "Your Discord Client Secret"
+  DISCORD_REDIRECT_URI = "https://your-site.netlify.app/auth/discord/callback"

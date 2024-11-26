@@ -12,15 +12,15 @@ class VehicleManager {
             this.vehicles = Object.entries(vehiclesData)
                 .filter(([_, vehicle]) => {
                     // Ensure vehicle has required properties
-                    return vehicle && 
-                        (vehicle["1"] || vehicle.name) && 
+                    return vehicle &&
+                        (vehicle["1"] || vehicle.name) &&
                         (vehicle["2"] || vehicle.price);
                 })
                 .map(([key, vehicle]) => ({
                     ...vehicle,
                     id: key
                 }));
-            
+
             // Initial sort by price
             this.sortedVehicles = [...this.vehicles];
             this.sortVehicles('price');
@@ -38,8 +38,8 @@ class VehicleManager {
                 <h2>Available Vehicles</h2>
                 <div class="vehicles-controls">
                     <div class="vehicles-search">
-                        <input type="text" id="vehicleSearch" 
-                            placeholder="Search vehicles..." 
+                        <input type="text" id="vehicleSearch"
+                            placeholder="Search vehicles..."
                             onkeyup="vehicleManager.filterVehicles()">
                     </div>
                     <div class="vehicles-filters">
@@ -98,9 +98,9 @@ class VehicleManager {
         let limitDisplay;
         let limitStatus;
         let limitDescription;
-        
+
         const limit = vehicle.limit !== undefined ? vehicle.limit : 0;
-        
+
         if (limit === 0) {
             limitDisplay = 'Not Available';
             limitStatus = 'not-ownable';
@@ -152,9 +152,9 @@ class VehicleManager {
                             <strong>Server Limit:</strong>
                             <span class="limit-badge ${limitStatus}" title="${limitDescription}">
                                 ${limitDisplay}
-                                ${limit > 0 && limit < 20 ? 
-                                    `<small class="limit-stats">${ownedNumber} owned / ${limitDisplay} max</small>` 
-                                    : ''}
+                                ${limit > 0 && limit < 20 ?
+                `<small class="limit-stats">${ownedNumber} owned / ${limitDisplay} max</small>`
+                : ''}
                             </span>
                         </div>
                         <small class="limit-description">${limitDescription}</small>
@@ -238,7 +238,7 @@ class VehicleManager {
         if (type === 'all') {
             this.sortedVehicles = [...this.vehicles];
         } else {
-            this.sortedVehicles = this.vehicles.filter(vehicle => 
+            this.sortedVehicles = this.vehicles.filter(vehicle =>
                 vehicle.type?.toLowerCase() === type.toLowerCase()
             );
         }
@@ -271,4 +271,4 @@ class VehicleManager {
 }
 
 // Create and export the vehicle manager instance
-window.vehicleManager = new VehicleManager(); 
+window.vehicleManager = new VehicleManager();

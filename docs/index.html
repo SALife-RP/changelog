@@ -672,19 +672,16 @@
                 const text = await response.text();
                 const parsedContent = marked.parse(text);
 
-                // Process image tags with size support
+                // Process image tags with error handling
                 const processedContent = parsedContent.replace(
-                    /@image\((.*?)(,\s*(\d+)vh)?(,\s*(\d+)vw)?\)/g,
-                    (match, imagePath, _, height = '40', __, width = '80') => {
-                        // Remove any whitespace from the imagePath
-                        const cleanPath = imagePath.trim();
+                    /@image\((.*?)\)/g,
+                    (match, imagePath) => {
                         return `
                             <div class="image-container">
                                 <img
                                     class="feature-image"
-                                    src="assets/images/${cleanPath}"
+                                    src="assets/images/${imagePath}"
                                     alt="Feature Image"
-                                    style="max-height: ${height}vh; max-width: ${width}vw; width: auto; height: auto;"
                                     loading="lazy"
                                     onerror="this.onerror=null; this.src='assets/images/placeholder.png';"
                                 >
@@ -698,7 +695,7 @@
                 // Add lightbox functionality to images
                 document.querySelectorAll('.feature-image').forEach(img => {
                     img.onclick = function () {
-                        if (this.src.indexOf('placeholder.png') === -1) {
+                        if (this.src !== 'assets/images/logo.png') {
                             this.requestFullscreen();
                         }
                     };

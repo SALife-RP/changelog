@@ -1,4 +1,5 @@
 /* Character Container */
+
 .characters-container {
     margin-top: 4vh;
     padding: 2vh 2vw;
@@ -7,7 +8,9 @@
     border: 1px solid var(--overlay-light);
 }
 
+
 /* Character Controls */
+
 .characters-controls {
     display: flex;
     flex-direction: column;
@@ -43,7 +46,9 @@
     align-items: center;
 }
 
+
 /* Character Grid */
+
 .characters-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -51,7 +56,9 @@
     margin-top: 15px;
 }
 
+
 /* Character Card */
+
 .character-card {
     background: var(--secondary);
     padding: 15px;
@@ -106,7 +113,9 @@
     color: var(--text);
 }
 
+
 /* Pagination Controls */
+
 .pagination-controls {
     display: flex;
     justify-content: center;
@@ -159,21 +168,20 @@
     border: 1px solid var(--overlay-light);
 }
 
+
 /* Responsive Design */
+
 @media (max-width: 768px) {
     .characters-grid {
         grid-template-columns: repeat(auto-fill, minmax(40vw, 1fr));
     }
-
     .character-image {
         height: 25vh;
     }
-
     .pagination-controls {
         flex-direction: column;
         gap: 10px;
     }
-
     .characters-filters {
         flex-direction: column;
         align-items: stretch;
@@ -184,8 +192,138 @@
     .character-image {
         height: 15vh;
     }
-
     .characters-grid {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
-} 
+}
+
+.characters-section {
+    margin: 2rem 0;
+    padding: 1rem;
+}
+
+.character-card {
+    background: #2a2a2a;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.character-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.character-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 1rem;
+}
+
+.character-title h3 {
+    margin: 0;
+    color: #fff;
+    font-size: 1.5rem;
+}
+
+.character-details {
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+.character-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat {
+    background: #333;
+    padding: 0.75rem;
+    border-radius: 4px;
+}
+
+.stat-label {
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+.stat-value {
+    display: block;
+    color: #fff;
+    font-size: 1.1rem;
+    margin-top: 0.25rem;
+}
+
+.money-stat .stat-value {
+    color: #4CAF50;
+}
+
+.vehicles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.vehicle-card {
+    background: #333;
+    border-radius: 6px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+}
+
+.vehicle-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-right: 1rem;
+}
+
+.vehicle-info {
+    flex: 1;
+}
+
+.vehicle-name {
+    display: block;
+    font-size: 1.1rem;
+    color: #fff;
+    margin-bottom: 0.25rem;
+}
+
+.vehicle-plate {
+    display: inline-block;
+    background: #444;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    font-family: monospace;
+    margin-bottom: 0.25rem;
+}
+
+.vehicle-vin {
+    display: block;
+    color: #888;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.vehicle-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    color: #aaa;
+}
+
+.vehicle-stats span {
+    background: #2a2a2a;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+}

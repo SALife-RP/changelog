@@ -8,6 +8,7 @@ const charactersPerPage = 14;
 let sortedIdentities = null;
 let sortedVehicles = null;
 let currentUser = null;
+let gameData = null;
 
 // Add these functions at the top level
 function showLoadingScreen() {
@@ -113,15 +114,25 @@ async function loadServerInfo() {
 }
 
 function generateServerInfoHtml(serverData) {
-    return `
+    let html = `
         <div class="server-info-container">
             <h1>Server Information</h1>
             ${generateServerStats(serverData)}
             ${generateConnectionInfo()}
+    `;
+
+    // Add character info if user is logged in
+    if (currentUser && gameData) {
+        html += displayCharacterInfo();
+    }
+
+    html += `
             ${window.characterManager.generateContainer()}
             ${window.vehicleManager.generateContainer()}
         </div>
     `;
+
+    return html;
 }
 
 function generateServerStats(serverData) {
@@ -157,8 +168,119 @@ function generateConnectionInfo() {
     `;
 }
 
+async function refreshGameData() {
+    if (!currentUser || !currentUser.id) return;
+
+    try {
+        const response = await fetch('/.netlify/functions/refresh-game-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                discord_id: currentUser.id
+            })
+        });
+
+        if (!response.ok) throw new Error('Failed to refresh game data');
+
+        const data = await response.json();
+        gameData = data;
+
+        // Update localStorage with new game data
+        const userData = JSON.parse(localStorage.getItem('user_data'));
+        userData.game_data = data;
+        localStorage.setItem('user_data', JSON.stringify(userData));
+
+        // If we're on the server info page, refresh the character display
+        if (currentView === 'server') {
+            displayCharacterInfo();
+        }
+    } catch (error) {
+        console.error('Error refreshing game data:', error);
+    }
+}
+
+function displayCharacterInfo() {
+    if (!gameData || !gameData.characters) {
+        return '<div class="no-characters">No character data available</div>';
+    }
+
+    let html = '<div class="characters-section">';
+    html += '<h2>Your Characters</h2>';
+
+    gameData.characters.forEach((char, index) => {
+                if (!char.identity) return;
+
+                html += `
+            <div class="character-card">
+                <div class="character-header">
+                    <img src="${char.identity.mdt_image || 'assets/images/placeholder.png'}"
+                         alt="Character Image"
+                         class="character-image">
+                    <div class="character-title">
+                        <h3>${char.identity.firstname} ${char.identity.name}</h3>
+                        <span class="character-details">
+                            Age: ${char.identity.age} | Sex: ${char.identity.sex}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="character-stats">
+                    <div class="stat">
+                        <span class="stat-label">Phone:</span>
+                        <span class="stat-value">${char.identity.phone}</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Job:</span>
+                        <span class="stat-value">${char.identity.job} (Rank ${char.identity.jobrank})</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Nationality:</span>
+                        <span class="stat-value">${char.identity.nationality}</span>
+                    </div>
+                    <div class="stat money-stat">
+                        <span class="stat-label">Wallet:</span>
+                        <span class="stat-value">$${char.money?.wallet?.toLocaleString() || 0}</span>
+                    </div>
+                    <div class="stat money-stat">
+                        <span class="stat-label">Bank:</span>
+                        <span class="stat-value">$${char.money?.bank?.toLocaleString() || 0}</span>
+                    </div>
+                </div>
+
+                <div class="character-vehicles">
+                    <h4>Vehicles</h4>
+                    <div class="vehicles-grid">
+                        ${char.vehicles?.map(vehicle => `
+                            <div class="vehicle-card">
+                                <img src="${vehicle.mdt_image || 'assets/images/placeholder.png'}"
+                                     alt="Vehicle Image"
+                                     class="vehicle-image">
+                                <div class="vehicle-info">
+                                    <span class="vehicle-name">${vehicle.vehicle.toUpperCase()}</span>
+                                    <span class="vehicle-plate">${vehicle.vehicle_plate}</span>
+                                    <span class="vehicle-vin">VIN: ${vehicle.vehicle_vin}</span>
+                                    <div class="vehicle-stats">
+                                        <span>Insurance: ${vehicle.insurance}%</span>
+                                        <span>Lives: ${vehicle.lives}</span>
+                                        <span>Odometer: ${vehicle.odometer.toLocaleString()} mi</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('') || 'No vehicles owned'}
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    html += '</div>';
+    return html;
+}
+
 // Initialize the application
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     // Show loading screen if we're on the callback page
     if (window.location.pathname.includes('/auth/discord/callback')) {
         showLoadingScreen();
@@ -184,6 +306,11 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error parsing stored auth data:', error);
             handleLogout();
         }
+    }
+
+    // If user is logged in, refresh game data
+    if (currentUser && currentUser.id) {
+        await refreshGameData();
     }
 
     // Load initial content
@@ -264,9 +391,11 @@ function updateAuthUI() {
     if (currentUser) {
         loginButton.style.display = 'none';
         logoutButton.style.display = 'inline-block';
+        refreshGameData(); // Refresh game data when auth state changes
     } else {
         loginButton.style.display = 'inline-block';
         logoutButton.style.display = 'none';
+        gameData = null;
     }
 }
 

@@ -678,6 +678,60 @@
         .nav-button[onclick*="window.open"]:hover {
             background-color: var(--accent-light);
         } */
+
+        .vehicle-image {
+            width: 100%;
+            height: 20vh;
+            margin-bottom: 2vh;
+            border-radius: 0.5vw;
+            overflow: hidden;
+            background: var(--secondary-dark);
+        }
+
+        .vehicle-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .vehicle-card:hover .vehicle-image img {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .vehicle-image {
+                height: 25vh;
+            }
+        }
+
+        @media (min-width: 1920px) {
+            .vehicle-image {
+                height: 15vh;
+            }
+        }
+
+        .vehicle-card {
+            display: flex;
+            flex-direction: column;
+            background: var(--secondary);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--overlay-light);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .vehicle-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .vehicles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
     </style>
 </head>
 
@@ -811,6 +865,7 @@
                         const manufacturer = vehicle.manufacturer || "Unknown";
                         const vehicleClass = vehicle.class || "N/A";
                         const vtype = vehicle.vtype || "N/A";
+                        const image = vehicle.image || "N/A";
 
                         return `
                                         <div class="vehicle-card"
@@ -915,39 +970,54 @@
                                             <option value="manufacturer">Manufacturer (A-Z)</option>
                                         </select>
                                     </div>
-                                    <div class="filter-group">
-                                        <label>Manufacturer:</label>
-                                        <select onchange="filterByCategory('manufacturer', this.value)">
-                                            <option value="all">All Manufacturers</option>
-                                            ${[...new Set(Object.values(vehiclesData).map(v => v.manufacturer))]
-                        .sort()
-                        .map(mfg => `<option value="${mfg}">${mfg}</option>`)
-                        .join('')}
-                                        </select>
-                                    </div>
-                                    <div class="filter-group">
-                                        <label>Class:</label>
-                                        <select onchange="filterByCategory('class', this.value)">
-                                            <option value="all">All Classes</option>
-                                            ${[...new Set(Object.values(vehiclesData).map(v => v.class))]
-                        .sort()
-                        .map(cls => `<option value="${cls}">${cls}</option>`)
-                        .join('')}
-                                        </select>
-                                    </div>
-                                    <div class="filter-group">
-                                        <label>Vehicle Type:</label>
-                                        <select onchange="filterByCategory('vtype', this.value)">
-                                            <option value="all">All Types</option>
-                                            ${[...new Set(Object.values(vehiclesData).map(v => v.vtype))]
-                        .sort()
-                        .map(type => `<option value="${type}">${type}</option>`)
-                        .join('')}
-                                        </select>
-                                    </div>
                                 </div>
                             </div>
-                            ${vehiclesHtml}
+                            <div class="vehicles-grid">
+                                ${Object.entries(vehiclesData).map(([key, vehicle]) => {
+                    if (!vehicle) return '';
+
+                    const name = vehicle["1"] || vehicle.name || "Unknown Vehicle";
+                    const model = vehicle.vehicle || "Unknown Model";
+                    const price = vehicle["2"] || vehicle.price || 0;
+                    const manufacturer = vehicle.manufacturer || "Unknown";
+                    const vehicleClass = vehicle.class || "N/A";
+                    const vtype = vehicle.vtype || "N/A";
+                    // Get image URL or use placeholder
+                    const imageUrl = vehicle.image || 'assets/images/vehicle-placeholder.png'
+
+                    return `
+                                        <div class="vehicle-card"
+                                            data-manufacturer="${manufacturer}"
+                                            data-class="${vehicleClass}"
+                                            data-vtype="${vtype}"
+                                            data-price="${price}">
+                                            <div class="vehicle-image">
+                                                <img src="${imageUrl}"
+                                                    alt="${name}"
+                                                    onerror="this.src='assets/images/vehicle-placeholder.png'"
+                                                    loading="lazy">
+                                            </div>
+                                            <h4>${name}</h4>
+                                            <div class="vehicle-details">
+                                                <p><strong>Manufacturer:</strong> ${manufacturer}</p>
+                                                <p><strong>Model:</strong> ${model}</p>
+                                                <p><strong>Class:</strong> ${vehicleClass}</p>
+                                                <p><strong>Price:</strong> $${price.toLocaleString()}</p>
+                                                <p><strong>Type:</strong> ${vtype}</p>
+                                                ${vehicle.limit ? `<p><strong>Limit:</strong> ${vehicle.limit}</p>` : ''}
+                                                ${vehicle.emergency ? '<p><strong>Emergency Vehicle</strong></p>' : ''}
+                                            </div>
+                                            <button class="change-request-btn" onclick='openChangeRequest({
+                                                name: "${name}",
+                                                model: "${model}",
+                                                manufacturer: "${manufacturer}",
+                                                class: "${vehicleClass}",
+                                                price: ${price}
+                                            })'>Request Change</button>
+                                        </div>
+                                    `;
+                }).join('')}
+                            </div>
                         </div>
 
 

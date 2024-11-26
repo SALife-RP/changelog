@@ -1156,11 +1156,15 @@
         function generateCharactersHtml(identitiesData, sortBy = 'userId-desc') {
             try {
                 console.log('Generating characters HTML');
-                const identities = JSON.parse(identitiesData || '[]');
-
-                if (!Array.isArray(identities)) {
-                    console.error('Identities data is not an array');
-                    return '<p class="error-message">Invalid character data format</p>';
+                let identities;
+                try {
+                    // Parse the data
+                    const parsed = JSON.parse(identitiesData || '{}');
+                    // Convert object to array
+                    identities = Object.values(parsed);
+                } catch (e) {
+                    console.error('Error parsing identities:', e);
+                    identities = [];
                 }
 
                 // Filter and sort the characters
@@ -1321,23 +1325,9 @@
             if (!identitiesData) return;
 
             try {
-                // Parse the original data and ensure it's an array
-                let identities;
-                try {
-                    identities = JSON.parse(identitiesData);
-                    // If it's not an array, try to parse it again (in case it's double-encoded)
-                    if (!Array.isArray(identities)) {
-                        identities = JSON.parse(identities);
-                    }
-                    // If still not an array, create an empty array
-                    if (!Array.isArray(identities)) {
-                        console.error('Invalid identities data format:', identities);
-                        identities = [];
-                    }
-                } catch (e) {
-                    console.error('Error parsing identities:', e);
-                    identities = [];
-                }
+                // Parse and convert to array
+                const parsed = JSON.parse(identitiesData);
+                const identities = Object.values(parsed);
 
                 // Reset to first page and update the container content
                 currentPage = 1;
@@ -1368,7 +1358,7 @@
                     ${generateCharactersHtml(JSON.stringify(identities), sortBy)}
                 `;
 
-                // Store the data as a properly formatted array
+                // Store the data as an array
                 container.dataset.identities = JSON.stringify(identities);
             } catch (error) {
                 console.error('Error sorting characters:', error);

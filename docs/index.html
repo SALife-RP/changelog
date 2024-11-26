@@ -577,6 +577,9 @@
 
                 document.getElementById('content').innerHTML = processedContent;
 
+                // Add comment buttons after content loads
+                addCommentButtons();
+
                 // Add lightbox functionality to images
                 document.querySelectorAll('.feature-image').forEach(img => {
                     img.onclick = function () {
@@ -971,6 +974,81 @@
             modal.style.display = 'none';
             document.getElementById('changeRequestForm').reset();
         }
+
+        // Add comment button to each line
+        function addCommentButtons() {
+            const featureLines = document.querySelectorAll('li, p');
+            featureLines.forEach((line, index) => {
+                // Skip lines that are just formatting
+                if (!line.textContent.trim() || line.textContent.startsWith('---')) return;
+
+                // Create unique ID for the line
+                line.id = `line-${index}`;
+
+                // Create comment button
+                const commentBtn = document.createElement('button');
+                commentBtn.innerHTML = '💬';
+                commentBtn.className = 'comment-btn';
+                commentBtn.onclick = () => openCommentDialog(line.id, line.textContent);
+
+                // Add button after line content
+                line.appendChild(commentBtn);
+            });
+        }
+
+        // Handle comment submission
+        async function openCommentDialog(lineId, lineContent) {
+            const comment = prompt('Add your comment about this line:');
+            if (!comment) return;
+
+            try {
+                // Send to Discord webhook
+                const response = await fetch('/.netlify/functions/send-comment', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        lineId,
+                        lineContent: lineContent.trim(),
+                        comment,
+                        page: currentView
+                    })
+                });
+
+                if (!response.ok) throw new Error('Failed to send comment');
+
+                alert('Comment sent successfully!');
+            } catch (error) {
+                console.error('Error sending comment:', error);
+                alert('Failed to send comment. Please try again.');
+            }
+        }
+
+        // Add styles for comment button
+        const styles = document.createElement('style');
+        styles.textContent = `
+            .comment-btn {
+                opacity: 0;
+                margin-left: 8px;
+                background: none;
+                border: none;
+                cursor: pointer;
+                font-size: 14px;
+                transition: opacity 0.2s;
+                vertical-align: middle;
+            }
+
+            li:hover .comment-btn,
+            p:hover .comment-btn {
+                opacity: 0.6;
+            }
+
+            .comment-btn:hover {
+                opacity: 1 !important;
+            }
+        `;
+        document.head.appendChild(styles);
     </script>
 
     <!-- Add this modal HTML before the closing body tag -->

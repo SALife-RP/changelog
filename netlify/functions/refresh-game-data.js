@@ -9,6 +9,19 @@ exports.handler = async(event, context) => {
     }
 
     try {
+        // Get the Authorization header
+        const authHeader = event.headers.authorization;
+        if (!authHeader || !authHeader.startsWith('Bearer ')) {
+            return {
+                statusCode: 401,
+                body: JSON.stringify({ error: 'Missing or invalid authorization header' })
+            };
+        }
+
+        // Extract the token
+        const token = authHeader.split(' ')[1];
+        
+        // Get the discord_id from the request body
         const { discord_id } = JSON.parse(event.body);
 
         if (!discord_id) {
@@ -35,7 +48,9 @@ exports.handler = async(event, context) => {
         return {
             statusCode: 200,
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization'
             },
             body: JSON.stringify(userData)
         };
@@ -43,6 +58,11 @@ exports.handler = async(event, context) => {
         console.error('Refresh game data error:', error);
         return {
             statusCode: 500,
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+            },
             body: JSON.stringify({
                 error: 'Failed to refresh game data',
                 details: error.message

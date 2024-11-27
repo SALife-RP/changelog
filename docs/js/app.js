@@ -192,17 +192,22 @@ async function refreshGameData() {
     }
 
     try {
-        // Get the auth token
-        const authToken = localStorage.getItem('auth_token');
-        if (!authToken) {
+        // Get and parse the auth token correctly
+        const authTokenStr = localStorage.getItem('auth_token');
+        if (!authTokenStr) {
             throw new Error('No auth token found');
+        }
+
+        const authToken = JSON.parse(authTokenStr);
+        if (!authToken.access_token) {
+            throw new Error('Invalid auth token format');
         }
 
         const response = await fetch('/.netlify/functions/refresh-game-data', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${JSON.parse(authToken)}`
+                'Authorization': `Bearer ${authToken.access_token}`
             },
             body: JSON.stringify({
                 discord_id: currentUser.id
@@ -210,7 +215,7 @@ async function refreshGameData() {
         });
 
         if (!response.ok) {
-            const errorData = await response.json();
+            const errorData = await response.json().catch(() => ({ message: 'Failed to refresh game data' }));
             throw new Error(errorData.message || 'Failed to refresh game data');
         }
 
@@ -237,7 +242,7 @@ async function refreshGameData() {
                 <div class="profile-container">
                     <h1>Player Profile</h1>
                     <div class="error-message">
-                        <p>Failed to refresh game data. Please try again later.</p>
+                        <p>Failed to refresh game data: ${error.message}</p>
                         <button onclick="refreshGameData()" class="refresh-button">
                             Try Again
                         </button>

@@ -42,7 +42,7 @@ async function getUserByDiscordId(discordId) {
                     'SELECT * FROM salrp_user_identities WHERE user_id = ?', [charId]
                 ),
                 pool.execute(
-                    'SELECT * FROM salrp_user_moneys WHERE user_id = ?', [charId]
+                    'SELECT * FROM banking2_accounts WHERE user_id = ?', [charId]
                 ),
                 pool.execute(
                     'SELECT * FROM salrp_user_vehicles WHERE user_id = ?', [charId]
@@ -51,7 +51,7 @@ async function getUserByDiscordId(discordId) {
 
             return {
                 identity: identity || null,
-                money: money || { wallet: 0, bank: 0, debt: 0 },
+                money: money || { cash: 0, debt: 0 },
                 vehicles: vehicles || []
             };
         }));

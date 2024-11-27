@@ -1,5 +1,5 @@
 const fetch = require('node-fetch');
-const { URL } = require('url');
+const { getUserByDiscordId } = require('./utils/db');
 
 exports.handler = async(event, context) => {
     if (event.httpMethod !== 'POST') {
@@ -83,16 +83,8 @@ exports.handler = async(event, context) => {
         const userData = await userResponse.json();
         console.log('Discord user data retrieved:', userData);
 
-        // Get game data directly from the function
-        const getUserByDiscordId = require('./get-user-data').getUserByDiscordId;
-        let gameData = null;
-        
-        try {
-            gameData = await getUserByDiscordId(userData.id);
-            console.log('Game data retrieved:', gameData);
-        } catch (error) {
-            console.warn('Failed to retrieve game data:', error);
-        }
+        const gameData = await getUserByDiscordId(userData.id);
+        console.log('Game data retrieved:', gameData);
 
         const token = {
             exp: Math.floor(Date.now() / 1000) + (60 * 60),

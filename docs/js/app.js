@@ -277,12 +277,13 @@ function displayCharacterInfo() {
         // }
         // Get the first identity object from the array
         const identity = char.identity[0] || {};
-        const money = char.money[0] || [];
+        const money = char.money[0] || { cash: 0, bank: 0, debt: 0 };
 
         const vehicles = char.vehicles || [];
         // Calculate total money
-        const cash = money.reduce((total, m) => total + (m.cash || 0), 0);
-        const debt = money.reduce((total, m) => total + (m.debt || 0), 0);
+        const cash = money.cash || 0;
+        const bank = money.bank || 0;
+        const debt = money.debt || 0;
 
         console.log('Identity: ', identity);
         console.log('Money: ', money);
@@ -328,12 +329,14 @@ function displayCharacterInfo() {
                     <div class="stat money-stat">
                         <span class="stat-label">Cash:</span>
                         <span class="stat-value">$${cash.toLocaleString()}</span>
-
+                    </div>
+                    <div class="stat money-stat">
+                        <span class="stat-label">Bank:</span>
+                        <span class="stat-value">$${bank.toLocaleString()}</span>
                     </div>
                     <div class="stat debt-stat">
                         <span class="stat-label">Debt:</span>
                         <span class="stat-value">$${debt.toLocaleString()}</span>
-
                     </div>
                 </div>
 

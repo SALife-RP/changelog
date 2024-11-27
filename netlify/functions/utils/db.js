@@ -33,27 +33,44 @@ async function getUserByDiscordId(discordId) {
 
         // Get all character information
         const characterData = await Promise.all(characters.map(async(charId) => {
+            // Execute all queries in parallel
             const [
-                [identity],
-                [money],
-                [vehicles]
+                identityResults,
+                moneyResults,
+                vehicleResults
             ] = await Promise.all([
                 pool.execute(
-                    'SELECT * FROM salrp_user_identities WHERE user_id = ?', [charId]
+                    'SELECT * FROM salrp_user_identities WHERE user_id = ?', 
+                    [charId]
                 ),
                 pool.execute(
-                    'SELECT * FROM banking2_accounts WHERE user_id = ?', [charId]
+                    'SELECT cash, bank, debt FROM banking2_accounts WHERE user_id = ?', 
+                    [charId]
                 ),
                 pool.execute(
-                    'SELECT * FROM salrp_user_vehicles WHERE user_id = ?', [charId]
+                    'SELECT v.*, vm.name as model_name, vm.manufacturer, vm.class ' +
+                    'FROM salrp_user_vehicles v ' +
+                    'LEFT JOIN salrp_vehicle_models vm ON v.model = vm.model ' +
+                    'WHERE v.user_id = ?',
+                    [charId]
                 )
             ]);
 
-            console.log('DB Money: ', money);
+            // Extract the first row from each result
+            const [identity] = identityResults[0];
+            const [money] = moneyResults[0];
+            const vehicles = vehicleResults[0];
+
+            console.log('DB Query Results:', {
+                charId,
+                identity: identity || null,
+                money: money || { cash: 0, bank: 0, debt: 0 },
+                vehicles: vehicles || []
+            });
 
             return {
-                identity: identity || null,
-                money: money || { user_id: charId, cash: 0, debt: 0 },
+                identity: identity ? [identity] : [],
+                money: money ? [money] : [{ cash: 0, bank: 0, debt: 0 }],
                 vehicles: vehicles || []
             };
         }));

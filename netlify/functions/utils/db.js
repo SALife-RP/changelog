@@ -33,14 +33,6 @@ async function getUserByDiscordId(discordId) {
 
         // Get all character information
         const characterData = await Promise.all(characters.map(async(charId) => {
-            // Ensure charId is an integer
-            const userId = parseInt(charId, 10);
-            
-            if (isNaN(userId)) {
-                console.error('Invalid character ID:', charId);
-                return null;
-            }
-
             // Execute all queries in parallel
             const [
                 identityResults,
@@ -49,18 +41,18 @@ async function getUserByDiscordId(discordId) {
             ] = await Promise.all([
                 pool.execute(
                     'SELECT * FROM salrp_user_identities WHERE user_id = ?', 
-                    [userId]
+                    [charId]
                 ),
                 pool.execute(
                     'SELECT cash, debt FROM banking2_accounts WHERE user_id = ?', 
-                    [userId]
+                    [charId]
                 ),
                 pool.execute(
                     'SELECT v.*, vm.name as model_name, vm.manufacturer, vm.class ' +
                     'FROM salrp_user_vehicles v ' +
                     'LEFT JOIN salrp_vehicle_models vm ON v.model = vm.model ' +
                     'WHERE v.user_id = ?',
-                    [userId]
+                    [charId]
                 )
             ]);
 
@@ -69,7 +61,8 @@ async function getUserByDiscordId(discordId) {
             const [money] = moneyResults[0];
             const vehicles = vehicleResults[0];
 
-            console.log('DB Query Results for user_id:', userId, {
+            console.log('DB Query Results:', {
+                charId,
                 identity: identity || null,
                 money: money || { cash: 0, debt: 0 },
                 vehicles: vehicles || []
@@ -82,9 +75,6 @@ async function getUserByDiscordId(discordId) {
             };
         }));
 
-        // Filter out any null results from invalid character IDs
-        const validCharacterData = characterData.filter(char => char !== null);
-
         return {
             account: {
                 id: account.id,
@@ -94,7 +84,7 @@ async function getUserByDiscordId(discordId) {
                 lastLogin: account.last_logged_in,
                 banned: account.banned === 1
             },
-            characters: validCharacterData
+            characters: characterData
         };
     } catch (error) {
         console.error('Database error:', error);

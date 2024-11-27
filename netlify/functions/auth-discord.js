@@ -1,5 +1,4 @@
 const fetch = require('node-fetch');
-const { getUserByDiscordId } = require('./utils/db');
 
 exports.handler = async(event, context) => {
     if (event.httpMethod !== 'POST') {
@@ -83,8 +82,23 @@ exports.handler = async(event, context) => {
         const userData = await userResponse.json();
         console.log('Discord user data retrieved:', userData);
 
-        const gameData = await getUserByDiscordId(userData.id);
-        console.log('Game data retrieved:', gameData);
+        const gameDataResponse = await fetch('/.netlify/functions/get-user-data', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                discord_id: userData.id
+            })
+        });
+
+        let gameData = null;
+        if (gameDataResponse.ok) {
+            gameData = await gameDataResponse.json();
+            console.log('Game data retrieved:', gameData);
+        } else {
+            console.warn('Failed to retrieve game data:', await gameDataResponse.text());
+        }
 
         const token = {
             exp: Math.floor(Date.now() / 1000) + (60 * 60),

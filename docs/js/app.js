@@ -281,8 +281,8 @@ function displayCharacterInfo() {
 
         const vehicles = char.vehicles || [];
         // Calculate total money
-        const wallet = money.reduce((total, m) => total + (m.wallet || 0), 0);
-        const bank = money.reduce((total, m) => total + (m.bank || 0), 0);
+        const cash = money.reduce((total, m) => total + (m.cash || 0), 0);
+        const debt = money.reduce((total, m) => total + (m.debt || 0), 0);
 
         console.log('Identity: ', identity);
         console.log('Money: ', money);
@@ -326,13 +326,13 @@ function displayCharacterInfo() {
                         <span class="stat-value">${identity.nationality || 'Unknown'}</span>
                     </div>
                     <div class="stat money-stat">
-                        <span class="stat-label">Wallet:</span>
-                        <span class="stat-value">$${wallet.toLocaleString()}</span>
+                        <span class="stat-label">Cash:</span>
+                        <span class="stat-value">$${cash.toLocaleString()}</span>
 
                     </div>
-                    <div class="stat money-stat">
-                        <span class="stat-label">Bank:</span>
-                        <span class="stat-value">$${bank.toLocaleString()}</span>
+                    <div class="stat debt-stat">
+                        <span class="stat-label">Debt:</span>
+                        <span class="stat-value">$${debt.toLocaleString()}</span>
 
                     </div>
                 </div>

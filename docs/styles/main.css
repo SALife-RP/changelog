@@ -508,6 +508,10 @@ textarea:focus {
     color: #00e676;
 }
 
+.debt-stat .stat-value {
+    color: #ff5252;
+}
+
 .characters-section {
     background: linear-gradient(135deg, #252525 0%, #1a1a1a 100%);
     border-radius: 10px;

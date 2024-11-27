@@ -194,20 +194,31 @@ async function refreshGameData() {
     try {
         // Get and parse the auth token correctly
         const authTokenStr = localStorage.getItem('auth_token');
-        if (!authTokenStr) {
-            throw new Error('No auth token found');
+        const userData = localStorage.getItem('user_data');
+        
+        if (!authTokenStr || !userData) {
+            throw new Error('Missing authentication data');
         }
 
-        const authToken = JSON.parse(authTokenStr);
-        if (!authToken.access_token) {
+        let authToken;
+        try {
+            authToken = JSON.parse(authTokenStr);
+        } catch (e) {
+            console.error('Failed to parse auth token:', e);
             throw new Error('Invalid auth token format');
+        }
+
+        // Check for both token structures
+        const accessToken = authToken.access_token || authToken.data?.access_token;
+        if (!accessToken) {
+            throw new Error('Invalid or expired auth token');
         }
 
         const response = await fetch('/.netlify/functions/refresh-game-data', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${authToken.access_token}`
+                'Authorization': `Bearer ${accessToken}`
             },
             body: JSON.stringify({
                 discord_id: currentUser.id
@@ -236,6 +247,26 @@ async function refreshGameData() {
         }
     } catch (error) {
         console.error('Error refreshing game data:', error);
+        
+        // If token is invalid, try to re-authenticate
+        if (error.message.includes('auth token')) {
+            handleLogout(); // Force logout to clear invalid token
+            if (currentView === 'profile') {
+                document.getElementById('content').innerHTML = `
+                    <div class="profile-container">
+                        <h1>Player Profile</h1>
+                        <div class="error-message">
+                            <p>Your session has expired. Please log in again.</p>
+                            <button onclick="handleAuth()" class="refresh-button">
+                                Login
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            return;
+        }
+
         // Show error message to user if we're on profile page
         if (currentView === 'profile') {
             document.getElementById('content').innerHTML = `
@@ -247,13 +278,11 @@ async function refreshGameData() {
                             Try Again
                         </button>
                     </div>
-                    ${gameData ? displayCharacterInfo() : ''}
                 </div>
             `;
         }
     }
 }
-
 function updateProfileDisplay() {
     document.getElementById('content').innerHTML = `
         <div class="profile-container">

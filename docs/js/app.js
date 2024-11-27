@@ -167,9 +167,12 @@ function generateConnectionInfo() {
 }
 
 async function refreshGameData() {
-    if (!currentUser || !currentUser.id) return;
+    if (!currentUser || !currentUser.id) {
+        console.log('No user logged in, skipping refresh');
+        return;
+    }
 
-    // Check if enough time has passed since last refresh
+    // Check refresh cooldown
     const now = Date.now();
     if (now - lastRefresh < REFRESH_COOLDOWN) {
         console.log('Refresh cooldown active, skipping refresh');
@@ -177,19 +180,55 @@ async function refreshGameData() {
     }
 
     lastRefresh = now;
+    
+    // Show loading indicator in profile if we're on that page
+    if (currentView === 'profile') {
+        document.getElementById('content').innerHTML = `
+            <div class="profile-container">
+                <h1>Player Profile</h1>
+                <div class="loading-spinner">Refreshing data...</div>
+            </div>
+        `;
+    }
 
     try {
+        // Get and parse the auth token correctly
+        const authTokenStr = localStorage.getItem('auth_token');
+        const userData = localStorage.getItem('user_data');
+        
+        if (!authTokenStr || !userData) {
+            throw new Error('Missing authentication data');
+        }
+
+        let authToken;
+        try {
+            authToken = JSON.parse(authTokenStr);
+        } catch (e) {
+            console.error('Failed to parse auth token:', e);
+            throw new Error('Invalid auth token format');
+        }
+
+        // Check for both token structures
+        const accessToken = authToken.access_token || authToken.data?.access_token;
+        if (!accessToken) {
+            throw new Error('Invalid or expired auth token');
+        }
+
         const response = await fetch('/.netlify/functions/refresh-game-data', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
             },
             body: JSON.stringify({
                 discord_id: currentUser.id
             })
         });
 
-        if (!response.ok) throw new Error('Failed to refresh game data');
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({ message: 'Failed to refresh game data' }));
+            throw new Error(errorData.message || 'Failed to refresh game data');
+        }
 
         const data = await response.json();
         console.log('Refreshed game data:', data);
@@ -201,16 +240,49 @@ async function refreshGameData() {
             userData.game_data = data;
             localStorage.setItem('user_data', JSON.stringify(userData));
 
-            // Only update the display if we're on the profile page
+            // Update the display if we're on the profile page
             if (currentView === 'profile') {
                 updateProfileDisplay();
             }
         }
     } catch (error) {
         console.error('Error refreshing game data:', error);
+        
+        // If token is invalid, try to re-authenticate
+        if (error.message.includes('auth token')) {
+            handleLogout(); // Force logout to clear invalid token
+            if (currentView === 'profile') {
+                document.getElementById('content').innerHTML = `
+                    <div class="profile-container">
+                        <h1>Player Profile</h1>
+                        <div class="error-message">
+                            <p>Your session has expired. Please log in again.</p>
+                            <button onclick="handleAuth()" class="refresh-button">
+                                Login
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            return;
+        }
+
+        // Show error message to user if we're on profile page
+        if (currentView === 'profile') {
+            document.getElementById('content').innerHTML = `
+                <div class="profile-container">
+                    <h1>Player Profile</h1>
+                    <div class="error-message">
+                        <p>Failed to refresh game data: ${error.message}</p>
+                        <button onclick="refreshGameData()" class="refresh-button">
+                            Try Again
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
     }
 }
-
 function updateProfileDisplay() {
     document.getElementById('content').innerHTML = `
         <div class="profile-container">
@@ -559,41 +631,36 @@ async function loadPlayerProfile() {
     document.getElementById('content').innerHTML = `
         <div class="profile-container">
             <h1>Player Profile</h1>
-            <div class="loading-spinner"></div>
+            <div class="loading-spinner">Loading profile data...</div>
         </div>
     `;
 
-    // Only refresh if we don't have data
-    if (!gameData) {
-        await refreshGameData();
-    }
+    try {
+        // Try to refresh data if we don't have any
+        if (!gameData) {
+            await refreshGameData();
+        }
 
-    // Get the game data from user data if available
-    if (!gameData && currentUser.game_data) {
-        gameData = currentUser.game_data;
-    }
+        // If still no data after refresh, try to get from stored user data
+        if (!gameData && currentUser.game_data) {
+            gameData = currentUser.game_data;
+        }
 
-    document.getElementById('content').innerHTML = `
-        <div class="profile-container">
-            <h1>Player Profile</h1>
-            <div class="profile-header">
-                <div class="discord-info">
-                    <img src="https://cdn.discordapp.com/avatars/${currentUser.id}/${currentUser.avatar}.png"
-                         alt="Discord Avatar"
-                         class="discord-avatar"
-                         onerror="this.src='assets/images/placeholder.png'">
-                    <div class="discord-details">
-                        <h2>${currentUser.username}</h2>
-                        <span class="discord-tag">#${currentUser.discriminator}</span>
-                    </div>
+        updateProfileDisplay();
+    } catch (error) {
+        console.error('Error loading profile:', error);
+        document.getElementById('content').innerHTML = `
+            <div class="profile-container">
+                <h1>Player Profile</h1>
+                <div class="error-message">
+                    <p>Failed to load profile data. Please try again later.</p>
+                    <button onclick="loadPlayerProfile()" class="refresh-button">
+                        Try Again
+                    </button>
                 </div>
-                <button onclick="refreshGameData()" class="refresh-button">
-                    Refresh Data
-                </button>
             </div>
-            ${displayCharacterInfo()}
-        </div>
-    `;
+        `;
+    }
 }
 
 // Update the character data loading function

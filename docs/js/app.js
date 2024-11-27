@@ -1,5 +1,5 @@
 // Main application logic
-let currentView = 'features';
+let currentView = 'home';
 let currentVehicle = null;
 let userInfo = null;
 let pendingAction = null;
@@ -117,10 +117,34 @@ function enhanceContentStyling() {
 
 function switchContent(view) {
     currentView = view;
+    
+    // Hide home sections first
+    const homeElements = [
+        '.hero-section',
+        '.featured-content',
+        '.features-highlight'
+    ];
+
+    homeElements.forEach(selector => {
+        const element = document.querySelector(selector);
+        if (element) {
+            element.style.display = 'none';
+        }
+    });
+
+    // Update active button state
     const buttons = document.querySelectorAll('.nav-button');
     buttons.forEach(button => button.classList.remove('active'));
-    event.target.classList.add('active');
+    
+    // Find and activate the clicked button
+    const activeButton = Array.from(buttons).find(
+        button => button.getAttribute('onclick')?.includes(view)
+    );
+    if (activeButton) {
+        activeButton.classList.add('active');
+    }
 
+    // Handle content switching
     switch (view) {
         case 'features':
             loadContent('FEATURES');
@@ -133,6 +157,9 @@ function switchContent(view) {
             break;
         case 'profile':
             loadPlayerProfile();
+            break;
+        case 'home':
+            loadHomeContent();
             break;
     }
 }
@@ -433,7 +460,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (token && userData) {
         try {
             currentUser = JSON.parse(userData);
-            // Load game data from stored user data
             if (currentUser.game_data) {
                 gameData = currentUser.game_data;
             }
@@ -444,8 +470,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
-    // Load initial content
-    loadContent('FEATURES');
+    // Load home content by default
+    switchContent('home');
 });
 
 function getUserInfo() {
@@ -580,6 +606,25 @@ async function handleAuthCallback() {
             window.location.replace('/?auth_error=1');
         }
     }
+}
+
+async function loadHomeContent() {
+    // Hide the main content div
+    document.getElementById('content').innerHTML = '';
+    
+    // Show home sections
+    const homeElements = [
+        '.hero-section',
+        '.featured-content',
+        '.features-highlight'
+    ];
+
+    homeElements.forEach(selector => {
+        const element = document.querySelector(selector);
+        if (element) {
+            element.style.display = 'block';
+        }
+    });
 }
 
 // Add this function to handle player profile display

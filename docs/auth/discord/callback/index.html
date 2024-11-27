@@ -1,118 +1,80 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <title>Processing Auth...</title>
-    <style>
-        body {
-            background-color: #1a1a1a;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .container {
-            text-align: center;
-        }
-
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #6741d9;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authenticating...</title>
+    <link rel="stylesheet" href="/styles/main.css">
 </head>
-
 <body>
-    <div class="container">
-        <div class="spinner"></div>
-        <h1>Processing authentication...</h1>
+    <div id="loadingScreen" class="loading-screen active">
+        <div class="loading-spinner"></div>
+        <h2>Authenticating...</h2>
     </div>
 
     <script>
-        (function () {
-            function handleCallback() {
-                try {
-                    // Get the full URL to debug
-                    console.log('Full callback URL:', window.location.href);
+        // Get the app config
+        const appConfig = {
+            DISCORD_CLIENT_ID: '612428144133013575',
+            DISCORD_REDIRECT_URI: window.location.hostname === 'localhost' 
+                ? 'http://localhost:8888/auth/discord/callback'
+                : `${window.location.origin}/auth/discord/callback`,
+            AUTH_ENDPOINT: 'https://discord.com/api/oauth2/authorize',
+            TOKEN_ENDPOINT: '/.netlify/functions/auth-discord',
+            OAUTH_SCOPES: 'identify'
+        };
 
-                    const params = new URLSearchParams(window.location.search);
-                    const code = params.get('code');
-                    const error = params.get('error');
+        async function handleCallback() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            const error = urlParams.get('error');
 
-                    console.log('Auth callback params:', {
-                        code,
-                        error,
-                        raw_search: window.location.search
-                    });
+            console.log('Auth callback params:', { code, error, raw_search: window.location.search });
 
-                    if (error) {
-                        console.error('Discord auth error:', error);
-                        window.location.replace('/?auth_error=' + encodeURIComponent(error));
-                        return;
-                    }
-
-                    if (!code) {
-                        console.error('No auth code found in URL');
-                        window.location.replace('/?auth_error=no_code');
-                        return;
-                    }
-
-                    // Mock user for local development
-                    const mockUser = {
-                        id: '123456789',
-                        username: 'LocalDev',
-                        discriminator: '0000',
-                        avatar: null,
-                        game_data: {
-                            characters: [{
-                                identity: {
-                                    firstname: 'Test',
-                                    name: 'Character',
-                                    phone: '555-0123'
-                                }
-                            }]
-                        }
-                    };
-
-                    localStorage.setItem('auth_token', JSON.stringify({
-                        access_token: 'mock_token_' + Date.now(),
-                        token_type: 'Bearer',
-                        expires_in: 604800
-                    }));
-
-                    localStorage.setItem('user_data', JSON.stringify(mockUser));
-
-                    // Redirect to home using replace
-                    window.location.replace('/');
-                } catch (error) {
-                    console.error('Auth callback error:', error);
-                    window.location.replace('/?auth_error=' + encodeURIComponent(error.message));
-                }
+            if (error) {
+                window.location.replace('/?auth_error=' + encodeURIComponent(error));
+                return;
             }
 
-            // Execute immediately
-            handleCallback();
-        })();
+            if (!code) {
+                console.error('No auth code found in URL');
+                window.location.replace('/?auth_error=no_code');
+                return;
+            }
+
+            try {
+                const response = await fetch(appConfig.TOKEN_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        code,
+                        redirect_uri: appConfig.DISCORD_REDIRECT_URI
+                    }),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to authenticate with Discord');
+                }
+
+                const data = await response.json();
+
+                if (data.token && data.user) {
+                    localStorage.setItem('auth_token', JSON.stringify(data.token));
+                    localStorage.setItem('user_data', JSON.stringify(data.user));
+                    window.location.replace('/');
+                } else {
+                    throw new Error('Invalid authentication response');
+                }
+            } catch (error) {
+                console.error('Authentication error:', error);
+                window.location.replace('/?auth_error=' + encodeURIComponent(error.message));
+            }
+        }
+
+        // Handle the callback when the page loads
+        document.addEventListener('DOMContentLoaded', handleCallback);
     </script>
 </body>
-
 </html>

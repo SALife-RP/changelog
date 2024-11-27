@@ -1,0 +1,96 @@
+/* Update Cards */
+.update-card {
+    background: var(--secondary);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: var(--shadow-md);
+}
+
+.update-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.update-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.update-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.update-card:hover .update-image img {
+    transform: scale(1.05);
+}
+
+.update-content {
+    padding: 1.5rem;
+}
+
+.update-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.update-type {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+}
+
+.update-card.feature .update-type {
+    background: var(--primary);
+    color: var(--text);
+}
+
+.update-card.event .update-type {
+    background: var(--accent);
+    color: var(--secondary);
+}
+
+.update-card.technical .update-type {
+    background: var(--warning);
+    color: var(--secondary);
+}
+
+.update-date {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.update-content h3 {
+    color: var(--text);
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+}
+
+.update-content p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .update-image {
+        height: 150px;
+    }
+    
+    .update-content {
+        padding: 1rem;
+    }
+    
+    .update-content h3 {
+        font-size: 1.1rem;
+    }
+} 

@@ -45,6 +45,7 @@
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/components/vehicles.css">
     <link rel="stylesheet" href="styles/components/characters.css">
+    <link rel="stylesheet" href="styles/components/updates.css">
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -149,7 +150,8 @@
 <body>
     <!-- Navigation buttons -->
     <div class="nav-buttons">
-        <button class="nav-button active" onclick="switchContent('features')">Features</button>
+        <button class="nav-button" onclick="switchContent('home')">Home</button>
+        <button class="nav-button" onclick="switchContent('features')">Features</button>
         <button class="nav-button" onclick="switchContent('changelog')">Changelog</button>
         <button class="nav-button" onclick="switchContent('server')">Server Info</button>
         <button class="nav-button" onclick="switchContent('profile')">My Profile</button>
@@ -161,6 +163,78 @@
         <button class="nav-button discord" onclick="window.open('https://discord.gg/8VAZb9fc', '_blank')">
             Join Discord
         </button>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-overlay"></div>
+        <video class="hero-video" autoplay muted loop playsinline>
+            <source src="assets/videos/hero-background.mp4" type="video/mp4">
+        </video>
+        <div class="hero-content">
+            <h1>Welcome to SALife</h1>
+            <p>Experience next-level GTA V roleplay since 2014</p>
+            <div class="hero-buttons">
+                <button class="primary-button" onclick="window.location.href='cfx.re/join/zjepzy'">
+                    Join Server
+                </button>
+                <button class="secondary-button" onclick="window.location.href='https://discord.gg/8VAZb9fc'">
+                    Join Discord
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Server Stats
+    <div class="server-stats">
+        <div class="stat-item">
+            <h3>Online Players</h3>
+            <p id="playerCount">Loading...</p>
+        </div>
+        <div class="stat-item">
+            <h3>Total Players</h3>
+            <p id="totalPlayers">Loading...</p>
+        </div>
+        <div class="stat-item">
+            <h3>Active Jobs</h3>
+            <p id="activeJobs">Loading...</p>
+        </div>
+    </div> -->
+
+    <!-- Featured Content -->
+    <div class="featured-content">
+        <h2>Latest Updates</h2>
+        <div class="news-grid" id="newsGrid">
+            <!-- News items will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Features Highlight -->
+    <div class="features-highlight">
+        <h2>Why Choose SALife?</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="feature-icon">🎮</i>
+                <h3>Custom Systems</h3>
+                <p>Gameplay designed to drive roleplay and bring players together created by highly experienced
+                    developers.</p>
+            </div>
+            <div class="feature-card">
+                <i class="feature-icon">🤝</i>
+                <h3>Active Community</h3>
+                <p>Community-driven with player moderation tools. No in-game staff.</p>
+            </div>
+            <div class="feature-card">
+                <i class="feature-icon">🔄</i>
+                <h3>Re-imagining</h3>
+                <p>Experience a new take on classic GTA roleplay.</p>
+            </div>
+            <div class="feature-card">
+                <i class="feature-icon">🏆</i>
+                <h3>Gold Standard</h3>
+                <p>Founded in 2014, SALife has been a leading innovator in the GTA roleplay community.</p>
+            </div>
+        </div>
     </div>
 
     <!-- Main content container -->
@@ -215,6 +289,7 @@
     <script src="/js/vehicles.js"></script>
     <script src="/js/characters.js"></script>
     <script src="/js/app.js"></script>
+    <script src="/js/updates.js"></script>
 
     <!-- Modal Functions -->
     <script>

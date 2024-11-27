@@ -1,4 +1,4 @@
-# 🎉 **SALife Launch Feature Showcase** 🎉
+# **SALife Launch Features**
 
 > *Welcome to the next generation of FiveM roleplay*
 @image(logo.png)

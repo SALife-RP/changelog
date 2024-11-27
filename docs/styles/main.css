@@ -788,3 +788,192 @@ textarea:focus {
 .image-container {
     text-align: center;
 }
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    height: 80vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding-top: 20vh;
+    color: white;
+}
+
+.hero-content h1 {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-content p {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: #cccccc;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+/* Server Stats */
+.server-stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 2rem;
+    background: linear-gradient(135deg, #1a1a1a 0%, #151515 100%);
+    margin-top: -2rem;
+    position: relative;
+    z-index: 3;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 1rem;
+}
+
+.stat-item h3 {
+    color: #C8a2c8;
+    margin-bottom: 0.5rem;
+}
+
+.stat-item p {
+    color: #ffffff;
+    font-size: 1.5rem;
+}
+
+/* Featured Content */
+.featured-content {
+    padding: 4rem 2rem;
+    background: #1a1a1a;
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* Features Highlight */
+.features-highlight {
+    padding: 4rem 2rem;
+    background: #252525;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.feature-card {
+    background: #1a1a1a;
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4);
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.feature-card h3 {
+    color: #C8a2c8;
+    margin-bottom: 0.5rem;
+}
+
+.feature-card p {
+    color: #cccccc;
+}
+
+/* Buttons */
+.primary-button {
+    background: #6741d9;
+    color: white;
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background 0.3s ease;
+}
+
+.primary-button:hover {
+    background: #4f32aa;
+}
+
+.secondary-button {
+    background: transparent;
+    color: white;
+    padding: 1rem 2rem;
+    border: 2px solid #6741d9;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+}
+
+.secondary-button:hover {
+    background: rgba(103, 65, 217, 0.1);
+}
+
+/* Add these styles for the home button */
+.nav-button[onclick*="home"] {
+    background: var(--primary-dark);
+    border: none;
+    margin-right: 1rem;
+}
+
+.nav-button[onclick*="home"]:hover {
+    background: var(--primary);
+}
+
+/* Ensure proper display handling for home page sections */
+.hero-section,
+.featured-content,
+.features-highlight {
+    display: none; /* Hidden by default */
+}
+
+.hero-section.active,
+.featured-content.active,
+.features-highlight.active {
+    display: block; /* Shown when active */
+}

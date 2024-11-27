@@ -56,7 +56,7 @@ async function getUserByDiscordId(discordId) {
                     [userId]
                 ),
                 pool.execute(
-                    'SELECT v.*, vm.name as model_name, vm.manufacturer, vm.class ' +
+                    'SELECT v.*, vm.vname as model_name, vm.manufacturer, vm.class ' +
                     'FROM salrp_user_vehicles v ' +
                     'LEFT JOIN salrp_user_vehicles_data vm ON v.vehicle = vm.vehicle ' +
                     'WHERE v.user_id = ?',

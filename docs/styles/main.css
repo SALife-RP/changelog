@@ -716,3 +716,75 @@ textarea:focus {
     color: #cccccc;
     padding: 20px;
 }
+
+.content-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+    line-height: 1.6;
+}
+
+.enhanced-heading {
+    display: flex;
+    align-items: center;
+    margin: 2rem 0 1rem;
+    color: var(--primary);
+    border-bottom: 2px solid var(--primary-light);
+    padding-bottom: 0.5rem;
+}
+
+.heading-icon {
+    margin-right: 0.5rem;
+    font-size: 1.2em;
+}
+
+.enhanced-list {
+    list-style: none;
+    padding-left: 1rem;
+    margin: 1.5rem 0;
+}
+
+.enhanced-list-item {
+    margin: 0.8rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.list-icon {
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+}
+
+.fade-in-element {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Specific styling for features and changelog */
+.features-content, .changelog-content {
+    background: var(--secondary-solid);
+    border-radius: 8px;
+    box-shadow: var(--shadow-medium);
+}
+
+.features-content img, .changelog-content img {
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.features-content img:hover, .changelog-content img:hover {
+    transform: scale(1.02);
+}
+
+.image-container {
+    text-align: center;
+}

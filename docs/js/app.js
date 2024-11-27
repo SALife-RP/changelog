@@ -55,21 +55,55 @@ async function loadContent(filename) {
             }
         );
 
-        document.getElementById('content').innerHTML = processedContent;
+        // Add container and styling for better content layout
+        document.getElementById('content').innerHTML = `
+            <div class="content-wrapper ${filename.toLowerCase()}-content">
+                ${processedContent}
+            </div>
+        `;
 
         // Add lightbox functionality to images
         document.querySelectorAll('.feature-image').forEach(img => {
-            img.onclick = function () {
+            img.onclick = function() {
                 if (this.src !== 'assets/images/logo.png') {
                     this.requestFullscreen();
                 }
             };
         });
+
+        // Add styling to headings and lists
+        if (filename === 'FEATURES' || filename === 'CHANGELOG') {
+            enhanceContentStyling();
+        }
     } catch (error) {
         console.error('Error loading content:', error);
         document.getElementById('content').innerHTML =
             '<div class="error-message">Failed to load content. Please try again later.</div>';
     }
+}
+
+function enhanceContentStyling() {
+    // Add icons to headings
+    document.querySelectorAll('.content-wrapper h2').forEach(heading => {
+        heading.classList.add('enhanced-heading');
+        heading.innerHTML = `<span class="heading-icon">⚡</span>${heading.innerHTML}`;
+    });
+
+    // Style lists
+    document.querySelectorAll('.content-wrapper ul').forEach(list => {
+        list.classList.add('enhanced-list');
+    });
+
+    document.querySelectorAll('.content-wrapper li').forEach(item => {
+        item.classList.add('enhanced-list-item');
+        item.innerHTML = `<span class="list-icon">▹</span>${item.innerHTML}`;
+    });
+
+    // Add animation classes
+    document.querySelectorAll('.content-wrapper > *').forEach((element, index) => {
+        element.classList.add('fade-in-element');
+        element.style.animationDelay = `${index * 0.1}s`;
+    });
 }
 
 function switchContent(view) {

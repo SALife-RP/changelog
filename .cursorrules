@@ -1,1 +1,65 @@
-This folder contains a git repo that generates a github pages site. The site contains the primary website for SALife (gta rp server on fivem). The color palette as follows: Base Colors: Primary: #6741d9 (Purple) Primary Dark: #4f32aa (Deep Purple) Primary Light: #8361e2 (Light Purple) Secondary Colors: Secondary: #1a1a1a (Almost Black) Secondary Solid: #252525 (Dark Gray) Secondary Dark: #151515 (Darker Gray) Accent Colors: Accent: #C8a2c8 (Lavender) Accent Dark: #796279 (Dark Lavender) Accent Light: #d8b3d8 (Light Lavender) Text Colors: Text: #ffffff (White) Text Secondary: #cccccc (Light Gray) Text Muted: #999999 (Medium Gray) Status Colors: Success: #00e676 (Green) Warning: #ffab40 (Orange) Error: #ff5252 (Red) Gradients: Primary Gradient: linear-gradient(135deg, #1a1a1a 0%, #151515 100%) Accent Gradient: linear-gradient(135deg, #C8a2c8 0%, #796279 100%) Shadows: Shadow Small: 0 2px 4px rgba(0, 0, 0, 0.3) Shadow Medium: 0 4px 6px rgba(0, 0, 0, 0.4) Shadow Large: 0 10px 15px rgba(0, 0, 0, 0.5) Overlays: Dark Overlay: rgba(0, 0, 0, 0.7) Light Overlay: rgba(255, 255, 255, 0.05)
+This folder contains a git repo that generates a github pages site. The site contains the primary website for SALife (gta rp server on fivem).
+
+When editing files, do not remove or modify existing code that may be essential to the site and it's current features functionality.
+
+- The site uses netlifly and functions to handle some backend tasks.
+- At times, the site will need to interact with a MariaDB database or with the fivem server.
+- Use semantic versioning for updates to maintain clarity in version control.
+- Use consistent naming conventions for classes and IDs in HTML/CSS.
+- Ensure all JavaScript is modular and well-documented.
+- Optimize images and assets for 
+faster load times.
+- Regularly update dependencies to maintain security and performance.
+
+- First, plan in psuedocode or a flowchart how you want the feature to work, then begin to code.
+- Verify the code works and does not break existing features.
+
+
+COLOR PALETTE - SALIFE GTA RP SERVER
+=====================================
+
+BASE COLORS
+-----------
+Primary:       #6741d9 (Purple)
+Primary Dark:  #4f32aa (Deep Purple)
+Primary Light: #8361e2 (Light Purple)
+
+SECONDARY COLORS
+---------------
+Secondary:       #1a1a1a (Almost Black)
+Secondary Solid: #252525 (Dark Gray)
+Secondary Dark:  #151515 (Darker Gray)
+
+ACCENT COLORS
+------------
+Accent:       #C8a2c8 (Lavender)
+Accent Dark:  #796279 (Dark Lavender)
+Accent Light: #d8b3d8 (Light Lavender)
+
+TEXT COLORS
+----------
+Text:            #ffffff (White)
+Text Secondary:  #cccccc (Light Gray)
+Text Muted:      #999999 (Medium Gray)
+
+STATUS COLORS
+------------
+Success: #00e676 (Green)
+Warning: #ffab40 (Orange)
+Error:   #ff5252 (Red)
+
+GRADIENTS
+---------
+Primary Gradient: linear-gradient(135deg, #1a1a1a 0%, #151515 100%)
+Accent Gradient:  linear-gradient(135deg, #C8a2c8 0%, #796279 100%)
+
+SHADOWS
+-------
+Shadow Small:  0 2px 4px rgba(0, 0, 0, 0.3)
+Shadow Medium: 0 4px 6px rgba(0, 0, 0, 0.4)
+Shadow Large:  0 10px 15px rgba(0, 0, 0, 0.5)
+
+OVERLAYS
+--------
+Dark Overlay:  rgba(0, 0, 0, 0.7)
+Light Overlay: rgba(255, 255, 255, 0.05)

@@ -44,7 +44,7 @@ async function getUserByDiscordId(discordId) {
                     [charId]
                 ),
                 pool.execute(
-                    'SELECT cash, bank, debt FROM banking2_accounts WHERE user_id = ?', 
+                    'SELECT cash, debt FROM banking2_accounts WHERE user_id = ?', 
                     [charId]
                 ),
                 pool.execute(
@@ -64,13 +64,13 @@ async function getUserByDiscordId(discordId) {
             console.log('DB Query Results:', {
                 charId,
                 identity: identity || null,
-                money: money || { cash: 0, bank: 0, debt: 0 },
+                money: money || { cash: 0, debt: 0 },
                 vehicles: vehicles || []
             });
 
             return {
                 identity: identity ? [identity] : [],
-                money: money ? [money] : [{ cash: 0, bank: 0, debt: 0 }],
+                money: money ? [money] : [{ cash: 0, debt: 0 }],
                 vehicles: vehicles || []
             };
         }));

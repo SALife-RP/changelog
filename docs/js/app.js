@@ -83,6 +83,15 @@ async function loadContent(filename) {
 }
 
 function enhanceContentStyling() {
+
+    // Center H1
+    document.querySelector('.content-wrapper h1').style.textAlign = 'center';
+
+    // Center blockquotes
+    document.querySelectorAll('.content-wrapper blockquote').forEach(blockquote => {
+        blockquote.style.textAlign = 'center';
+    });
+
     // Add icons to headings
     document.querySelectorAll('.content-wrapper h2').forEach(heading => {
         heading.classList.add('enhanced-heading');
@@ -127,7 +136,6 @@ function switchContent(view) {
             break;
     }
 }
-
 async function loadServerInfo() {
     try {
         const response = await fetch('https://servers-frontend.fivem.net/api/servers/single/zjepzy');

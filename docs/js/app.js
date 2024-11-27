@@ -277,7 +277,7 @@ function displayCharacterInfo() {
         // }
         // Get the first identity object from the array
         const identity = char.identity[0] || {};
-        const money = char.money || [];
+        const money = char.money[0] || [];
 
         const vehicles = char.vehicles || [];
         // Calculate total money

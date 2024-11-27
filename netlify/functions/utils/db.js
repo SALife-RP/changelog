@@ -49,9 +49,11 @@ async function getUserByDiscordId(discordId) {
                 )
             ]);
 
+            console.log('DB Money: ', money);
+
             return {
                 identity: identity || null,
-                money: money || { cash: 0, debt: 0 },
+                money: money || { user_id: charId, cash: 0, debt: 0 },
                 vehicles: vehicles || []
             };
         }));

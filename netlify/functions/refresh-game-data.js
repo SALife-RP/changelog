@@ -1,4 +1,6 @@
-exports.handler = async (event, context) => {
+const { getUserByDiscordId } = require('./get-user-data');
+
+exports.handler = async(event, context) => {
     if (event.httpMethod !== 'POST') {
         return {
             statusCode: 405,
@@ -16,26 +18,35 @@ exports.handler = async (event, context) => {
             };
         }
 
-        // Forward the request to get-user-data function
-        const response = await fetch('/.netlify/functions/get-user-data', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ discord_id })
-        });
+        console.log('Refreshing game data for Discord ID:', discord_id);
 
-        const data = await response.json();
+        const userData = await getUserByDiscordId(discord_id);
+
+        if (!userData) {
+            console.log('No user data found for Discord ID:', discord_id);
+            return {
+                statusCode: 404,
+                body: JSON.stringify({ error: 'User not found' })
+            };
+        }
+
+        console.log('Successfully refreshed game data');
 
         return {
-            statusCode: response.status,
-            body: JSON.stringify(data)
+            statusCode: 200,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
         };
     } catch (error) {
-        console.error('Function error:', error);
+        console.error('Refresh game data error:', error);
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: 'Internal server error' })
+            body: JSON.stringify({
+                error: 'Failed to refresh game data',
+                details: error.message
+            })
         };
     }
 };

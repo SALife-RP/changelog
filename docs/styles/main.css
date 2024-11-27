@@ -716,3 +716,33 @@ textarea:focus {
     color: #cccccc;
     padding: 20px;
 }
+
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    color: var(--text-secondary);
+}
+
+.error-message {
+    background: rgba(255, 82, 82, 0.1);
+    border: 1px solid var(--error);
+    border-radius: 4px;
+    padding: 15px;
+    margin: 10px 0;
+    color: var(--text);
+    text-align: center;
+}
+
+.error-message button {
+    margin-top: 10px;
+}
+
+.login-prompt {
+    text-align: center;
+    padding: 20px;
+    background: var(--secondary-solid);
+    border-radius: 4px;
+    margin: 20px 0;
+}

@@ -1,112 +1,174 @@
 // Inventory Manager
-class InventoryManager {
-    constructor() {
-        this.items = [];
-        this.filteredItems = [];
-        this.initialized = false;
-    }
+window.inventoryManager = {
+    items: [],
+    currentPage: 1,
+    itemsPerPage: 12,
+    searchTerm: '',
+    sortBy: 'name',
+    sortOrder: 'asc',
 
     async initialize(serverData) {
+        // Initialize inventory data
+        this.items = this.parseInventoryData(serverData);
+        return this;
+    },
+
+    parseInventoryData(character) {
+        if (!character ? .identity ? .[0] ? .inventory) return [];
         try {
-            console.log('Initializing inventory manager...');
-            const response = await fetch('/.netlify/functions/get-items');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
-            
-            if (!data || typeof data !== 'object') {
-                throw new Error('Invalid data received from server');
-            }
-
-            // Convert items to our expected format
-            this.items = Object.entries(data).map(([name, item]) => ({
-                ...item,
-                name
-            }));
-            this.filteredItems = [...this.items];
-            this.initialized = true;
-            console.log('Inventory initialized with', this.items.length, 'items');
+            return JSON.parse(character.identity[0].inventory);
         } catch (error) {
-            console.error('Error initializing inventory manager:', error);
-            this.items = [];
-            this.filteredItems = [];
-            this.initialized = false;
+            console.error('Error parsing inventory:', error);
+            return [];
         }
-    }
+    },
 
-    searchItems(searchTerm) {
-        searchTerm = searchTerm.toLowerCase();
-        this.filteredItems = this.items.filter(item => 
-            item.name.toLowerCase().includes(searchTerm) ||
-            (item.label || '').toLowerCase().includes(searchTerm) ||
-            (item.description || '').toLowerCase().includes(searchTerm)
+    filterItems() {
+        return this.items.filter(item =>
+            item.name.toLowerCase().includes(this.searchTerm.toLowerCase())
         );
-        this.renderItems();
-    }
+    },
 
-    renderItems() {
-        console.log('Rendering items:', this.filteredItems.length);
-        const container = document.getElementById('inventoryGrid');
-        if (!container) {
-            console.error('Inventory grid container not found during render');
-            return;
-        }
+    sortItems(items) {
+        return items.sort((a, b) => {
+            const aValue = a[this.sortBy];
+            const bValue = b[this.sortBy];
+            const modifier = this.sortOrder === 'asc' ? 1 : -1;
 
-        if (this.filteredItems.length === 0) {
-            container.innerHTML = '<p>No items found</p>';
-            return;
-        }
+            return aValue > bValue ? modifier : -modifier;
+        });
+    },
 
-        container.innerHTML = this.filteredItems.map(item => `
-            <div class="inventory-item">
-                <div class="item-header">
-                    <img src="${item.image || ''}" alt="${item.label || item.name}" class="item-image" 
-                         onerror="this.src='assets/images/placeholder-item.png'">
-                    <div class="item-info">
-                        <h3 class="item-name">${item.label || item.name}</h3>
-                        <p class="item-label">${item.name}</p>
-                    </div>
-                </div>
-                ${item.description ? `<p class="item-description">${item.description}</p>` : ''}
-                <div class="item-details">
-                    <span class="item-detail rarity-${item.rarity || 'common'}">
-                        ${(item.rarity || 'common').charAt(0).toUpperCase() + (item.rarity || 'common').slice(1)}
-                    </span>
-                    <!--<span class="item-detail">Weight: ${item.weight || 0}</span>-->
-                    ${item.stack ? '<span class="item-detail">Stackable</span>' : ''}
-                </div>
-            </div>
-        `).join('');
-        console.log('Items rendered successfully');
-    }
+    getPaginatedItems() {
+        const filtered = this.filterItems();
+        const sorted = this.sortItems(filtered);
+
+        const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+        const endIndex = startIndex + this.itemsPerPage;
+
+        return {
+            items: sorted.slice(startIndex, endIndex),
+            totalPages: Math.ceil(sorted.length / this.itemsPerPage),
+            totalItems: sorted.length
+        };
+    },
 
     generateContainer() {
-        console.log('Generating inventory container');
-        const container = `
+        const { items, totalPages, totalItems } = this.getPaginatedItems();
+
+        return `
             <div class="inventory-section">
-                <div class="inventory-header">
-                    <h2>Inventory Items</h2>
-                    <input type="text" 
-                           class="inventory-search" 
-                           placeholder="Search items..." 
-                           onInput="window.inventoryManager.searchItems(this.value)">
+                <h2>Inventory</h2>
+
+                <div class="inventory-controls">
+                    <div class="search-box">
+                        <input type="text"
+                               id="inventorySearch"
+                               placeholder="Search items..."
+                               value="${this.searchTerm}"
+                               onkeyup="window.inventoryManager.handleSearch(event)">
+                    </div>
+
+                    <div class="sort-controls">
+                        <select id="sortBy" onchange="window.inventoryManager.handleSort(event)">
+                            <option value="name" ${this.sortBy === 'name' ? 'selected' : ''}>Name</option>
+                            <option value="count" ${this.sortBy === 'count' ? 'selected' : ''}>Quantity</option>
+                            <option value="slot" ${this.sortBy === 'slot' ? 'selected' : ''}>Slot</option>
+                        </select>
+                        <button onclick="window.inventoryManager.toggleSortOrder()">
+                            ${this.sortOrder === 'asc' ? '↑' : '↓'}
+                        </button>
+                    </div>
                 </div>
-                <div id="inventoryGrid" class="inventory-grid">
-                    ${this.initialized ? '' : '<p>Loading items...</p>'}
+
+                <div class="inventory-grid">
+                    ${items.map(item => this.generateItemCard(item)).join('')}
+                </div>
+
+                ${this.generatePagination(totalPages, totalItems)}
+            </div>
+        `;
+    },
+
+    generateItemCard(item) {
+        return `
+            <div class="inventory-item">
+                <img src="assets/images/items/${item.name}.png"
+                     alt="${item.name}"
+                     onerror="this.src='assets/images/items/default.png'">
+                <div class="item-info">
+                    <h3>${item.name}</h3>
+                    <p>Quantity: ${item.count}</p>
+                    <p>Slot: ${item.slot}</p>
                 </div>
             </div>
         `;
+    },
 
-        // If already initialized, render items after a short delay
-        if (this.initialized) {
-            setTimeout(() => this.renderItems(), 0);
+    generatePagination(totalPages, totalItems) {
+        if (totalPages <= 1) return '';
+
+        let pages = '';
+        for (let i = 1; i <= totalPages; i++) {
+            pages += `
+                <button class="page-number ${i === this.currentPage ? 'active' : ''}"
+                        onclick="window.inventoryManager.goToPage(${i})">
+                    ${i}
+                </button>
+            `;
         }
 
-        return container;
-    }
-}
+        return `
+            <div class="pagination">
+                <button class="pagination-btn"
+                        onclick="window.inventoryManager.goToPage(${this.currentPage - 1})"
+                        ${this.currentPage === 1 ? 'disabled' : ''}>
+                    Previous
+                </button>
+                <div class="page-numbers">
+                    ${pages}
+                </div>
+                <button class="pagination-btn"
+                        onclick="window.inventoryManager.goToPage(${this.currentPage + 1})"
+                        ${this.currentPage === totalPages ? 'disabled' : ''}>
+                    Next
+                </button>
+                <span class="pagination-info">
+                    Showing ${(this.currentPage - 1) * this.itemsPerPage + 1}-${Math.min(this.currentPage * this.itemsPerPage, totalItems)}
+                    of ${totalItems} items
+                </span>
+            </div>
+        `;
+    },
 
-// Initialize the inventory manager globally
-window.inventoryManager = new InventoryManager();
-console.log('inventoryManager initialized');
+    handleSearch(event) {
+        this.searchTerm = event.target.value;
+        this.currentPage = 1;
+        this.updateDisplay();
+    },
+
+    handleSort(event) {
+        this.sortBy = event.target.value;
+        this.updateDisplay();
+    },
+
+    toggleSortOrder() {
+        this.sortOrder = this.sortOrder === 'asc' ? 'desc' : 'asc';
+        this.updateDisplay();
+    },
+
+    goToPage(page) {
+        const { totalPages } = this.getPaginatedItems();
+        if (page >= 1 && page <= totalPages) {
+            this.currentPage = page;
+            this.updateDisplay();
+        }
+    },
+
+    updateDisplay() {
+        const container = document.querySelector('.inventory-section');
+        if (container) {
+            container.outerHTML = this.generateContainer();
+        }
+    }
+};

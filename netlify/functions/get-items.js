@@ -18,7 +18,7 @@ exports.handler = async function(event, context) {
 
     try {
         // Replace with your FiveM server address
-        const response = await fetch('http://168.75.184.7:30120/items');
+        const response = await fetch(`${process.env.DB_HOST}:30120/items`);
         const items = await response.json();
 
         return {

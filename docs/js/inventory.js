@@ -12,6 +12,7 @@ class InventoryManager {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const items = await response.json();
+            console.log('Items:', items);
             
             // Convert items to our expected format
             this.items = Object.entries(items).map(([name, item]) => ({
@@ -88,4 +89,5 @@ class InventoryManager {
 }
 
 // Initialize the inventory manager globally
-window.inventoryManager = new InventoryManager(); 
+window.inventoryManager = new InventoryManager();
+console.log('inventoryManager initialized');

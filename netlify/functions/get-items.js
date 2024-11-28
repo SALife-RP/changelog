@@ -17,9 +17,21 @@ exports.handler = async function(event, context) {
     }
 
     try {
-        // Replace with your FiveM server address
-        const response = await fetch(`${process.env.DB_HOST}:30120/items`);
+        // Get the FiveM server address from environment variables
+        const serverAddress = process.env.FIVEM_SERVER_ADDRESS;
+        if (!serverAddress) {
+            throw new Error('FIVEM_SERVER_ADDRESS not configured');
+        }
+
+        console.log('Fetching items from:', `${serverAddress}/items`);
+        
+        const response = await fetch(`${serverAddress}/items`);
+        if (!response.ok) {
+            throw new Error(`FiveM server responded with status: ${response.status}`);
+        }
+
         const items = await response.json();
+        console.log('Items fetched successfully:', Object.keys(items).length);
 
         return {
             statusCode: 200,
@@ -27,7 +39,7 @@ exports.handler = async function(event, context) {
             body: JSON.stringify(items)
         };
     } catch (error) {
-        console.error('Error fetching items:', error);
+        console.error('Error in get-items function:', error);
         return {
             statusCode: 500,
             headers,

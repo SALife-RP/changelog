@@ -7,24 +7,36 @@ class InventoryManager {
 
     async initialize(serverData) {
         try {
+            console.log('Initializing inventory manager...');
             const response = await fetch('/.netlify/functions/get-items');
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            const items = await response.json();
-            console.log('Items:', items);
+            const data = await response.json();
             
+            if (!data || typeof data !== 'object') {
+                throw new Error('Invalid data received from server');
+            }
+
             // Convert items to our expected format
-            this.items = Object.entries(items).map(([name, item]) => ({
+            this.items = Object.entries(data).map(([name, item]) => ({
                 ...item,
                 name
             }));
             this.filteredItems = [...this.items];
-            console.log('Inventory initialized:', this.items.length);
-        } catch (error) {S
+            console.log('Inventory initialized:', this.items.length, 'items');
+            
+            // Render items after initialization
+            this.renderItems();
+        } catch (error) {
             console.error('Error initializing inventory manager:', error);
             this.items = [];
             this.filteredItems = [];
+            // Update the grid to show error
+            const container = document.getElementById('inventoryGrid');
+            if (container) {
+                container.innerHTML = `<p class="error-message">Failed to load inventory items: ${error.message}</p>`;
+            }
         }
     }
 

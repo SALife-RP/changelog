@@ -21,6 +21,7 @@
   DB_USER = "Your Database User"
   DB_PASSWORD = "Your Database Password"
   DB_NAME = "Your Database Name"
+  FIVEM_SERVER_ADDRESS = "Your FiveM Server Address (e.g. http://your-server-ip:port)"
 
 [context.production.environment]
   NODE_ENV = "production"

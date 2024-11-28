@@ -15,11 +15,11 @@ exports.handler = async function(event, context) {
     }
 
     try {
-        const serverAddress = process.env.FIVEM_SERVER_ADDRESS;
+        const serverAddress = 'https://velocityserver-zjepzy.users.cfx.re/resource/ox_inventory';
         if (!serverAddress) {
             console.error('FIVEM_SERVER_ADDRESS not configured');
             throw new Error('Server address not configured');
-        }
+        }   
 
         const itemsUrl = `${serverAddress}/items`;
         console.log('Attempting to fetch items from:', itemsUrl);

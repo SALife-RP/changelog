@@ -27,37 +27,12 @@ class InventoryManager {
             this.filteredItems = [...this.items];
             this.initialized = true;
             console.log('Inventory initialized with', this.items.length, 'items');
-            
-            // Wait for container to be available
-            await this.waitForContainer();
-            this.renderItems();
         } catch (error) {
             console.error('Error initializing inventory manager:', error);
             this.items = [];
             this.filteredItems = [];
-            const container = document.getElementById('inventoryGrid');
-            if (container) {
-                container.innerHTML = `<p class="error-message">Failed to load inventory items: ${error.message}</p>`;
-            }
+            this.initialized = false;
         }
-    }
-
-    async waitForContainer(attempts = 10) {
-        return new Promise((resolve, reject) => {
-            const checkContainer = (attemptsLeft) => {
-                const container = document.getElementById('inventoryGrid');
-                if (container) {
-                    console.log('Inventory grid container found');
-                    resolve(container);
-                } else if (attemptsLeft <= 0) {
-                    console.error('Inventory grid container not found after multiple attempts');
-                    reject(new Error('Container not found'));
-                } else {
-                    setTimeout(() => checkContainer(attemptsLeft - 1), 100);
-                }
-            };
-            checkContainer(attempts);
-        });
     }
 
     searchItems(searchTerm) {
@@ -109,7 +84,7 @@ class InventoryManager {
 
     generateContainer() {
         console.log('Generating inventory container');
-        return `
+        const container = `
             <div class="inventory-section">
                 <div class="inventory-header">
                     <h2>Inventory Items</h2>
@@ -119,10 +94,17 @@ class InventoryManager {
                            onInput="window.inventoryManager.searchItems(this.value)">
                 </div>
                 <div id="inventoryGrid" class="inventory-grid">
-                    <p>Loading items...</p>
+                    ${this.initialized ? '' : '<p>Loading items...</p>'}
                 </div>
             </div>
         `;
+
+        // If already initialized, render items after a short delay
+        if (this.initialized) {
+            setTimeout(() => this.renderItems(), 0);
+        }
+
+        return container;
     }
 }
 

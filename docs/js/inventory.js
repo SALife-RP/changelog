@@ -20,9 +20,9 @@ class InventoryManager {
             }
 
             // Convert items to our expected format
-            this.items = Object.entries(data).map(([name, item]) => ({
+            this.items = Object.entries(data).map(([index, item]) => ({
                 ...item,
-                name
+                index: index
             }));
             this.filteredItems = [...this.items];
             this.initialized = true;

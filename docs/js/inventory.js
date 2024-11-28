@@ -1,18 +1,28 @@
 let inventoryItems = [];
 let filteredItems = [];
 
-function initializeInventoryData(serverData) {
-    if (!serverData?.vars?.inventory_items) {
-        console.error('No inventory items found in server data');
-        return;
+async function fetchInventoryItems() {
+    try {
+        const response = await fetch('/.netlify/functions/get-items');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const items = await response.json();
+        
+        // Convert items to our expected format
+        inventoryItems = Object.entries(items).map(([name, item]) => ({
+            ...item,
+            name
+        }));
+        filteredItems = [...inventoryItems];
+        renderInventoryItems();
+    } catch (error) {
+        console.error('Error fetching inventory items:', error);
+        const container = document.getElementById('inventoryGrid');
+        if (container) {
+            container.innerHTML = '<p class="error-message">Failed to load inventory items. Please try again later.</p>';
+        }
     }
-
-    inventoryItems = Object.entries(serverData.vars.inventory_items).map(([name, item]) => ({
-        ...item,
-        name
-    }));
-    filteredItems = [...inventoryItems];
-    renderInventoryItems();
 }
 
 function searchItems(searchTerm) {
@@ -57,7 +67,7 @@ function renderInventoryItems() {
     `).join('');
 }
 
-function initializeInventory(serverData) {
+function initializeInventory() {
     const serverContent = document.querySelector('#content');
     if (!serverContent) return;
 
@@ -80,13 +90,13 @@ function initializeInventory(serverData) {
     const serverInfo = serverContent.querySelector('.server-info');
     if (serverInfo) {
         serverInfo.insertAdjacentHTML('beforeend', inventorySection);
-        initializeInventoryData(serverData);
+        fetchInventoryItems();
     }
 }
 
 // Initialize when switching to server info
 document.addEventListener('contentChanged', function(e) {
-    if (e.detail === 'server' && window.serverData) {
-        initializeInventory(window.serverData);
+    if (e.detail === 'server') {
+        initializeInventory();
     }
 }); 

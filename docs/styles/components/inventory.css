@@ -215,6 +215,7 @@
 /* Inventory Header */
 
 .inventory-header {
+    color: var(--primary);
     margin-bottom: 24px;
 }
 

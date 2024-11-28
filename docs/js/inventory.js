@@ -102,12 +102,42 @@ class InventoryManager {
         const totalPages = Math.ceil(this.filteredItems.length / this.itemsPerPage);
         if (totalPages <= 1) return '';
 
+        // Logic for showing limited page numbers with ellipsis
+        const maxVisiblePages = 5; // Number of page buttons to show
+        let startPage = Math.max(1, this.currentPage - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+        // Adjust start if we're near the end
+        if (endPage - startPage + 1 < maxVisiblePages) {
+            startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+
         let pages = '';
-        for (let i = 1; i <= totalPages; i++) {
+
+        // First page
+        if (startPage > 1) {
+            pages += `
+                <button class="page-number" onclick="window.inventoryManager.changePage(1)">1</button>
+                ${startPage > 2 ? '<span class="page-ellipsis">...</span>' : ''}
+            `;
+        }
+
+        // Visible pages
+        for (let i = startPage; i <= endPage; i++) {
             pages += `
                 <button class="page-number ${i === this.currentPage ? 'active' : ''}"
                         onclick="window.inventoryManager.changePage(${i})">
                     ${i}
+                </button>
+            `;
+        }
+
+        // Last page
+        if (endPage < totalPages) {
+            pages += `
+                ${endPage < totalPages - 1 ? '<span class="page-ellipsis">...</span>' : ''}
+                <button class="page-number" onclick="window.inventoryManager.changePage(${totalPages})">
+                    ${totalPages}
                 </button>
             `;
         }

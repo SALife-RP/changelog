@@ -4,6 +4,20 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
+## [0.1.11] - 2024-11-28
+
+### 🆕 New Features
+
+- Web access to more item info
+
+- **mdt:** New method to take screenshots for mugshots
+
+- New method to grab screens of vehicles
+
+- **connect:** Add screenshot posting to community discord
+
+- **web:** Add inventory compat to web
+
 ## [0.1.10] - 2024-11-27
 
 

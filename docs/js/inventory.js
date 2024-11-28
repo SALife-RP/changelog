@@ -4,6 +4,14 @@ class InventoryManager {
         this.items = [];
         this.filteredItems = [];
         this.initialized = false;
+
+        // Pagination state
+        this.currentPage = 1;
+        this.itemsPerPage = 12;
+
+        // Sorting state
+        this.sortField = 'name';
+        this.sortDirection = 'asc';
     }
 
     async initialize(serverData) {
@@ -42,7 +50,89 @@ class InventoryManager {
             (item.label || '').toLowerCase().includes(searchTerm) ||
             (item.description || '').toLowerCase().includes(searchTerm)
         );
+        this.currentPage = 1; // Reset to first page on new search
+        this.sortItems(); // Apply current sort
         this.renderItems();
+    }
+
+    sortItems() {
+        this.filteredItems.sort((a, b) => {
+            let aVal = a[this.sortField] || '';
+            let bVal = b[this.sortField] || '';
+
+            // Handle numeric values
+            if (typeof aVal === 'number' && typeof bVal === 'number') {
+                return this.sortDirection === 'asc' ? aVal - bVal : bVal - aVal;
+            }
+
+            // Handle string values
+            aVal = aVal.toString().toLowerCase();
+            bVal = bVal.toString().toLowerCase();
+
+            if (this.sortDirection === 'asc') {
+                return aVal.localeCompare(bVal);
+            } else {
+                return bVal.localeCompare(aVal);
+            }
+        });
+    }
+
+    handleSort(field) {
+        if (this.sortField === field) {
+            // Toggle direction if same field
+            this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+        } else {
+            // New field, default to ascending
+            this.sortField = field;
+            this.sortDirection = 'asc';
+        }
+        this.sortItems();
+        this.renderItems();
+    }
+
+    changePage(page) {
+        const maxPage = Math.ceil(this.filteredItems.length / this.itemsPerPage);
+        if (page >= 1 && page <= maxPage) {
+            this.currentPage = page;
+            this.renderItems();
+        }
+    }
+
+    renderPagination() {
+        const totalPages = Math.ceil(this.filteredItems.length / this.itemsPerPage);
+        if (totalPages <= 1) return '';
+
+        let pages = '';
+        for (let i = 1; i <= totalPages; i++) {
+            pages += `
+                <button class="page-number ${i === this.currentPage ? 'active' : ''}"
+                        onclick="window.inventoryManager.changePage(${i})">
+                    ${i}
+                </button>
+            `;
+        }
+
+        return `
+            <div class="pagination">
+                <button class="pagination-btn"
+                        onclick="window.inventoryManager.changePage(${this.currentPage - 1})"
+                        ${this.currentPage === 1 ? 'disabled' : ''}>
+                    Previous
+                </button>
+                <div class="page-numbers">
+                    ${pages}
+                </div>
+                <button class="pagination-btn"
+                        onclick="window.inventoryManager.changePage(${this.currentPage + 1})"
+                        ${this.currentPage === totalPages ? 'disabled' : ''}>
+                    Next
+                </button>
+                <span class="pagination-info">
+                    Showing ${(this.currentPage - 1) * this.itemsPerPage + 1}-${Math.min(this.currentPage * this.itemsPerPage, this.filteredItems.length)}
+                    of ${this.filteredItems.length} items
+                </span>
+            </div>
+        `;
     }
 
     renderItems() {
@@ -58,7 +148,12 @@ class InventoryManager {
             return;
         }
 
-        container.innerHTML = this.filteredItems.map(item => `
+        // Calculate pagination
+        const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+        const endIndex = startIndex + this.itemsPerPage;
+        const paginatedItems = this.filteredItems.slice(startIndex, endIndex);
+
+        container.innerHTML = paginatedItems.map(item => `
             <div class="inventory-item">
                 <div class="item-header">
                     <img src="${item.image || ''}" alt="${item.label || item.name}" class="item-image"
@@ -73,12 +168,16 @@ class InventoryManager {
                     <span class="item-detail rarity-${item.rarity || 'common'}">
                         ${(item.rarity || 'common').charAt(0).toUpperCase() + (item.rarity || 'common').slice(1)}
                     </span>
-                    <!--<span class="item-detail">Weight: ${item.weight || 0}</span>-->
                     ${item.stack ? '<span class="item-detail">Stackable</span>' : ''}
                 </div>
             </div>
         `).join('');
-        console.log('Items rendered successfully');
+
+        // Render pagination
+        const paginationContainer = document.getElementById('inventoryPagination');
+        if (paginationContainer) {
+            paginationContainer.innerHTML = this.renderPagination();
+        }
     }
 
     generateContainer() {
@@ -87,14 +186,27 @@ class InventoryManager {
             <div class="inventory-section">
                 <div class="inventory-header">
                     <h2>Inventory Items</h2>
-                    <input type="text"
-                           class="inventory-search"
-                           placeholder="Search items..."
-                           onInput="window.inventoryManager.searchItems(this.value)">
+                    <div class="inventory-controls">
+                        <input type="text"
+                               class="inventory-search"
+                               placeholder="Search items..."
+                               onInput="window.inventoryManager.searchItems(this.value)">
+                        <div class="sort-controls">
+                            <select onchange="window.inventoryManager.handleSort(this.value)">
+                                <option value="name" ${this.sortField === 'name' ? 'selected' : ''}>Name</option>
+                                <option value="rarity" ${this.sortField === 'rarity' ? 'selected' : ''}>Rarity</option>
+                                <option value="label" ${this.sortField === 'label' ? 'selected' : ''}>Label</option>
+                            </select>
+                            <button onclick="window.inventoryManager.handleSort(window.inventoryManager.sortField)">
+                                ${this.sortDirection === 'asc' ? '↑' : '↓'}
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div id="inventoryGrid" class="inventory-grid">
                     ${this.initialized ? '' : '<p>Loading items...</p>'}
                 </div>
+                <div id="inventoryPagination"></div>
             </div>
         `;
 

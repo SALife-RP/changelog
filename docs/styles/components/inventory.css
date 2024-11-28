@@ -1,0 +1,101 @@
+.inventory-section {
+    padding: 2rem;
+    background: var(--secondary-solid);
+    border-radius: 8px;
+    margin: 1rem;
+}
+
+.inventory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.inventory-search {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--primary);
+    border-radius: 4px;
+    background: var(--secondary-dark);
+    color: var(--text);
+    width: 300px;
+    max-width: 100%;
+}
+
+.inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.inventory-item {
+    background: var(--secondary-dark);
+    border: 1px solid var(--primary-dark);
+    border-radius: 8px;
+    padding: 1rem;
+    transition: transform 0.2s;
+}
+
+.inventory-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+.item-image {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    margin-bottom: 0.5rem;
+}
+
+.item-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.item-info {
+    flex-grow: 1;
+}
+
+.item-name {
+    font-weight: bold;
+    color: var(--text);
+    margin: 0;
+}
+
+.item-label {
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    margin: 0;
+}
+
+.item-description {
+    color: var(--text-muted);
+    font-size: 0.9em;
+    margin-top: 0.5rem;
+}
+
+.item-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 0.8em;
+}
+
+.item-detail {
+    background: var(--secondary);
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    color: var(--text-secondary);
+}
+
+.rarity-random { color: var(--text-secondary); }
+.rarity-common { color: #ffffff; }
+.rarity-uncommon { color: #2ecc71; }
+.rarity-rare { color: #3498db; }
+.rarity-epic { color: #9b59b6; }
+.rarity-legendary { color: #f1c40f; } 

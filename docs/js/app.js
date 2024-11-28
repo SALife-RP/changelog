@@ -171,6 +171,7 @@ async function loadServerInfo() {
 
         // Initialize managers with server data
         await window.vehicleManager.initialize(serverData);
+        await window.inventoryManager.initialize(serverData);
         await window.characterManager.initialize(serverData);
 
         // Generate server info HTML
@@ -189,7 +190,6 @@ async function loadServerInfo() {
         `;
     }
 }
-
 function generateServerInfoHtml(serverData) {
     return `
         <div class="server-info-container">
@@ -197,6 +197,7 @@ function generateServerInfoHtml(serverData) {
             ${generateServerStats(serverData)}
             ${generateConnectionInfo()}
             ${window.characterManager.generateContainer()}
+            ${window.inventoryManager.generateContainer()}
             ${window.vehicleManager.generateContainer()}
         </div>
     `;
@@ -758,3 +759,4 @@ function updateProfileContent(userData) {
     // Load character data after setting up the container
     loadCharacterData(userData);
 }
+

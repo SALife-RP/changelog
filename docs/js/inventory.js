@@ -24,15 +24,19 @@ class InventoryManager {
                 name
             }));
             this.filteredItems = [...this.items];
-            console.log('Inventory initialized:', this.items.length, 'items');
+            console.log('Inventory initialized with', this.items.length, 'items');
             
-            // Render items after initialization
+            // Ensure container exists and render items
+            const container = document.getElementById('inventoryGrid');
+            if (!container) {
+                console.error('Inventory grid container not found');
+                return;
+            }
             this.renderItems();
         } catch (error) {
             console.error('Error initializing inventory manager:', error);
             this.items = [];
             this.filteredItems = [];
-            // Update the grid to show error
             const container = document.getElementById('inventoryGrid');
             if (container) {
                 container.innerHTML = `<p class="error-message">Failed to load inventory items: ${error.message}</p>`;
@@ -44,15 +48,19 @@ class InventoryManager {
         searchTerm = searchTerm.toLowerCase();
         this.filteredItems = this.items.filter(item => 
             item.name.toLowerCase().includes(searchTerm) ||
-            item.label.toLowerCase().includes(searchTerm) ||
-            item.description.toLowerCase().includes(searchTerm)
+            (item.label || '').toLowerCase().includes(searchTerm) ||
+            (item.description || '').toLowerCase().includes(searchTerm)
         );
         this.renderItems();
     }
 
     renderItems() {
+        console.log('Rendering items:', this.filteredItems.length);
         const container = document.getElementById('inventoryGrid');
-        if (!container) return;
+        if (!container) {
+            console.error('Inventory grid container not found during render');
+            return;
+        }
 
         if (this.filteredItems.length === 0) {
             container.innerHTML = '<p>No items found</p>';
@@ -62,27 +70,29 @@ class InventoryManager {
         container.innerHTML = this.filteredItems.map(item => `
             <div class="inventory-item">
                 <div class="item-header">
-                    <img src="${item.image}" alt="${item.label}" class="item-image" 
+                    <img src="${item.image || ''}" alt="${item.label || item.name}" class="item-image" 
                          onerror="this.src='assets/images/placeholder-item.png'">
                     <div class="item-info">
-                        <h3 class="item-name">${item.label}</h3>
+                        <h3 class="item-name">${item.label || item.name}</h3>
                         <p class="item-label">${item.name}</p>
                     </div>
                 </div>
                 ${item.description ? `<p class="item-description">${item.description}</p>` : ''}
                 <div class="item-details">
-                    <span class="item-detail rarity-${item.rarity}">
-                        ${item.rarity.charAt(0).toUpperCase() + item.rarity.slice(1)}
+                    <span class="item-detail rarity-${item.rarity || 'common'}">
+                        ${(item.rarity || 'common').charAt(0).toUpperCase() + (item.rarity || 'common').slice(1)}
                     </span>
-                    <span class="item-detail">Weight: ${item.weight}</span>
+                    <span class="item-detail">Weight: ${item.weight || 0}</span>
                     ${item.stack ? '<span class="item-detail">Stackable</span>' : ''}
                     ${item.close ? '<span class="item-detail">Closeable</span>' : ''}
                 </div>
             </div>
         `).join('');
+        console.log('Items rendered successfully');
     }
 
     generateContainer() {
+        console.log('Generating inventory container');
         return `
             <div class="inventory-section">
                 <div class="inventory-header">

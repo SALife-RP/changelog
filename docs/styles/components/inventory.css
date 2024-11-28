@@ -29,6 +29,15 @@
     color: var(--text);
 }
 
+.inventory-search input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--primary-dark);
+    border-radius: 4px;
+    background: var(--secondary-dark);
+    color: var(--text);
+}
+
 .sort-controls {
     display: flex;
     gap: 10px;

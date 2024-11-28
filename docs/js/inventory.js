@@ -3,6 +3,7 @@ class InventoryManager {
     constructor() {
         this.items = [];
         this.filteredItems = [];
+        this.initialized = false;
     }
 
     async initialize(serverData) {
@@ -24,14 +25,11 @@ class InventoryManager {
                 name
             }));
             this.filteredItems = [...this.items];
+            this.initialized = true;
             console.log('Inventory initialized with', this.items.length, 'items');
             
-            // Ensure container exists and render items
-            const container = document.getElementById('inventoryGrid');
-            if (!container) {
-                console.error('Inventory grid container not found');
-                return;
-            }
+            // Wait for container to be available
+            await this.waitForContainer();
             this.renderItems();
         } catch (error) {
             console.error('Error initializing inventory manager:', error);
@@ -42,6 +40,24 @@ class InventoryManager {
                 container.innerHTML = `<p class="error-message">Failed to load inventory items: ${error.message}</p>`;
             }
         }
+    }
+
+    async waitForContainer(attempts = 10) {
+        return new Promise((resolve, reject) => {
+            const checkContainer = (attemptsLeft) => {
+                const container = document.getElementById('inventoryGrid');
+                if (container) {
+                    console.log('Inventory grid container found');
+                    resolve(container);
+                } else if (attemptsLeft <= 0) {
+                    console.error('Inventory grid container not found after multiple attempts');
+                    reject(new Error('Container not found'));
+                } else {
+                    setTimeout(() => checkContainer(attemptsLeft - 1), 100);
+                }
+            };
+            checkContainer(attempts);
+        });
     }
 
     searchItems(searchTerm) {

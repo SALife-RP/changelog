@@ -190,7 +190,6 @@ async function loadServerInfo() {
         `;
     }
 }
-
 function generateServerInfoHtml(serverData) {
     return `
         <div class="server-info-container">
@@ -760,3 +759,4 @@ function updateProfileContent(userData) {
     // Load character data after setting up the container
     loadCharacterData(userData);
 }
+

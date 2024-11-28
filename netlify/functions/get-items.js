@@ -15,7 +15,7 @@ exports.handler = async function(event, context) {
     }
 
     try {
-        const serverAddress = 'https://velocityserver-zjepzy.users.cfx.re/resource/ox_inventory';
+        const serverAddress = 'https://velocityserver-zjepzy.users.cfx.re/ox_inventory';
         if (!serverAddress) {
             console.error('FIVEM_SERVER_ADDRESS not configured');
             throw new Error('Server address not configured');

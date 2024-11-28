@@ -73,9 +73,8 @@ class InventoryManager {
                     <span class="item-detail rarity-${item.rarity || 'common'}">
                         ${(item.rarity || 'common').charAt(0).toUpperCase() + (item.rarity || 'common').slice(1)}
                     </span>
-                    <span class="item-detail">Weight: ${item.weight || 0}</span>
+                    <!--<span class="item-detail">Weight: ${item.weight || 0}</span>-->
                     ${item.stack ? '<span class="item-detail">Stackable</span>' : ''}
-                    ${item.close ? '<span class="item-detail">Closeable</span>' : ''}
                 </div>
             </div>
         `).join('');

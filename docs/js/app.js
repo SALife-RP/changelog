@@ -304,7 +304,6 @@ function updateProfileDisplay() {
         </div>
     `;
 }
-
 function displayCharacterInfo() {
     if (!gameData) {
         return '<div class="no-characters">Loading player data...</div>';
@@ -758,3 +757,4 @@ function updateProfileContent(userData) {
     // Load character data after setting up the container
     loadCharacterData(userData);
 }
+

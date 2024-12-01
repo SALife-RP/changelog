@@ -61,9 +61,9 @@ exports.handler = async(event, context) => {
             message = won ? "Heads - You won!" : "Tails - You lost!";
         } else if (gameType === "dice") {
             const roll = Math.floor(Math.random() * 6) + 1; // Roll 1-6
-            won = roll >= 4; // Win on 4, 5, or 6
-            winAmount = won ? Math.floor(betAmount * 1.8) : 0;
-            message = `Rolled ${roll}`; // Send actual roll number
+            won = roll >= 5; // Win only on 5 or 6 (33.33% chance)
+            winAmount = won ? Math.floor(betAmount * 1.5) : 0; // Lower payout (1.5x)
+            message = `Rolled ${roll}`;
         }
 
         // Update character's money - use cash instead of money

@@ -27,15 +27,10 @@ class GamesManager {
             <div class="games-container">
                 <h3>Games</h3>
                 <div class="game-options">
-                    <!--<div class="game-option" onclick="window.gamesManager.startGame('coinflip', ${characterId})">
-                        <i class="fas fa-coins"></i>
-                        <span>Coinflip</span>
-                        <p>50/50 chance to double your money</p>
-                    </div>-->
                     <div class="game-option" onclick="window.gamesManager.startGame('dice', ${characterId})">
                         <i class="fas fa-dice"></i>
                         <span>Dice Roll</span>
-                        <p>Roll 4 or higher to win</p>
+                        <p>Roll 5 or higher to win (1.5x payout)</p>
                     </div>
                 </div>
             </div>
@@ -72,8 +67,8 @@ class GamesManager {
                 </div>
                 ${gameType === "dice" ? this.generateDiceDisplay() : ""}
                 <div class="bet-controls">
-                    <label>Bet Amount:</label>
-                    <input type="number" id="betAmount" min="100" max="10000" step="100" value="100">
+                    <label>Bet Amount: ($100-$500)</label>
+                    <input type="number" id="betAmount" min="100" max="500" step="100" value="100">
                     <div class="bet-buttons">
                         <button onclick="window.gamesManager.adjustBet(-100)">-100</button>
                         <button onclick="window.gamesManager.adjustBet(100)">+100</button>
@@ -106,7 +101,7 @@ class GamesManager {
     adjustBet(amount) {
         const input = document.getElementById("betAmount");
         let newValue = parseInt(input.value) + amount;
-        newValue = Math.max(100, Math.min(10000, newValue));
+        newValue = Math.max(100, Math.min(500, newValue));
         input.value = newValue;
     }
 

@@ -210,8 +210,8 @@ class GamesManager {
     const rotations = {
       1: "rotateX(0deg) rotateY(0deg)", // Front face (⚀)
       2: "rotateX(90deg) rotateY(0deg)", // Bottom face (⚁)
-      3: "rotateX(0deg) rotateY(-90deg)", // Left face (⚂)
-      4: "rotateX(0deg) rotateY(90deg)", // Right face (⚃)
+      4: "rotateX(0deg) rotateY(-90deg)", // Left face (⚂)
+      3: "rotateX(0deg) rotateY(90deg)", // Right face (⚃)
       5: "rotateX(-90deg) rotateY(0deg)", // Top face (⚄)
       6: "rotateX(180deg) rotateY(0deg)", // Back face (⚅)
     };

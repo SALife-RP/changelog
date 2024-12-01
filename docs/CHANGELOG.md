@@ -4,6 +4,13 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
+## [Unreleased] - 2024-12-01
+
+### 🆕 New Features
+
+- **garage:** interaction with dealership purchases switched to 3d interaction
+@image(ft/pd5ox1vp.bmp)
+
 ## [0.1.16] - 2024-12-01
 
 ### 🆕 New Features

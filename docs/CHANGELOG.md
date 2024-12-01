@@ -14,6 +14,9 @@ For more information about server rules and features, visit our [Discord](https:
 - **discord:** rich presence updates
 @image(ft/zcrv30tz.bmp)
 
+- **names:** stranger/masked info improvements
+@image(ft/7kqph2qg.bmp)
+
 ### 🔧 Bug Fixes
 
 - **salrp:** better mask check function

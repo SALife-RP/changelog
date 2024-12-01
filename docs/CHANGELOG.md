@@ -4,21 +4,37 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
+## [0.1.13] - 2024-11-30
+
+### 🆕 New Features
+
+- **npcs:** Add npc blip toggle to settings menu
+
+### 🔧 Bug Fixes
+
+- **names:** Health display now accurate represents health
+
 ## [0.1.12] - 2024-11-30
 
 ### 🆕 New Features
 
-- **connect:** Add mugshot to alternative characters for non-early accounts
+- **connect:** Add mugshot for regular non-early alt characters
 
-## [0.1.11] - 2024-11-30
+### ⚖️ Balance Changes
 
-### 🔧 Bug Fixes
+- **pickpocket:** Reduce chance to pickpocket nothing
 
-- **connect:** Webhook sending to community discord removal for now
+- **pickpocket:** Buff rewards for pickpocket further
 
-## [0.1.10] - 2024-11-27
+- **pickpocket:** Increase pouch gains
+
+## [0.1.11] - 2024-11-28
 
 ### 🆕 New Features
+
+- **npcs:** Add npc blip toggle to settings menu
+
+- **connect:** Add mugshot for regular non-early alt characters
 
 - Web access to more item info
 

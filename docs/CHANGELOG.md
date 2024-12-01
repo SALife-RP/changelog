@@ -14,8 +14,21 @@ For more information about server rules and features, visit our [Discord](https:
 - **discord:** rich presence updates
 @image(ft/zcrv30tz.bmp)
 
+- **names:** add disconnect icon for voice chat being off or broken
+@image(ft/s3b6uti5.bmp)
+
+- **names:** add nice voice icon when speaking
+@image(ft/lzlw85ox.bmp)
+
+- **names:** add nice icon for radio usage
+@image(ft/j8nt8i31.bmp)
+
+### 📜 Script Updates
+
 - **names:** stranger/masked info improvements
 @image(ft/7kqph2qg.bmp)
+
+- **cmds:** fix veh command not placing inside of vehicle (dev only)
 
 ### 🔧 Bug Fixes
 

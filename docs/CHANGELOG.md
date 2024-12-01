@@ -21,7 +21,7 @@ For more information about server rules and features, visit our [Discord](https:
 @image(ft/lzlw85ox.bmp)
 
 - **names:** add nice icon for radio usage
-@image(ft/j8nt8i31.bmp)
+@image(ft/m65tlntf.bmp)
 
 ### 📜 Script Updates
 

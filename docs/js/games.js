@@ -24,7 +24,7 @@ class GamesManager {
                     <div class="game-option" onclick="window.gamesManager.startGame('dice', ${characterId})">
                         <i class="fas fa-dice"></i>
                         <span>Dice Roll</span>
-                        <p>Roll 7 or higher to win</p>
+                        <p>Roll 4 or higher to win</p>
                     </div>
                 </div>
             </div>
@@ -133,7 +133,9 @@ class GamesManager {
                                 <div class="result ${
                                   result.won ? "win" : "lose"
                                 }">
-                                    ${result.message}<br>
+                                    Rolled ${roll} - ${
+                result.won ? "You won!" : "You lost!"
+              }<br>
                                     ${
                                       result.won
                                         ? `Won: $${result.winAmount}`

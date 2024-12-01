@@ -60,10 +60,10 @@ exports.handler = async(event, context) => {
             winAmount = won ? betAmount * 2 : 0;
             message = won ? "Heads - You won!" : "Tails - You lost!";
         } else if (gameType === "dice") {
-            const roll = Math.floor(Math.random() * 12) + 1;
-            won = roll >= 7;
+            const roll = Math.floor(Math.random() * 6) + 1;
+            won = roll >= 4;
             winAmount = won ? Math.floor(betAmount * 1.8) : 0;
-            message = `Rolled ${roll} - ${won ? "You won!" : "You lost!"}`;
+            message = `Rolled ${roll}`;
         }
 
         // Update character's money - use cash instead of money

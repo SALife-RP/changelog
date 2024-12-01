@@ -14,6 +14,10 @@ For more information about server rules and features, visit our [Discord](https:
 - **discord:** rich presence updates
 @image(ft/zcrv30tz.bmp)
 
+### 🔧 Bug Fixes
+
+- **salrp:** better mask check function
+
 ## [0.1.16] - 2024-12-01
 
 ### 🆕 New Features

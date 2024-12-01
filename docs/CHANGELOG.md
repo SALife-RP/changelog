@@ -4,7 +4,13 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
-## [Unreleased] - 2024-11-30
+## [Unreleased] - 2024-12-02
+
+### 🆕 New Features
+
+- **npcs:** Add dialog branch to rob store clerks with many choices to make to determine investigatory outcome
+
+## [0.1.15] - 2024-12-01
 
 ### 🆕 New Features
 
@@ -12,6 +18,9 @@ For more information about server rules and features, visit our [Discord](https:
 
 - **items:** Persistent drops now create an interaction point to pick-up easier
 @image(ft/c80svorx.bmp)
+
+- **r_grab:** Update version with some improvements to collision/range
+@image(ft/0jcc3zgc.bmp)
 
 ### 🔧 Bug Fixes
 

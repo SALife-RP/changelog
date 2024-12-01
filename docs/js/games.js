@@ -163,7 +163,7 @@ class GamesManager {
         // Refresh game data after a delay
         setTimeout(() => {
           refreshGameData();
-          this.closeGame();
+          //   this.closeGame();
         }, 4000);
       } else {
         resultDiv.innerHTML = `<div class="error">${result.message}</div>`;

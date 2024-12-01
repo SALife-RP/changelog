@@ -5,22 +5,47 @@ exports.handler = async(event, context) => {
         return { statusCode: 405, body: "Method Not Allowed" };
     }
 
+    let db;
     try {
         const { gameType, betAmount, characterId } = JSON.parse(event.body);
-        const db = await getDatabase();
 
-        // Verify character has enough money
-        const [character] = await db.query(
-            "SELECT cash FROM banking2_accounts WHERE id = ?", [characterId]
+        // Log incoming request data
+        console.log("Game request:", { gameType, betAmount, characterId });
+
+        // Get database connection
+        db = await getDatabase();
+        if (!db) {
+            throw new Error("Failed to connect to database");
+        }
+
+        // Verify character has enough money - add logging
+        console.log("Querying banking account for ID:", characterId);
+        const [rows] = await db.query(
+            "SELECT * FROM banking2_accounts WHERE user_id = ?", [characterId]
         );
+        console.log("Query result:", rows);
+
+        const character = rows[0];
 
         // Check if character exists and has enough cash
-        if (!character || character.cash < betAmount) {
+        if (!character) {
+            return {
+                statusCode: 400,
+                body: JSON.stringify({
+                    success: false,
+                    message: "Character not found",
+                }),
+            };
+        }
+
+        if (character.cash < betAmount) {
             return {
                 statusCode: 400,
                 body: JSON.stringify({
                     success: false,
                     message: "Insufficient funds",
+                    current: character.cash,
+                    required: betAmount,
                 }),
             };
         }
@@ -45,7 +70,17 @@ exports.handler = async(event, context) => {
         const newAmount = won ?
             character.cash + (winAmount - betAmount) :
             character.cash - betAmount;
-        await db.query("UPDATE banking2_accounts SET cash = ? WHERE id = ?", [
+
+        console.log("Updating balance:", {
+            oldAmount: character.cash,
+            newAmount,
+            won,
+            winAmount,
+            betAmount,
+        });
+
+        // Update the balance
+        await db.query("UPDATE banking2_accounts SET cash = ? WHERE user_id = ?", [
             newAmount,
             characterId,
         ]);
@@ -57,17 +92,33 @@ exports.handler = async(event, context) => {
                 won,
                 winAmount,
                 message,
+                oldBalance: character.cash,
+                newBalance: newAmount,
             }),
         };
     } catch (error) {
-        console.error("Game error:", error);
+        console.error("Game error:", {
+            error: error.message,
+            stack: error.stack,
+            event: event.body,
+        });
+
         return {
             statusCode: 500,
             body: JSON.stringify({
                 success: false,
                 message: "Internal server error",
-                error: error.message, // Add error message for debugging
+                error: error.message,
+                details: process.env.NODE_ENV === "development" ? error.stack : undefined,
             }),
         };
+    } finally {
+        if (db) {
+            try {
+                await db.end();
+            } catch (err) {
+                console.error("Error closing database connection:", err);
+            }
+        }
     }
 };

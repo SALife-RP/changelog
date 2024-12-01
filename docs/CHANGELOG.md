@@ -4,7 +4,13 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
-## [0.1.11] - 2024-11-28
+## [0.1.11] - 2024-12-01
+
+### 🔧 Bug Fixes
+
+- **connect:** Webhook sending to community discord removal for now
+
+## [0.1.10] - 2024-11-27
 
 ### 🆕 New Features
 
@@ -17,31 +23,6 @@ For more information about server rules and features, visit our [Discord](https:
 - **connect:** Add screenshot posting to community discord
 
 - **web:** Add inventory compat to web
-
-## [0.1.10] - 2024-11-27
-
-
-### 🆕 New Features
-
-- **mdt:** New method to take screenshots for mugshots
-
-- New method to grab screens of vehicles
-
-- **connect:** Add screenshot posting to community discord
-
-## [0.1.9] - 2024-11-26
-
-### ⚖️ Balance Changes
-
-- **pickpocket:** Reduce chance to pickpocket nothing
-
-- **pickpocket:** Buff rewards for pickpocket further
-
-- **pickpocket:** Increase pouch gains
-
-
-### 🆕 New Features
-
 
 - **connect:** Discord requirement to create account/login
 
@@ -61,11 +42,9 @@ For more information about server rules and features, visit our [Discord](https:
 
 - **changelog:** Update changelog configuration and content
 
-
 ### 📚 Documentation
 
 - **cursorrules:** Update data storage recommendations
-
 
 ### 📜 Script Updates
 
@@ -89,8 +68,9 @@ For more information about server rules and features, visit our [Discord](https:
 
 - **hud:** Refactor HUD visibility and status management
 
-
 ### 🔧 Bug Fixes
+
+- **connect:** Webhook sending to community discord removal for now
 
 - **connect:** Search for appropriate discord roles from community discord for connection
 
@@ -104,15 +84,14 @@ For more information about server rules and features, visit our [Discord](https:
 
 - **build:** Fix build script completely
 
-
 ### 🚗 Vehicle Changes
 
 - **garage:** System updates, optimization especially related to vehicle mods
 
 - Ensure engine smoothly remains on when vehicle is abandoned
 
-
 ---
+
 ### 📝 Commit Types
 
 - 🆕 `feat`: New features

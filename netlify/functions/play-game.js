@@ -1,11 +1,11 @@
-const { getDatabase } = require("./utils/db");
+const db = require("./utils/db");
 
 exports.handler = async(event, context) => {
     if (event.httpMethod !== "POST") {
         return { statusCode: 405, body: "Method Not Allowed" };
     }
 
-    let db;
+    let connection;
     try {
         const { gameType, betAmount, characterId } = JSON.parse(event.body);
 
@@ -13,14 +13,14 @@ exports.handler = async(event, context) => {
         console.log("Game request:", { gameType, betAmount, characterId });
 
         // Get database connection
-        db = await getDatabase();
-        if (!db) {
+        connection = await db.getDatabase();
+        if (!connection) {
             throw new Error("Failed to connect to database");
         }
 
         // Verify character has enough money - add logging
         console.log("Querying banking account for ID:", characterId);
-        const [rows] = await db.query(
+        const [rows] = await connection.query(
             "SELECT * FROM banking2_accounts WHERE user_id = ?", [characterId]
         );
         console.log("Query result:", rows);
@@ -80,10 +80,9 @@ exports.handler = async(event, context) => {
         });
 
         // Update the balance
-        await db.query("UPDATE banking2_accounts SET cash = ? WHERE user_id = ?", [
-            newAmount,
-            characterId,
-        ]);
+        await connection.query(
+            "UPDATE banking2_accounts SET cash = ? WHERE user_id = ?", [newAmount, characterId]
+        );
 
         return {
             statusCode: 200,
@@ -113,9 +112,9 @@ exports.handler = async(event, context) => {
             }),
         };
     } finally {
-        if (db) {
+        if (connection) {
             try {
-                await db.end();
+                await connection.end();
             } catch (err) {
                 console.error("Error closing database connection:", err);
             }

@@ -4,11 +4,15 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
-## [Unreleased] - 2024-12-01
+## [0.1.16] - 2024-12-01
 
 ### 🆕 New Features
 
 - **npcs:** Add dialog branch to rob store clerks with many choices to make to determine investigatory outcome
+
+- **npcs:** Store clerk advanced robberies with AI and police statement generation
+
+- **npcs:** Add additional informational gathering to store clerk robberies
 
 ## [0.1.15] - 2024-12-01
 

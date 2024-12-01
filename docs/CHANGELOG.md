@@ -4,6 +4,12 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
+## [0.1.12] - 2024-12-02
+
+### 🆕 New Features
+
+- **connect:** Add mugshot to alternative characters for non-early accounts
+
 ## [0.1.11] - 2024-12-01
 
 ### 🔧 Bug Fixes

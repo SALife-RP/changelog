@@ -4,6 +4,12 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
+## [0.1.14] - 2024-12-02
+
+### 🆕 New Features
+
+- **fivem-appearance:** Make the categories make more sense
+
 ## [0.1.13] - 2024-11-30
 
 ### 🆕 New Features

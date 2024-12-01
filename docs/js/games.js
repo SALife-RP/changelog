@@ -5,6 +5,17 @@ class GamesManager {
         this.currentBet = 0;
         this.characterId = null;
         this.isRolling = false;
+        // Add sound effects
+        this.sounds = {
+            roll: new Audio("/assets/sounds/dice-roll.mp3"),
+            win: new Audio("/assets/sounds/win.mp3"),
+            lose: new Audio("/assets/sounds/lose.mp3"),
+        };
+        // Configure sounds
+        Object.values(this.sounds).forEach((sound) => {
+            sound.volume = 0.5;
+            sound.preload = "auto";
+        });
     }
 
     initialize(gameData) {
@@ -45,9 +56,20 @@ class GamesManager {
     }
 
     generateGameModal(gameType) {
+        const soundEnabled = this.initSoundSettings();
         return `
             <div class="game-modal-content">
                 <h2>${gameType === "coinflip" ? "Coinflip" : "Dice Roll"}</h2>
+                <div class="sound-toggle">
+                    <button onclick="window.gamesManager.toggleSound(!this.classList.contains('active'))"
+                            class="sound-button ${
+                              soundEnabled ? "active" : ""
+                            }">
+                        <i class="fas ${
+                          soundEnabled ? "fa-volume-up" : "fa-volume-mute"
+                        }"></i>
+                    </button>
+                </div>
                 ${gameType === "dice" ? this.generateDiceDisplay() : ""}
                 <div class="bet-controls">
                     <label>Bet Amount:</label>
@@ -98,8 +120,10 @@ class GamesManager {
 
             try {
                 if (this.currentGame === "dice") {
-                    // Start dice animation
+                    // Start dice animation and sound
                     diceElement.classList.add("rolling");
+                    this.sounds.roll.currentTime = 0;
+                    this.sounds.roll.play();
                 }
 
                 const response = await fetch("/.netlify/functions/play-game", {
@@ -118,17 +142,22 @@ class GamesManager {
 
                 if (result.success) {
                     if (this.currentGame === "dice") {
-                        // Extract the roll number from the message
                         const roll = parseInt(result.message.match(/\d+/)[0]);
 
-                        // Stop rolling animation after 2 seconds and show result
                         setTimeout(() => {
                                     diceElement.classList.remove("rolling");
-                                    // Set final rotation based on roll result
                                     this.setDiceFace(diceElement, roll);
 
-                                    // Show result message after dice stops
                                     setTimeout(() => {
+                                                // Play win/lose sound
+                                                if (result.won) {
+                                                    this.sounds.win.currentTime = 0;
+                                                    this.sounds.win.play();
+                                                } else {
+                                                    this.sounds.lose.currentTime = 0;
+                                                    this.sounds.lose.play();
+                                                }
+
                                                 resultDiv.innerHTML = `
                                 <div class="result ${
                                   result.won ? "win" : "lose"
@@ -177,14 +206,14 @@ class GamesManager {
   }
 
   setDiceFace(diceElement, roll) {
-    // Define rotations for each face
+    // Define rotations for each face to match Unicode dice characters
     const rotations = {
-      1: "rotateX(0deg) rotateY(0deg)", // Front face (⚀)
-      2: "rotateX(0deg) rotateY(180deg)", // Back face (⚁)
-      3: "rotateX(0deg) rotateY(90deg)", // Right face (⚂)
-      4: "rotateX(0deg) rotateY(-90deg)", // Left face (⚃)
-      5: "rotateX(90deg) rotateY(0deg)", // Top face (⚄)
-      6: "rotateX(-90deg) rotateY(0deg)", // Bottom face (⚅)
+      1: "rotateX(0deg) rotateY(0deg)", // ⚀ Front face
+      6: "rotateX(0deg) rotateY(180deg)", // ⚅ Back face
+      3: "rotateX(0deg) rotateY(90deg)", // ⚂ Right face
+      4: "rotateX(0deg) rotateY(-90deg)", // ⚃ Left face
+      2: "rotateX(90deg) rotateY(0deg)", // ⚁ Top face
+      5: "rotateX(-90deg) rotateY(0deg)", // ⚄ Bottom face
     };
 
     diceElement.style.transform = rotations[roll];
@@ -196,6 +225,21 @@ class GamesManager {
       modal.classList.remove("active");
       setTimeout(() => modal.remove(), 300);
     }
+  }
+
+  // Add method to toggle sound
+  toggleSound(enabled) {
+    Object.values(this.sounds).forEach((sound) => {
+      sound.muted = !enabled;
+    });
+    localStorage.setItem("gameSoundEnabled", enabled);
+  }
+
+  // Add method to initialize sound settings
+  initSoundSettings() {
+    const soundEnabled = localStorage.getItem("gameSoundEnabled") !== "false";
+    this.toggleSound(soundEnabled);
+    return soundEnabled;
   }
 }
 

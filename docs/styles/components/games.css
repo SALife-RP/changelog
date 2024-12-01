@@ -71,6 +71,7 @@
     width: 90%;
     max-width: 500px;
     box-shadow: var(--shadow-large);
+    position: relative;
 }
 
 .bet-controls {
@@ -149,10 +150,10 @@
 }
 
 .dice-container {
-    perspective: 1000px;
-    margin: 2rem auto;
-    width: 100px;
-    height: 100px;
+    perspective: 1200px;
+    margin: 3rem auto;
+    width: 120px;
+    height: 120px;
 }
 
 .dice {
@@ -160,11 +161,11 @@
     height: 100%;
     position: relative;
     transform-style: preserve-3d;
-    transition: transform 0.5s ease-out;
+    transition: transform 0.8s cubic-bezier(0.3, 0.1, 0.3, 1);
 }
 
 .dice.rolling {
-    animation: roll 2s infinite linear;
+    animation: roll 1.6s infinite cubic-bezier(0.3, 0.1, 0.3, 1);
 }
 
 .dice-face {
@@ -174,43 +175,83 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 4rem;
+    font-size: 4.5rem;
     background: var(--primary-dark);
-    border: 2px solid var(--primary);
-    border-radius: 12px;
-    box-shadow: var(--shadow-medium);
+    border: 3px solid var(--primary);
+    border-radius: 16px;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2), 0 0 8px rgba(103, 65, 217, 0.3);
+    backface-visibility: hidden;
+    color: var(--accent);
+    text-shadow: 0 0 10px rgba(200, 162, 200, 0.5);
 }
 
 .dice-face.front {
-    transform: translateZ(50px);
+    transform: translateZ(60px);
 }
 
 .dice-face.back {
-    transform: translateZ(-50px) rotateY(180deg);
+    transform: translateZ(-60px) rotateY(180deg);
 }
 
 .dice-face.right {
-    transform: translateX(50px) rotateY(90deg);
+    transform: translateX(60px) rotateY(90deg);
 }
 
 .dice-face.left {
-    transform: translateX(-50px) rotateY(-90deg);
+    transform: translateX(-60px) rotateY(-90deg);
 }
 
 .dice-face.top {
-    transform: translateY(-50px) rotateX(90deg);
+    transform: translateY(-60px) rotateX(90deg);
 }
 
 .dice-face.bottom {
-    transform: translateY(50px) rotateX(-90deg);
+    transform: translateY(60px) rotateX(-90deg);
 }
 
 @keyframes roll {
     0% {
         transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
     }
+    33% {
+        transform: rotateX(420deg) rotateY(240deg) rotateZ(120deg);
+    }
+    66% {
+        transform: rotateX(240deg) rotateY(480deg) rotateZ(240deg);
+    }
     100% {
         transform: rotateX(360deg) rotateY(720deg) rotateZ(360deg);
+    }
+}
+
+.dice:not(.rolling):hover {
+    transform: scale(1.05) rotateX(5deg) rotateY(5deg);
+    cursor: pointer;
+}
+
+.dice-face::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient( 135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 50%, transparent 100%);
+    border-radius: 14px;
+    pointer-events: none;
+}
+
+.result.win~.dice-container .dice {
+    animation: win-glow 2s ease-in-out infinite;
+}
+
+@keyframes win-glow {
+    0%,
+    100% {
+        filter: drop-shadow(0 0 5px rgba(0, 230, 118, 0.5));
+    }
+    50% {
+        filter: drop-shadow(0 0 15px rgba(0, 230, 118, 0.8));
     }
 }
 
@@ -220,4 +261,33 @@
 .rolling~.game-controls button {
     pointer-events: none;
     opacity: 0.7;
+}
+
+
+/* Add sound toggle styles */
+
+.sound-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+
+.sound-button {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.sound-button:hover {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.sound-button.active {
+    color: var(--accent);
 }

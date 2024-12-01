@@ -140,9 +140,9 @@ function switchContent(view) {
     buttons.forEach((button) => button.classList.remove("active"));
 
     // Find and activate the clicked button
-    const activeButton = Array.from(buttons).find(
-        (button) => button.getAttribute("onclick") ? .includes(view) // Fixed optional chaining operator
-    );
+  const activeButton = Array.from(buttons).find(
+    (button) => button.getAttribute("onclick")?.includes(view) // Fixed optional chaining operator
+  );
     if (activeButton) {
         activeButton.classList.add("active");
     }

@@ -8,24 +8,21 @@
     <!-- Primary Meta Tags -->
     <title>SALife</title>
     <meta name="title" content="SALife - PlaySALife - San Andreas Life">
-    <meta name="description"
-        content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
+    <meta name="description" content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
     <meta name="keywords" content="SALife, FiveM, GTA V, Roleplay, RP Server, San Andreas Life">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://playsalife.com/">
     <meta property="og:title" content="SALife - San Andreas Life">
-    <meta property="og:description"
-        content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
+    <meta property="og:description" content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
     <meta property="og:image" content="https://playsalife.com/assets/images/logo.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://playsalife.com/">
     <meta property="twitter:title" content="SALife - San Andreas Life">
-    <meta property="twitter:description"
-        content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
+    <meta property="twitter:description" content="SALife is a FiveM roleplay server founded in 2014, offering an immersive GTA V roleplay experience with custom systems and features.">
     <meta property="twitter:image" content="https://playsalife.com/assets/images/logo.png">
 
     <!-- Discord -->
@@ -77,11 +74,11 @@
             flex-direction: column;
             color: white;
         }
-
+        
         .loading-screen.active {
             display: flex;
         }
-
+        
         .loading-spinner {
             width: 50px;
             height: 50px;
@@ -91,17 +88,16 @@
             animation: spin 1s linear infinite;
             margin-bottom: 20px;
         }
-
+        
         @keyframes spin {
             0% {
                 transform: rotate(0deg);
             }
-
             100% {
                 transform: rotate(360deg);
             }
         }
-
+        
         .modal {
             display: none;
             /* Hide by default */
@@ -114,7 +110,7 @@
             /* Dark overlay */
             z-index: 1000;
         }
-
+        
         .modal-content {
             background-color: #252525;
             /* Secondary Solid color */
@@ -131,7 +127,7 @@
             color: #ffffff;
             /* Text color */
         }
-
+        
         .close {
             color: #999999;
             /* Text Muted color */
@@ -140,7 +136,7 @@
             font-weight: bold;
             cursor: pointer;
         }
-
+        
         .close:hover {
             color: #ffffff;
             /* Text color */
@@ -217,8 +213,7 @@
             <div class="feature-card">
                 <i class="feature-icon">🎮</i>
                 <h3>Custom Systems</h3>
-                <p>Gameplay designed to drive roleplay and bring players together created by highly experienced
-                    developers.
+                <p>Gameplay designed to drive roleplay and bring players together created by highly experienced developers.
                 </p>
             </div>
             <div class="feature-card">
@@ -251,8 +246,7 @@
             <form id="changeRequestForm" onsubmit="submitVehicleChange(event)">
                 <div class="form-group">
                     <label for="changeReason">Reason for Change:</label>
-                    <textarea id="changeReason" required
-                        placeholder="Please explain why this vehicle needs changes..."></textarea>
+                    <textarea id="changeReason" required placeholder="Please explain why this vehicle needs changes..."></textarea>
                 </div>
                 <div class="form-group">
                     <label for="suggestedChange">Suggested Change:</label>
@@ -311,7 +305,7 @@
         }
 
         // Update the window click handler
-        window.onclick = function (event) {
+        window.onclick = function(event) {
             const modals = document.getElementsByClassName('modal');
             for (let modal of modals) {
                 if (event.target === modal) {
@@ -325,7 +319,7 @@
         };
 
         // Add event listener for when the DOM is loaded
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             // Ensure modals are hidden on page load
             const modals = document.getElementsByClassName('modal');
             for (let modal of modals) {
@@ -392,7 +386,7 @@
         }
 
         // Handle escape key for modals
-        document.addEventListener('keydown', function (event) {
+        document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 closeModal();
                 closeUserInfoModal();
@@ -404,6 +398,10 @@
         <div class="loading-spinner"></div>
         <h2>Authenticating...</h2>
     </div>
+
+    <!-- Add these before the closing body tag -->
+    <script src="js/games.js"></script>
+    <link rel="stylesheet" href="styles/components/games.css">
 </body>
 
 </html>

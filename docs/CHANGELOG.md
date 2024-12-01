@@ -4,7 +4,20 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
-## [0.1.14] - 2024-12-02
+## [Unreleased] - 2024-11-30
+
+### 🆕 New Features
+
+- **inventory:** New item: radio (requirement for radio radial, given to characters on creation)
+
+- **items:** Persistent drops now create an interaction point to pick-up easier
+@image(ft/c80svorx.bmp)
+
+### 🔧 Bug Fixes
+
+- **hud:** Default hud state to true for hud toggling purposes
+
+## [0.1.14] - 2024-11-30
 
 ### 🆕 New Features
 

@@ -93,11 +93,11 @@ class GamesManager {
             <div class="dice-container">
                 <div class="dice" id="dice">
                     <div class="dice-face front">⚀</div>
-                    <div class="dice-face back">⚁</div>
-                    <div class="dice-face right">⚂</div>
-                    <div class="dice-face left">⚃</div>
+                    <div class="dice-face bottom">⚁</div>
+                    <div class="dice-face left">⚂</div>
+                    <div class="dice-face right">⚃</div>
                     <div class="dice-face top">⚄</div>
-                    <div class="dice-face bottom">⚅</div>
+                    <div class="dice-face back">⚅</div>
                 </div>
             </div>
         `;
@@ -208,12 +208,12 @@ class GamesManager {
   setDiceFace(diceElement, roll) {
     // Define rotations for each face to match Unicode dice characters
     const rotations = {
-      1: "rotateX(0deg) rotateY(0deg)", // ⚀ One
-      2: "rotateX(0deg) rotateY(180deg)", // ⚁ Two
-      3: "rotateX(0deg) rotateY(90deg)", // ⚂ Three
-      4: "rotateX(0deg) rotateY(-90deg)", // ⚃ Four
-      5: "rotateX(90deg) rotateY(0deg)", // ⚄ Five
-      6: "rotateX(-90deg) rotateY(0deg)", // ⚅ Six
+      1: "rotateX(0deg) rotateY(0deg)", // ⚀ Front shows 1
+      2: "rotateX(-90deg) rotateY(0deg)", // ⚁ Bottom shows 2
+      3: "rotateX(0deg) rotateY(-90deg)", // ⚂ Left shows 3
+      4: "rotateX(0deg) rotateY(90deg)", // ⚃ Right shows 4
+      5: "rotateX(90deg) rotateY(0deg)", // ⚄ Top shows 5
+      6: "rotateX(0deg) rotateY(180deg)", // ⚅ Back shows 6
     };
 
     diceElement.style.transform = rotations[roll];

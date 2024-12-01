@@ -1,27 +1,35 @@
 [build]
-  publish = "docs"
-  functions = "netlify/functions"
+publish = "docs"
+functions = "netlify/functions"
 
 [[redirects]]
-  from = "/auth/discord/callback"
-  to = "/index.html"
-  status = 200
-  force = true
+from = "/auth/discord/callback"
+to = "/index.html"
+status = 200
+force = true
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+from = "/*"
+to = "/index.html"
+status = 200
 
 [template.environment]
-  DISCORD_CLIENT_ID = "Your Discord Client ID"
-  DISCORD_CLIENT_SECRET = "Your Discord Client Secret"
-  DISCORD_REDIRECT_URI = "https://playsalife.com/auth/discord/callback"
-  DB_HOST = "Your MariaDB Host"
-  DB_USER = "Your Database User"
-  DB_PASSWORD = "Your Database Password"
-  DB_NAME = "Your Database Name"
-  FIVEM_SERVER_ADDRESS = "Your FiveM Server Address (e.g. http://your-server-ip:port)"
+DISCORD_CLIENT_ID = "Your Discord Client ID"
+DISCORD_CLIENT_SECRET = "Your Discord Client Secret"
+DISCORD_REDIRECT_URI = "https://playsalife.com/auth/discord/callback"
+DB_HOST = "Your MariaDB Host"
+DB_USER = "Your Database User"
+DB_PASSWORD = "Your Database Password"
+DB_NAME = "Your Database Name"
+FIVEM_SERVER_ADDRESS = "Your FiveM Server Address (e.g. http://your-server-ip:port)"
 
 [context.production.environment]
-  NODE_ENV = "production"
+NODE_ENV = "production"
+
+[build.environment]
+DB_HOST = "your-db-host"
+DB_USER = "your-db-user"
+DB_PASSWORD = "your-db-password"
+DB_NAME = "your-db-name"
+UPSTASH_REDIS_URL = "your-redis-url"
+UPSTASH_REDIS_TOKEN = "your-redis-token"

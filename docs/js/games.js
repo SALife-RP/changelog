@@ -208,12 +208,12 @@ class GamesManager {
   setDiceFace(diceElement, roll) {
     // Define rotations for each face to match Unicode dice characters
     const rotations = {
-      1: "rotateX(0deg) rotateY(0deg)", // ⚀ Front face
-      2: "rotateX(0deg) rotateY(180deg)", // ⚁ Back face
-      3: "rotateX(0deg) rotateY(90deg)", // ⚂ Right face
-      4: "rotateX(0deg) rotateY(-90deg)", // ⚃ Left face
-      5: "rotateX(90deg) rotateY(0deg)", // ⚄ Top face
-      6: "rotateX(-90deg) rotateY(0deg)", // ⚅ Bottom face
+      0: "rotateX(0deg) rotateY(0deg)", // ⚀ Front face
+      1: "rotateX(0deg) rotateY(180deg)", // ⚁ Back face
+      2: "rotateX(0deg) rotateY(90deg)", // ⚂ Right face
+      3: "rotateX(0deg) rotateY(-90deg)", // ⚃ Left face
+      4: "rotateX(90deg) rotateY(0deg)", // ⚄ Top face
+      5: "rotateX(-90deg) rotateY(0deg)", // ⚅ Bottom face
     };
 
     diceElement.style.transform = rotations[roll];

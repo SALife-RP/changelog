@@ -22,12 +22,14 @@ For more information about server rules and features, visit our [Discord](https:
 ### 🆕 New Features
 
 - **fivem-appearance:** Make the categories make more sense
+@image(ft/64fgbt8h.bmp)
 
 ## [0.1.13] - 2024-11-30
 
 ### 🆕 New Features
 
 - **npcs:** Add npc blip toggle to settings menu
+@image(ft/8qdjhw9i.bmp)
 
 ### 🔧 Bug Fixes
 

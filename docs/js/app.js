@@ -117,7 +117,7 @@ function enhanceContentStyling() {
 
 function switchContent(view) {
     currentView = view;
-
+    
     // Hide home sections first
     const homeElements = [
         '.hero-section',
@@ -135,10 +135,10 @@ function switchContent(view) {
     // Update active button state
     const buttons = document.querySelectorAll('.nav-button');
     buttons.forEach(button => button.classList.remove('active'));
-
+    
     // Find and activate the clicked button
     const activeButton = Array.from(buttons).find(
-        button => button.getAttribute('onclick') ? .includes(view)
+        button => button.getAttribute('onclick')?.includes(view)
     );
     if (activeButton) {
         activeButton.classList.add('active');
@@ -160,9 +160,6 @@ function switchContent(view) {
             break;
         case 'home':
             loadHomeContent();
-            break;
-        case 'games':
-            window.gamesManager.initialize(serverData);
             break;
     }
 }
@@ -193,7 +190,6 @@ async function loadServerInfo() {
         `;
     }
 }
-
 function generateServerInfoHtml(serverData) {
     return `
         <div class="server-info-container">
@@ -324,53 +320,53 @@ function displayCharacterInfo() {
 
     gameData.characters.forEach((char, index) => {
 
-                console.log('Character data:', char);
-                // {
-                //     "identity": [
-                //         {
-                //             "user_id": 83,
-                //             "registration": "007XON",
-                //             "phone": "94112",
-                //             "firstname": "Lamar",
-                //             "name": "Davidson",
-                //             "age": 35,
-                //             "inventory": "[{\"slot\":1,\"count\":1,\"name\":\"phone\"}]",
-                //             "inventory2": null,
-                //             "health_state": null,
-                //             "special": "Normal",
-                //             "dob": "01/01/1989",
-                //             "sex": "male",
-                //             "mdt_image": "https://i.imgur.com/osAfgH2.png",
-                //             "job": "unemployed",
-                //             "jobrank": 1,
-                //             "nationality": "American"
-                //         }
-                //     ],
-                //         "money": [],
-                //             "vehicles": []
-                // }
-                // Get the first identity object from the array
-                const identity = char.identity[0] || {};
-                const money = char.money[0] || { cash: 0, debt: 0 };
+        console.log('Character data:', char);
+        // {
+        //     "identity": [
+        //         {
+        //             "user_id": 83,
+        //             "registration": "007XON",
+        //             "phone": "94112",
+        //             "firstname": "Lamar",
+        //             "name": "Davidson",
+        //             "age": 35,
+        //             "inventory": "[{\"slot\":1,\"count\":1,\"name\":\"phone\"}]",
+        //             "inventory2": null,
+        //             "health_state": null,
+        //             "special": "Normal",
+        //             "dob": "01/01/1989",
+        //             "sex": "male",
+        //             "mdt_image": "https://i.imgur.com/osAfgH2.png",
+        //             "job": "unemployed",
+        //             "jobrank": 1,
+        //             "nationality": "American"
+        //         }
+        //     ],
+        //         "money": [],
+        //             "vehicles": []
+        // }
+        // Get the first identity object from the array
+        const identity = char.identity[0] || {};
+        const money = char.money[0] || { cash: 0, debt: 0 };
 
-                const vehicles = char.vehicles || [];
-                // Calculate total money
-                const cash = money.cash || 0;
-                const debt = money.debt || 0;
+        const vehicles = char.vehicles || [];
+        // Calculate total money
+        const cash = money.cash || 0;
+        const debt = money.debt || 0;
 
-                console.log('Identity: ', identity);
-                console.log('Money: ', money);
-                console.log('Vehicles: ', vehicles);
+        console.log('Identity: ', identity);
+        console.log('Money: ', money);
+        console.log('Vehicles: ', vehicles);
 
-                console.log('Identity MDT Image: ', identity.mdt_image);
-                console.log('Identity name: ', identity.firstname);
-                console.log('Identity name: ', identity.name);
+        console.log('Identity MDT Image: ', identity.mdt_image);
+        console.log('Identity name: ', identity.firstname);
+        console.log('Identity name: ', identity.name);
 
-                console.log('Identity sex: ', identity.sex);
+        console.log('Identity sex: ', identity.sex);
 
-                console.log('Money: ', money)
+        console.log('Money: ', money)
 
-                html += `
+        html += `
             <div class="character-card">
                 <div class="character-header">
                     <img src="${identity.mdt_image || 'assets/images/placeholder.png'}"
@@ -616,7 +612,7 @@ async function handleAuthCallback() {
 async function loadHomeContent() {
     // Hide the main content div
     document.getElementById('content').innerHTML = '';
-
+    
     // Show home sections
     const homeElements = [
         '.hero-section',
@@ -763,3 +759,4 @@ function updateProfileContent(userData) {
     // Load character data after setting up the container
     loadCharacterData(userData);
 }
+

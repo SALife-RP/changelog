@@ -26,6 +26,9 @@ For more information about server rules and features, visit our [Discord](https:
 - **names:** improvements to names system including status effect overhead support
 @image(ft/h3mfya91.bmp)
 
+- **names:** scale voice indicator with proximity distance
+@image(ft/38vth237.bmp)
+
 ### 📜 Script Updates
 
 - **names:** stranger/masked info improvements

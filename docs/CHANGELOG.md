@@ -23,6 +23,9 @@ For more information about server rules and features, visit our [Discord](https:
 - **names:** add nice icon for radio usage
 @image(ft/m65tlntf.bmp)
 
+- **names:** improvements to names system including status effect overhead support
+@image(ft/h3mfya91.bmp)
+
 ### 📜 Script Updates
 
 - **names:** stranger/masked info improvements

@@ -8,6 +8,10 @@ For more information about server rules and features, visit our [Discord](https:
 
 ### 🆕 New Features
 
+- **mission:** New Lost MC initiation mission (simplified)
+
+- **mission:** Joining the lost now awards a starter motorbike
+
 - **mission:** Added Mission Content for LSPD Human Resources Contact
 
 - **job:** Added Points Metric System and expenditure shop for police

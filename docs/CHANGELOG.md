@@ -8,6 +8,12 @@ For more information about server rules and features, visit our [Discord](https:
 
 ### 🆕 New Features
 
+- **mission:** Added Mission Content for LSPD Human Resources Contact
+
+- **job:** Added Points Metric System and expenditure shop for police
+
+- **job:** Added promotional paths for LSPD
+
 - **garage:** interaction with dealership purchases switched to 3d interaction
 @image(ft/pd5ox1vp.bmp)
 
@@ -37,6 +43,8 @@ For more information about server rules and features, visit our [Discord](https:
 - **cmds:** fix veh command not placing inside of vehicle (dev only)
 
 ### 🔧 Bug Fixes
+
+- **mission:** fix(mission): lspd hr dialog logic preventing exam checks
 
 - **salrp:** better mask check function
 

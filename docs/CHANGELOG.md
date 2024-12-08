@@ -4,11 +4,11 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
-## [Unreleased] - 2024-12-07
+## [0.1.17] - 2024-12-08
 
 ### 🆕 New Features
 
-- **mission:** New Lost MC initiation mission (simplified)
+- **mission:** Basic gang initiation missions for Lost MC, Vagos, and Ballas
 
 - **mission:** Joining the lost now awards a starter motorbike
 

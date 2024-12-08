@@ -8,7 +8,7 @@ For more information about server rules and features, visit our [Discord](https:
 
 ### 🆕 New Features
 
-- **mission:** Basic gang initiation missions for Lost MC, Vagos, and Ballas
+- **mission:** Basic gang initiation missions for Lost MC, Vagos, and Ballas including starter vehicles
 
 - **mission:** Joining the lost now awards a starter motorbike
 

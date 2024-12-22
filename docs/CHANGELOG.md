@@ -6,6 +6,8 @@ For more information about server rules and features, visit our [Discord](https:
 
 ## [Unreleased] - 2024-12-21
 
+### 🆕 New Features
+
 - **farming:** Return of farming system
 @image(ft/crops.png)
 
@@ -19,6 +21,16 @@ For more information about server rules and features, visit our [Discord](https:
 
 - **luckyplucker:** Add chicken NPC to gather chicken carcasses
 @image(ft/chicken.png)
+
+### 📜 Script Updates
+
+- **skills:** Add farming and Lucky Plucker skills to skills system
+- **crafting:** Implement new crafting recipes for chicken-based items
+- **inventory:** Add various crop items and farming-related inventory items
+- **npcs:** Update NPC interactions for Lucky Plucker desk
+- **shop:** Adjust shop and inventory systems for new features
+- **system:** Optimize dialog systems and interaction distances
+- **skills:** Update skill XP and level calculation functions
 
 ## [0.1.17] - 2024-12-08
 

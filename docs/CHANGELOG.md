@@ -17,6 +17,9 @@ For more information about server rules and features, visit our [Discord](https:
 
 - **farming:** Seed shop dynamic restocking/pricing system
 
+- **luckyplucker:** Add chicken NPC to gather chicken carcasses
+@image(ft/chicken.png)
+
 ## [0.1.17] - 2024-12-08
 
 ### 🆕 New Features

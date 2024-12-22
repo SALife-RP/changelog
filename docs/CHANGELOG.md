@@ -4,6 +4,19 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
+## [Unreleased] - 2024-12-21
+
+- **farming:** Return of farming system
+@image(ft/crops.png)
+
+- **farming:** Public farming area in legion square
+
+- **farming:** All crop types can be planted in the public area
+
+- **npcs:** Add new npc to farm area to sell seeds
+
+- **farming:** Seed shop dynamic restocking/pricing system
+
 ## [0.1.17] - 2024-12-08
 
 ### 🆕 New Features

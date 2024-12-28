@@ -16,6 +16,8 @@ For more information about server rules and features, visit our [Discord](https:
 
 ### 🆕 New Features
 
+- **luckyplucker:** Added a job/group shared stash
+
 - **gta:** Update to latest version of GTA V (Agents of Sabotage)
 
 - **garage:** 3 new police vehicles

@@ -4,13 +4,18 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
-## [Unreleased] - 2024-12-21
+## [Unreleased] - 2024-12-28
 
 ### 🔧 Bug Fixes
 
 - **survival:** Fix bug with dead players standing up when dead and other issues related to death
+- **modlights:** Fix bugs related to emergency lighting
 
 ### 🆕 New Features
+
+- **gta:** Update to latest version of GTA V (Agents of Sabotage)
+
+- **garage:** 3 new police vehicles
 
 - **farming:** Return of farming system
 @image(ft/crops.png)

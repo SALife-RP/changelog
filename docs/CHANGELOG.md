@@ -6,6 +6,10 @@ For more information about server rules and features, visit our [Discord](https:
 
 ## [Unreleased] - 2024-12-21
 
+### 🔧 Bug Fixes
+
+- **survival:** Fix bug with dead players standing up when dead and other issues related to death
+
 ### 🆕 New Features
 
 - **farming:** Return of farming system
@@ -21,6 +25,8 @@ For more information about server rules and features, visit our [Discord](https:
 
 - **luckyplucker:** Add chicken NPC to gather chicken carcasses
 @image(ft/chicken.png)
+
+- **survival:** New death animations
 
 ### 📜 Script Updates
 

@@ -8,7 +8,10 @@ For more information about server rules and features, visit our [Discord](https:
 
 ### 🔧 Bug Fixes
 
+- **inventory:** Fix bug with group permissioned stashes not opening properly
+
 - **survival:** Fix bug with dead players standing up when dead and other issues related to death
+
 - **modlights:** Fix bugs related to emergency lighting
 
 ### 🆕 New Features

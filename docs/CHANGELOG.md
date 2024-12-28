@@ -6,7 +6,23 @@ For more information about server rules and features, visit our [Discord](https:
 
 ## [Unreleased] - 2024-12-21 : 2024-12-28
 
+### 🆕 New Features
+
+- **lspd:** Separate sections for equipment and firearms in armory
+- **luckyplucker:** New shared stash location added
+- **shop:** Added job rank requirements for certain items
+- **inventory:** Improved system stability and security
+- **weapons:** Fixed issues with serial numbers and metadata
+
+### 🗺️ Location Updates
+
+- **luckyplucker:** New stash location at coordinates (142, -1475, 29)
+
 ### 🔧 Bug Fixes
+
+- **lspd:** Fix armory shops
+
+- **inventory:** Fix bug with medkit not reviving as expected
 
 - **inventory:** Fix bug with group permissioned stashes not opening properly
 
@@ -15,6 +31,8 @@ For more information about server rules and features, visit our [Discord](https:
 - **modlights:** Fix bugs related to emergency lighting
 
 ### 🆕 New Features
+
+- **lspd:** Armory shops now use new shop system
 
 - **luckyplucker:** Added a job/group shared stash
 

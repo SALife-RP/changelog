@@ -6,6 +6,11 @@ For more information about server rules and features, visit our [Discord](https:
 
 ## [Unreleased] - 2024-12-28
 
+### 🆕 New Features
+
+- **weapons:** Weapon sling system
+@image(ft/sling.png)
+
 - **garage:** Added a system to handle default vehicle positions for persistent vehicles
 
 - **garage:** Added a button for cops to reset persistent vehicles with default positions if not busy

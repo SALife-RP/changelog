@@ -4,6 +4,14 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
+## [Unreleased] - 2024-12-29
+
+### 🆕 New Features
+
+- **weapons:** Improvements to sling
+
+- **inventory:** Add several new persistent drop item models
+
 ## [0.2.1] - 2024-12-29
 
 ### 🆕 New Features

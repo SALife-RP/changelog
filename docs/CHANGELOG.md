@@ -4,6 +4,12 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
+## [Unreleased] - 2024-12-28
+
+- **garage:** Added a system to handle default vehicle positions for persistent vehicles
+
+- **garage:** Added a button for cops to reset persistent vehicles with default positions if not busy
+
 ## [0.2.0] - 2024-12-28
 
 ### 🆕 New Features

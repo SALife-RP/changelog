@@ -4,9 +4,13 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
-## [Unreleased] - 2024-12-28
+## [0.2.1] - 2024-12-29
 
 ### 🆕 New Features
+
+- **modlights:** Add pattern selection menu default: J
+
+- **robbery:** Store clerk robberies system (approach with a gun)
 
 - **weapons:** Weapon sling system
 @image(ft/sling.png)
@@ -14,6 +18,12 @@ For more information about server rules and features, visit our [Discord](https:
 - **garage:** Added a system to handle default vehicle positions for persistent vehicles
 
 - **garage:** Added a button for cops to reset persistent vehicles with default positions if not busy
+
+### 📜 Script Updates
+
+- **modlights:** Add a sound effect to toggling emergency lights
+
+- **inventory:** Remove default trunk interaction
 
 ## [0.2.0] - 2024-12-28
 

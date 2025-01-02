@@ -6,6 +6,10 @@ For more information about server rules and features, visit our [Discord](https:
 
 ## [Unreleased] - 2024-12-29
 
+### 🔄 Changes
+
+- Updated animation system for improved emote functionality and performance
+
 ### 🆕 New Features
 
 - **weapons:** Improvements to sling

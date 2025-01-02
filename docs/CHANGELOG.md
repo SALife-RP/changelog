@@ -6,6 +6,25 @@ For more information about server rules and features, visit our [Discord](https:
 
 ## [Unreleased] - 2024-1-2
 
+### 🆕 New Features
+
+- **luckyplucker:** Added new crafting recipes
+  - Flour production
+  - Sunflower oil production
+  - Fried chicken preparation
+- **inventory:** Added new items
+  - Pestle and mortar
+  - Flour
+  - Sunflower oil
+  - Fried chicken
+- **shop:** Added sales dialog option to pawn shop
+- **crafting:** Improved blueprint description formatting
+
+### 🔧 Bug Fixes
+
+- **luckyplucker:** Adjusted shop location for better accessibility
+- **shop:** Added small delay before opening shop inventories to prevent UI issues
+
 ### 🔄 Changes
 
 - **items:** Enhanced cola effects and functionality to increase run energy and add a regeneration effect

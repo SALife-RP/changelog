@@ -9,8 +9,21 @@ For more information about server rules and features, visit our [Discord](https:
 ### 🆕 New Features
 
 - **weapons:** Improvements to sling
-
 - **inventory:** Add several new persistent drop item models
+- **train:** Added new train system
+
+### ⚡ Performance Improvements
+
+- **modlights:** Improved emergency vehicle lighting system through optimized caching and batch updates
+- **modlights:** Added vehicle detection and cleanup threads for better resource management
+- **modlights:** Implemented efficient batch property updates for vehicle modifications
+- **modlights:** Disabled overly restrictive state bag rate limiting
+
+### 📜 Script Updates
+
+- **modlights:** Added support for new light pattern "test" for qls10cvpi vehicle
+- **modlights:** Adjusted default light pattern tick rate from 400ms to 100ms
+- **ox_target:** Updated to version 1.17.1 with improved zone handling
 
 ## [0.2.1] - 2024-12-29
 

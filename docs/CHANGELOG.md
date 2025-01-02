@@ -23,6 +23,8 @@ For more information about server rules and features, visit our [Discord](https:
 - **crafting:** Implemented quality-based crafting system with metadata
 - **vehicle:** Added vehicle flip functionality
 - **npcs:** Enhanced NPC interaction system with improved dialog handling
+- **ammunation:** Added new Ammunation shop using new shop system
+- **inventory:** New item: ammobox (contains 50 rounds of whatever ammo)
 
 ### ⚡ Performance Improvements
 

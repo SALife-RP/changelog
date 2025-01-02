@@ -4,17 +4,25 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
-## [Unreleased] - 2024-12-29
+## [0.2.2] - 2024-1-2
 
 ### 🔄 Changes
 
-- Updated animation system for improved emote functionality and performance
+- **core:** Updated animation system for improved emote functionality and performance
+- **core:** Migrated interaction systems across some resources
+- **core:** Refined interaction point behaviors with new enter/exit/nearby options
+- **core:** Improved persistence handling for interaction points
+- **core:** Enhanced dialog system with better entity handling
 
 ### 🆕 New Features
 
 - **weapons:** Improvements to sling
 - **inventory:** Add several new persistent drop item models
-- **train:** Added new train system
+- **train:** Added new train system with improved configurations and map visibility
+- **hud:** Added percentage display support for status effects
+- **crafting:** Implemented quality-based crafting system with metadata
+- **vehicle:** Added vehicle flip functionality
+- **npcs:** Enhanced NPC interaction system with improved dialog handling
 
 ### ⚡ Performance Improvements
 
@@ -22,12 +30,16 @@ For more information about server rules and features, visit our [Discord](https:
 - **modlights:** Added vehicle detection and cleanup threads for better resource management
 - **modlights:** Implemented efficient batch property updates for vehicle modifications
 - **modlights:** Disabled overly restrictive state bag rate limiting
+- **core:** Optimized resource dependencies
+- **core:** Updated build configuration for web resources
+- **core:** Improved state management for interactions
+- **crafting:** Enhanced blueprint and metadata handling for crafting system
 
 ### 📜 Script Updates
 
 - **modlights:** Added support for new light pattern "test" for qls10cvpi vehicle
 - **modlights:** Adjusted default light pattern tick rate from 400ms to 100ms
-- **ox_target:** Updated to version 1.17.1 with improved zone handling
+- **crafting:** Updated recipes and quality calculations
 
 ## [0.2.1] - 2024-12-29
 

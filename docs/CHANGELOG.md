@@ -4,6 +4,12 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
+## [Unreleased] - 2024-1-2
+
+### 🔄 Changes
+
+- **items:** Enhanced cola effects and functionality to increase run energy and add a regeneration effect
+
 ## [0.2.2] - 2024-1-2
 
 ### 🔄 Changes

@@ -4,7 +4,7 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
-## [Unreleased] - 2024-1-2
+## [Unreleased] - 2024-1-2 <--> 2025-1-3
 
 ### 🆕 New Features
 
@@ -28,6 +28,21 @@ For more information about server rules and features, visit our [Discord](https:
 ### 🔄 Changes
 
 - **items:** Enhanced cola effects and functionality to increase run energy and add a regeneration effect
+- **core:** Migrated from ox_target to sleepless_interact
+  - Updated police frisk/search interactions
+  - Revised vehicle dealer and garage interactions
+  - Restructured player and vehicle targeting system
+- **utils:** Added new color utility exports
+  - hexToRGB conversion
+  - RGBToHex conversion
+  - getColorDescription function
+- **vehicle:** Added database lookup by vehicle hash
+- **system:** Updated resource load order in server config
+
+### 🔧 Bug Fixes
+
+- **core:** Fixed lib initialization check in utils.lua
+- **vehicle:** Removed redundant carjacking thread (moved to separate script)
 
 ## [0.2.2] - 2024-1-2
 

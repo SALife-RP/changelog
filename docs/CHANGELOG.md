@@ -8,6 +8,11 @@ For more information about server rules and features, visit our [Discord](https:
 
 ### 🆕 New Features
 
+- **modlights:** Enhanced emergency vehicle systems
+  - Bone-based emergency light positioning system
+  - Enhanced siren sound options with new audio banks
+  - Static pattern support for qls16fpis vehicle
+
 - **luckyplucker:** Added new crafting recipes
   - Flour production
   - Sunflower oil production
@@ -26,6 +31,12 @@ For more information about server rules and features, visit our [Discord](https:
 - **shop:** Added small delay before opening shop inventories to prevent UI issues
 
 ### 🔄 Changes
+
+- **modlights:** Improved emergency lighting systems
+  - Optimized light rendering parameters and positioning
+  - Streamlined siren audio file configuration
+  - Improved light rendering performance with bone-based system
+- **cleanup:** Removed unused emergency vehicle audio files
 
 - **system:** Reorganized clothing resources into dedicated section in server config
 - **core:** Improved interaction system initialization reliability

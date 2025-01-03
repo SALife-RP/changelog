@@ -4,7 +4,7 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
-## [Unreleased] - 2024-1-2 <--> 2025-1-3
+## [0.2.3] - 2025-1-3
 
 ### 🆕 New Features
 

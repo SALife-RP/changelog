@@ -27,6 +27,9 @@ For more information about server rules and features, visit our [Discord](https:
 
 ### 🔄 Changes
 
+- **system:** Reorganized clothing resources into dedicated section in server config
+- **core:** Improved interaction system initialization reliability
+- **weapons:** Fixed weapon sling system attachment handling and state storage
 - **items:** Enhanced cola effects and functionality to increase run energy and add a regeneration effect
 - **core:** Migrated from ox_target to sleepless_interact
   - Updated police frisk/search interactions

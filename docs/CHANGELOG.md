@@ -6,22 +6,16 @@ For more information about server rules and features, visit our [Discord](https:
 
 ## [0.2.4] - 2025-1-5
 
-### 🎮 Features
+### 🆕 New Features
 
-- New vehicle dispatch system for stolen vehicles
-- Enhanced vehicle key management
-- New NPC chat system with dynamic interactions
-- New pickpocketing system with:
-  - Skill-based success chance
-  - Tiered loot system
-  - Ability to steal vehicle keys
-  - Police dispatch alerts
+- **police**: New police vehicle(s)
+- **modlights**: Improved greatly environmental lighting
+- **pickpocketing**: Improve system and implement level scaling
+- **inventory**: Car keys from pickpocketing now fully implemented with police and MDT integration
 
-### 📝 Changes
+## Bug Fixes
 
-- Added "House Keys" item
-- Updated item rarity system
-- Adjusted money item properties
+- **police**: Resolve some issues with MDT
 
 ## [0.2.3] - 2025-1-3
 

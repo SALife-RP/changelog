@@ -4,6 +4,17 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
+## [Unreleased] - 2025-1-5
+
+### 🏠 New House Robbery System
+
+- Break into houses across the city with unique interiors
+- Find and use house keys with different rarity tiers (from common to mythic) while pickpocketing
+- Team up with other players to rob houses together
+- Search for valuable items inside houses
+- Houses remain in a robbed state for a limited time
+- Use the house keys in your inventory to find potential target houses
+
 ## [0.2.4] - 2025-1-5
 
 ### 🆕 New Features

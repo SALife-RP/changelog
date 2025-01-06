@@ -4,16 +4,38 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
-## [Unreleased] - 2025-1-5
+## [0.2.5] - 2025-1-6
 
-### 🏠 New House Robbery System
+### 🏠 House Robbery Update
 
 - Break into houses across the city with unique interiors
 - Find and use house keys with different rarity tiers (from common to mythic) while pickpocketing
 - Team up with other players to rob houses together
-- Search for valuable items inside houses
+- Use your phone to disable house alarms
 - Houses remain in a robbed state for a limited time
+- Police will be notified of break-ins
 - Use the house keys in your inventory to find potential target houses
+
+### 💊 New Items
+
+- Added new drug items:
+  - Marijuana (weed)
+  - Xanax
+  - Oxycodone
+  - Fentanyl
+
+### 👮 Police Updates
+
+- Improved arrest menu and functionality
+- Enhanced police grab mechanics
+- Better dispatch notification formatting
+- Dropped money now appears as money bags
+
+### 🔧 Bug Fixes
+
+- Fixed various issues with pickpocketing
+- Improved police grab reliability
+- Enhanced dispatch system formatting
 
 ## [0.2.4] - 2025-1-5
 

@@ -15,10 +15,17 @@ For more information about server rules and features, visit our [Discord](https:
 - Added bank investigation system for law enforcement
   - New dialog options for investigating bank-related crimes
 
+## Script Changes
+
+- **garage**: Change default ped plate format to more realistic plate format to Miami
+- **garage**: Change default owned vehicle plate format to more realistic plate format to Miami
+
 ### 🔧 Bug Fixes
 
 - Resolve issue with crafting blueprint data
 - **pickpocketing**: Fixed issue with pickpocketing on server start
+
+- **garage**: fix custom plates issue
 
 ## [0.2.5] - 2025-1-6
 

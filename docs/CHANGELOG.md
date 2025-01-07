@@ -4,6 +4,22 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
+## [Unreleased] - 2025-1-6 - 2025-1-7
+
+## New Features
+
+- **bank**: Added new dialog options including dialog option to deposit money
+
+### 👮 Police Features
+
+- Added bank investigation system for law enforcement
+  - New dialog options for investigating bank-related crimes
+
+### 🔧 Bug Fixes
+
+- Resolve issue with crafting blueprint data
+- **pickpocketing**: Fixed issue with pickpocketing on server start
+
 ## [0.2.5] - 2025-1-6
 
 ### 🏠 House Robbery Update

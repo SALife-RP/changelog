@@ -19,6 +19,7 @@ For more information about server rules and features, visit our [Discord](https:
 
 - **garage**: Change default ped plate format to more realistic plate format to Miami
 - **garage**: Change default owned vehicle plate format to more realistic plate format to Miami
+- **rth**: improvements to handling system overall
 
 ### 🔧 Bug Fixes
 
@@ -26,6 +27,8 @@ For more information about server rules and features, visit our [Discord](https:
 - **pickpocketing**: Fixed issue with pickpocketing on server start
 
 - **garage**: fix custom plates issue
+
+- **rth**: problem where car classes / max speed was not being set when getting into a vehicle
 
 ## [0.2.5] - 2025-1-6
 

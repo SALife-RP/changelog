@@ -6,29 +6,28 @@ For more information about server rules and features, visit our [Discord](https:
 
 ## [Unreleased] - 2025-1-6 - 2025-1-7
 
-## New Features
+### 🆕 New Features
 
 - **bank**: Added new dialog options including dialog option to deposit money
+- **house**: Updated robbery loot tables with new items
+- **police**: Enhanced MDT with new charges system
+
+### 🚗 Vehicle Changes
+
+- Improved vehicle drafting mechanics
+- Updated Miami-style license plate format
 
 ### 👮 Police Features
 
 - Added bank investigation system for law enforcement
   - New dialog options for investigating bank-related crimes
 
-## Script Changes
-
-- **garage**: Change default ped plate format to more realistic plate format to Miami
-- **garage**: Change default owned vehicle plate format to more realistic plate format to Miami
-- **rth**: improvements to handling system overall
-
 ### 🔧 Bug Fixes
 
 - Resolve issue with crafting blueprint data
 - **pickpocketing**: Fixed issue with pickpocketing on server start
-
-- **garage**: fix custom plates issue
-
-- **rth**: problem where car classes / max speed was not being set when getting into a vehicle
+- **garage**: Fixed custom plates issue
+- **vehicles**: Fixed car class and max speed settings
 
 ## [0.2.5] - 2025-1-6
 

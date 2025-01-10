@@ -19,6 +19,7 @@ For more information about server rules and features, visit our [Discord](https:
 
 - Improved vehicle drafting mechanics
 - Updated Miami-style license plate format
+- Implemented dynamic modification pricing system based on vehicle class
 
 ### 👮 Police Features
 

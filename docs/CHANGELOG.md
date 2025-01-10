@@ -11,6 +11,7 @@ For more information about server rules and features, visit our [Discord](https:
 - **bank**: Added new dialog options including dialog option to deposit money
 - **house**: Updated robbery loot tables with new items
 - **police**: Enhanced MDT with new charges system
+- **inventory**: Added new item "C4 Briefcase"
 
 ### 🚗 Vehicle Changes
 

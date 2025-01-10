@@ -14,6 +14,9 @@ For more information about server rules and features, visit our [Discord](https:
 
 ### 🚗 Vehicle Changes
 
+- Enhanced horn command system with model-specific configurations
+- Refined speed setting logic for better maintainability
+
 - Improved vehicle drafting mechanics
 - Updated Miami-style license plate format
 

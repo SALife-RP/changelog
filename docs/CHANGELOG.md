@@ -4,7 +4,7 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
-## [Unreleased] - 2025-1-6 - 2025-1-7
+## [Unreleased] - 2025-1-6 - 2025-1-10
 
 ### 🆕 New Features
 
@@ -28,6 +28,7 @@ For more information about server rules and features, visit our [Discord](https:
 - **pickpocketing**: Fixed issue with pickpocketing on server start
 - **garage**: Fixed custom plates issue
 - **vehicles**: Fixed car class and max speed settings
+- **housing**: Fixed player movement when entering properties
 
 ## [0.2.5] - 2025-1-6
 

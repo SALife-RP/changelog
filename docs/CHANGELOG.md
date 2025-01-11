@@ -12,6 +12,13 @@ For more information about server rules and features, visit our [Discord](https:
 - **house**: Updated robbery loot tables with new items
 - **police**: Enhanced MDT with new charges system
 - **inventory**: Added new item "C4 Briefcase"
+- **jobs**: Added Los Santos Fire Department (LSFR)
+  - Multiple firefighter ranks with salary tiers
+  - Custom LSFR nameplates in HUD
+  - Firefighter promotion system
+- **police**: Enhanced officer promotion system
+  - New cadet promotion management
+  - Improved promotion dialog options
 
 ### 🚗 Vehicle Changes
 
@@ -34,6 +41,13 @@ For more information about server rules and features, visit our [Discord](https:
 - **garage**: Fixed custom plates issue
 - **vehicles**: Fixed car class and max speed settings
 - **housing**: Fixed player movement when entering properties
+
+### 🔄 Changes
+
+- **core**: Implemented standardized notification system
+  - Enhanced group join/leave notifications
+  - Improved notification styling
+- **weapons**: Updated weapon presets and configurations
 
 ## [0.2.5] - 2025-1-6
 

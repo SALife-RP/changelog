@@ -23,6 +23,11 @@ For more information about server rules and features, visit our [Discord](https:
   - Added dumpster fire generation system
   - Implemented fire location blips
   - Added LSFR-specific notifications
+  - Implemented detailed rank progression
+  - Added promotion dialog options
+  - Improved rank-based permissions
+  - Enhanced salary scaling with ranks
+
 - **inventory**: Added "FAPS" (Fire Advancement Points)
   - New performance-based currency for firefighters
   - Reward system for fire extinguishment

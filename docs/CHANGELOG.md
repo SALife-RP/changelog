@@ -19,6 +19,13 @@ For more information about server rules and features, visit our [Discord](https:
 - **police**: Enhanced officer promotion system
   - New cadet promotion management
   - Improved promotion dialog options
+- **jobs/lsfr**: Enhanced fire management system
+  - Added dumpster fire generation system
+  - Implemented fire location blips
+  - Added LSFR-specific notifications
+- **inventory**: Added "FAPS" (Fire Advancement Points)
+  - New performance-based currency for firefighters
+  - Reward system for fire extinguishment
 
 ### 🚗 Vehicle Changes
 
@@ -48,6 +55,8 @@ For more information about server rules and features, visit our [Discord](https:
   - Enhanced group join/leave notifications
   - Improved notification styling
 - **weapons**: Updated weapon presets and configurations
+- **core**: Updated fire management data structures
+- **jobs**: Enhanced firefighter gameplay dynamics
 
 ## [0.2.5] - 2025-1-6
 

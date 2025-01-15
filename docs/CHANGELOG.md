@@ -10,6 +10,8 @@ For more information about server rules and features, visit our [Discord](https:
 
 - **streetsales**: Added random dispatch calls for suspicious activity (30% chance)
   - Enhanced realism with dynamic police notifications
+  - Randomized blip sprites and colors for dispatch markers
+  - Improved visual variety in dispatch alerts
 
 ## [0.3.0] - 2025-1-15
 

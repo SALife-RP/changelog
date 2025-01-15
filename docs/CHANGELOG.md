@@ -4,6 +4,13 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
+## [Unreleased] - 2025-1-15
+
+### 🆕 New Features
+
+- **streetsales**: Added random dispatch calls for suspicious activity (30% chance)
+  - Enhanced realism with dynamic police notifications
+
 ## [0.3.0] - 2025-1-15
 
 ### 🆕 New Features

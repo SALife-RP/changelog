@@ -4,7 +4,7 @@ All notable changes to the SALife project will be documented in this changelog.
 
 For more information about server rules and features, visit our [Discord](https://discord.gg/salife).
 
-## [Unreleased] - 2025-1-6 - 2025-1-10
+## [0.3.0] - 2025-1-16
 
 ### 🆕 New Features
 
@@ -12,6 +12,9 @@ For more information about server rules and features, visit our [Discord](https:
 - **house**: Updated robbery loot tables with new items
 - **police**: Enhanced MDT with new charges system
 - **inventory**: Added new item "C4 Briefcase"
+- **streetsales**: Implemented street sales system with NPC interactions
+- **pickpocket**: Added interaction option for offering products
+- **voice**: Enhanced radio functionality with improved audio effects
 - **jobs**: Added Los Santos Fire Department (LSFR)
   - Multiple firefighter ranks with salary tiers
   - Custom LSFR nameplates in HUD
@@ -27,7 +30,9 @@ For more information about server rules and features, visit our [Discord](https:
   - Added promotion dialog options
   - Improved rank-based permissions
   - Enhanced salary scaling with ranks
-
+- **anim**: Improved sitting and laying animations
+  - Updated registration process
+  - Enhanced player positioning
 - **inventory**: Added "FAPS" (Fire Advancement Points)
   - New performance-based currency for firefighters
   - Reward system for fire extinguishment
@@ -36,7 +41,6 @@ For more information about server rules and features, visit our [Discord](https:
 
 - Enhanced horn command system with model-specific configurations
 - Refined speed setting logic for better maintainability
-
 - Improved vehicle drafting mechanics
 - Updated Miami-style license plate format
 - Implemented dynamic modification pricing system based on vehicle class
@@ -48,11 +52,16 @@ For more information about server rules and features, visit our [Discord](https:
 
 ### 🔧 Bug Fixes
 
-- Resolve issue with crafting blueprint data
+- **client**: Added delay for DUI loading on player spawn
+- **database**: Updated vehicle insertion logic
 - **pickpocketing**: Fixed issue with pickpocketing on server start
 - **garage**: Fixed custom plates issue
 - **vehicles**: Fixed car class and max speed settings
 - **housing**: Fixed player movement when entering properties
+- Resolve issue with crafting blueprint data
+- **configs**:
+  - Updated MySQL connection string for remote database
+  - Adjusted default audio volume settings for radio and calls
 
 ### 🔄 Changes
 
@@ -62,6 +71,23 @@ For more information about server rules and features, visit our [Discord](https:
 - **weapons**: Updated weapon presets and configurations
 - **core**: Updated fire management data structures
 - **jobs**: Enhanced firefighter gameplay dynamics
+- **connect**: Enhanced player spawn and loading mechanics
+  - Improved spawn handling
+  - Optimized property interactions
+- **hud**: Streamlined HUD functionality
+  - Improved minimap handling
+  - Enhanced overall performance
+- **siren**: Enhanced state handling and notification system
+- **npcs**:
+  - Removed unused NPC scripts
+  - Optimized client-side interactions
+  - Updated evidence NPC with rank structure
+  - Added unique NPC greetings
+
+### 🧹 Cleanup
+
+- Removed legacy drug management scripts
+- Improved code formatting and readability in connect.lua
 
 ## [0.2.5] - 2025-1-6
 

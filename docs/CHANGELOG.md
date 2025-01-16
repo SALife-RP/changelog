@@ -12,6 +12,37 @@ For more information about server rules and features, visit our [Discord](https:
   - Enhanced realism with dynamic police notifications
   - Randomized blip sprites and colors for dispatch markers
   - Improved visual variety in dispatch alerts
+  - Added user ID check and cleaned up random interaction logic
+- **court**: Enhanced OpenAI integration with improved prompt handling
+- **inventory**:
+  - Enhanced vehicle cache handling in weapon sling framework
+  - Improved player spawn interaction with persistent drops
+- **dialog**: Enhanced system with improved court interactions
+- **missions**: Implemented wait loop for active missions with improved data handling
+- **server**: Added live server configuration and startup scripts
+
+### 🔧 Bug Fixes
+
+- **uniforms**:
+  - Fixed issues with police department uniforms
+  - Resolved female uniform bugs
+  - Fixed NPC outfit issues
+- **client**:
+  - Increased wait time on resource start event
+  - Added delay for job checks on first spawn
+- **connect**: Removed inappropriate return message in loginPlayer function
+- **build**: Resolved merge conflicts and streamlined build process
+
+### 🔄 Changes
+
+- **banking**: Added debt modification callback with mission dialog integration
+- **city_hall**: Streamlined dialog and mission handling in city hall desk and DMV
+- **minimap**: Improved player state checks and HUD responsiveness
+- **config**:
+  - Increased maximum description length for evidences and notes
+  - Removed deprecated configuration files
+  - Updated connection settings
+- **housing**: Cleaned up legacy code in client.lua
 
 ## [0.3.0] - 2025-1-15
 
